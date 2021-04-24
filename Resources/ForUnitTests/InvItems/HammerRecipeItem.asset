@@ -16,4 +16,4 @@ MonoBehaviour:
   ItemName: Hammer Recipe
   InvItemType: {fileID: 11400000, guid: 182f3bda52a599544a067e25ba99df3d, type: 2}
   BasePrice: 0
-  RecipeId: 0
+  RecipeData: {fileID: 11400000, guid: bf3636c3253a3fc49a8a9c21fde25df3, type: 2}

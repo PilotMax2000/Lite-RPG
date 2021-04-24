@@ -4,6 +4,7 @@ using LiteRPG.PlayerInventory;
 using LiteRPG.PlayerInventory.InvItem;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
 using LiteRPG.Progress;
+using Packages.LiteRPG.Runtime.LiteRPG.Stats;
 using UnityEngine;
 
 namespace Tests
@@ -75,6 +76,23 @@ namespace Tests
       InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
       Inventory inventory = Create.CreateInventory(moneyStats, itemsDb);
       return inventory;
+    }
+
+    public static CharStatsData CrateCharStatsData()
+    {
+      var statsData = ScriptableObject.CreateInstance<CharStatsData>();
+      return statsData;
+    }
+
+    public static CharStatsData LoadCharStatsData(string charName)
+    {
+      return LoadSOFromResources<CharStatsData>(GetPathFromTestingFolder("CharStats/CharsData/" + charName));
+    }
+
+    public static BattleCharStats CreateBattleCharStats()
+    {
+      GameObject go = new GameObject();
+      return go.AddComponent<BattleCharStats>();
     }
   }
 }

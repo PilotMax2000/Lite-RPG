@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffae6ba1d63e47a58882236ffcb2552a, type: 3}
   m_Name: InvItemTypesList
   m_EditorClassIdentifier: 
-  List:
+  Types:
   - {fileID: 11400000, guid: ae3586be2f031444d970d9bb4e82bdad, type: 2}
   - {fileID: 11400000, guid: 182f3bda52a599544a067e25ba99df3d, type: 2}
   UsableTypes:

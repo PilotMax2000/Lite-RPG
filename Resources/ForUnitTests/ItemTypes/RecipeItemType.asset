@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RecipeItemType
   m_EditorClassIdentifier: 
   Name: Recipe
-  Value: 1
-  InvItemTypes: {fileID: 11400000, guid: f6255fceef53a0640a0759165c388666, type: 2}
+  Id: 1
+  ObjectTypes: {fileID: 11400000, guid: f6255fceef53a0640a0759165c388666, type: 2}

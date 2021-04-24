@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CharStatTypes
+  m_EditorClassIdentifier: ScriptsAssembly:Packages.LiteRPG.Runtime.LiteRPG.Stats:CharStatsTypesSO
+  Types:
+  - {fileID: 11400000, guid: 60696d6e0c6d26d4484c06c6f3e80572, type: 2}
+  - {fileID: 11400000, guid: eb8d67df4e15a4148987d7779ee7ac39, type: 2}
+  - {fileID: 11400000, guid: 45f480131eb9bed49ad3893486bd152b, type: 2}

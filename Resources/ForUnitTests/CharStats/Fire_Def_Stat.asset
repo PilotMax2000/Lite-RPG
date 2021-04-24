@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b0f2e53124c4870b56a2087f3a37f0e, type: 3}
-  m_Name: MaterialItemType
+  m_Script: {fileID: 11500000, guid: 33a3523dabff406cb35dbccec612b61f, type: 3}
+  m_Name: Fire_Def_Stat
   m_EditorClassIdentifier: 
-  Name: Material
-  Id: 0
-  ObjectTypes: {fileID: 11400000, guid: f6255fceef53a0640a0759165c388666, type: 2}
+  Name: Fire Defence
+  Id: 2
+  ObjectTypes: {fileID: 11400000, guid: a7fb6ab153ce83e4f9a475a3973ca1c6, type: 2}
