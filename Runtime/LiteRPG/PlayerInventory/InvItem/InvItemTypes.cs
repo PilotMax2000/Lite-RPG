@@ -3,9 +3,8 @@
 namespace LiteRPG.PlayerInventory.InvItem
 {
  [CreateAssetMenu(fileName = "InvItemTypesList", menuName = "Items/InvItemTypesList")]
-  public class InvItemTypes : ScriptableObject
+  public class InvItemTypes : ObjectTypesSO
   {
-    public InvItemType[] List;
     [Header("Other Types")]
     public InvItemType[] UsableTypes;
 

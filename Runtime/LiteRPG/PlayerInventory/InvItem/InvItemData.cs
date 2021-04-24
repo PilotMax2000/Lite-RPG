@@ -19,6 +19,6 @@ namespace LiteRPG.PlayerInventory.InvItem
         }
 
         public bool CanBeUsed() => 
-            InvItemType.InvItemTypes.IsUsableType(InvItemType);
+            InvItemType.InvItemTypes().IsUsableType(InvItemType);
     }
 }
