@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c48da695e9188b6448a67152bbfb757d, type: 3}
+  m_Name: StarterKitLB
+  m_EditorClassIdentifier: 
+  GuaranteedLoot:
+  - Quantity: 1
+    ItemData: {fileID: 11400000, guid: aa69fcde966f1dc449db161be5d76840, type: 2}
+  RandomLoot: []

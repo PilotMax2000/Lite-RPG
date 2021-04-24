@@ -1,0 +1,20 @@
+{
+  "name": "com.fabulous-wolrds-studio.lite-rpg",
+  "version": "1.0.0",
+  "displayName": "Lite RPG Engine",
+  "description": "Common RPG code things",
+  "unity": "2019.1",
+  "keywords": [
+    "library, rpg"
+  ],
+  "author": {
+    "name": "Roman Maksymenko",
+    "email": "maksimenko.roma@gmail.com",
+    "url": "romanmaks.info"
+  },
+  "dependencies": {
+    "net.tnrd.nsubstitute": "4.2.2",
+    "com.boundfoxstudios.fluentassertions": "5.10.3-r4"
+  },
+  "type": "library"
+}
