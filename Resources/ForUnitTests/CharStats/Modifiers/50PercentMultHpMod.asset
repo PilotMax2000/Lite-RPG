@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33a3523dabff406cb35dbccec612b61f, type: 3}
-  m_Name: Fire_Def_Stat
+  m_Script: {fileID: 11500000, guid: 6e56a2fe3f724a56896cd48fa3576554, type: 3}
+  m_Name: 20PercentAddHpMod
   m_EditorClassIdentifier: 
-  Name: Fire Defence
-  Id: 2
-  ObjectTypes: {fileID: 11400000, guid: f6255fceef53a0640a0759165c388666, type: 2}
+  StatType: {fileID: 11400000, guid: 60696d6e0c6d26d4484c06c6f3e80572, type: 2}
+  Value: 20
+  Type: 200
+  RewriteOrder: 0
+  Order: 0

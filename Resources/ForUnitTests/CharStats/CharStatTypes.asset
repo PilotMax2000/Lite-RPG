@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: d173fa3494c74312883ffe61a2771d7f, type: 3}
   m_Name: CharStatTypes
   m_EditorClassIdentifier: ScriptsAssembly:Packages.LiteRPG.Runtime.LiteRPG.Stats:CharStatsTypesSO
   Types:

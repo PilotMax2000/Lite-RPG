@@ -1,0 +1,19 @@
+﻿using UnityEngine;
+
+namespace Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem
+{
+  [CreateAssetMenu(fileName = "StatModifier", menuName = "Character/StatModifier")]
+  public class StatModifierData : ScriptableObject
+  {
+    public CharStatTypeSO StatType;
+    public float Value;
+    public StatModType Type;
+    
+    [Header("Rewrite Order")]
+    public bool RewriteOrder;
+    public int Order;
+
+    public StatModifier Create() => 
+      RewriteOrder ? new StatModifier(Value, Type, Order) : new StatModifier(Value, Type);
+  }
+}

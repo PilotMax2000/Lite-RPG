@@ -5,6 +5,7 @@ using LiteRPG.PlayerInventory.InvItem;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
 using LiteRPG.Progress;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats;
+using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
 using UnityEngine;
 
 namespace Tests
@@ -87,6 +88,10 @@ namespace Tests
     public static CharStatsData LoadCharStatsData(string charName)
     {
       return LoadSOFromResources<CharStatsData>(GetPathFromTestingFolder("CharStats/CharsData/" + charName));
+    }
+    public static StatModifierData LoadStatModifier(string modifierName)
+    {
+      return LoadSOFromResources<StatModifierData>(GetPathFromTestingFolder("CharStats/Modifiers/" + modifierName));
     }
 
     public static BattleCharStats CreateBattleCharStats()

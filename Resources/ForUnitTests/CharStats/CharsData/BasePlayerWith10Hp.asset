@@ -9,16 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: BasePlayerWithHp
-  m_EditorClassIdentifier: ScriptsAssembly:Packages.LiteRPG.Runtime.LiteRPG.Stats:CharStatsData
+  m_Script: {fileID: 11500000, guid: f8d087976bdc42179e673ca83ab129ca, type: 3}
+  m_Name: BasePlayerWith10Hp
+  m_EditorClassIdentifier: 
   CharStats:
-  - CharStat: {fileID: 11400000, guid: 60696d6e0c6d26d4484c06c6f3e80572, type: 2}
-    InitValue: 10
-    CurValue: 0
-  - CharStat: {fileID: 11400000, guid: eb8d67df4e15a4148987d7779ee7ac39, type: 2}
-    InitValue: 1
-    CurValue: 0
-  - CharStat: {fileID: 11400000, guid: 45f480131eb9bed49ad3893486bd152b, type: 2}
-    InitValue: 0
-    CurValue: 0
+  - CharStatType: {fileID: 11400000, guid: 60696d6e0c6d26d4484c06c6f3e80572, type: 2}
+    CharacterStat:
+      BaseValue: 10
+      _statModifiers:
+      - Value: 0
+        Type: 100
+        Order: 0
+  - CharStatType: {fileID: 11400000, guid: eb8d67df4e15a4148987d7779ee7ac39, type: 2}
+    CharacterStat:
+      BaseValue: 1
+      _statModifiers: []
+  - CharStatType: {fileID: 11400000, guid: 45f480131eb9bed49ad3893486bd152b, type: 2}
+    CharacterStat:
+      BaseValue: 1
+      _statModifiers: []
