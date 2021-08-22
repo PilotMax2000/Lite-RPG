@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c48da695e9188b6448a67152bbfb757d, type: 3}
-  m_Name: StarterKitLB
+  m_Name: Wood1LB
   m_EditorClassIdentifier: 
   GuaranteedLoot:
   - Quantity: 1

@@ -25,9 +25,9 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
       return GetStat(resId);
     }
 
-    private CharacterStat GetStat(CharStatTypeSO statType) => GetStat(statType.Id);
+    public CharacterStat GetStat(CharStatTypeSO statType) => GetStat(statType.Id);
 
-    private CharacterStat GetStat(int statId)
+    public CharacterStat GetStat(int statId)
     {
       //TODO: cache the list search
       foreach (var statUnit in _charStatsUnits)

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e56a2fe3f724a56896cd48fa3576554, type: 3}
-  m_Name: 20PercentAddHpMod
+  m_Name: 50PercentMultHpMod
   m_EditorClassIdentifier: 
   StatType: {fileID: 11400000, guid: 60696d6e0c6d26d4484c06c6f3e80572, type: 2}
   Value: 20
