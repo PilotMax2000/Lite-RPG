@@ -7,6 +7,7 @@ using UnityEngine;
 public class CharacterStat
 {
   public float BaseValue;
+  public event Action ValueWasChanged;
   public float Value
   {
     get
@@ -45,6 +46,7 @@ public class CharacterStat
     _isDirty = true;
     _statModifiers.Add(mod);
     _statModifiers.Sort(CompareModifierOrder);
+    ValueWasChanged?.Invoke();
   }
 
   protected int CompareModifierOrder(StatModifier a, StatModifier b)
@@ -62,6 +64,7 @@ public class CharacterStat
       return false;
     
     _isDirty = true;
+    ValueWasChanged?.Invoke();
     return _isDirty;
   }
 
@@ -77,7 +80,10 @@ public class CharacterStat
         _statModifiers.RemoveAt(i);
       }
     }
-
+    
+    if(_isDirty)
+      ValueWasChanged?.Invoke();
+    
     return didRemoved;
   }
 

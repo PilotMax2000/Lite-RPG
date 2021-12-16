@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace LiteRPG.PlayerInventory.InvItem
 {
+  [Serializable]
   public abstract class ObjectTypeSO : ScriptableObject
   {
     public string Name;

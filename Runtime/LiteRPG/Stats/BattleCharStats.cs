@@ -6,9 +6,13 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
 {
   public class BattleCharStats : MonoBehaviour
   {
-    [SerializeField] private List<CharStatUnit> _charStatsUnits;
+    [SerializeField] protected List<CharStatUnit> _charStatsUnits;
     private CharStatsTypesSO _charStatsTypes;
-    
+
+    public List<CharStatUnit> GetCharStatsUnits()
+    {
+      return _charStatsUnits;
+    }
     public void Init(CharStatsData charStatsInitData)
     {
       _charStatsUnits = Instantiate(charStatsInitData).CharStats;
@@ -17,6 +21,12 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
         statUnit.Init();
       }
     }
+    
+    public void Init(List<CharStatUnit> charStatsUnits)
+    {
+      _charStatsUnits = charStatsUnits;
+    }
+    
 
     public CharacterStat GetStat(string statName)
     {
@@ -42,6 +52,18 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
     public void AddModifier(StatModifierData modifier)
     {
       GetStat(modifier.StatType).AddModifier(modifier.Create());
+    }
+
+    public void LogCurrentStats()
+    {
+      //Improve look with console pro
+      Debug.Log("Player Stats:");
+      string resStats = "";
+      foreach (var statUnit in _charStatsUnits)
+      {
+        resStats += $"<color=green>{statUnit.CharStatType.Name}: {statUnit.CharacterStat.Value}</color>\n";
+      }
+      Debug.Log(resStats);
     }
   }
 }

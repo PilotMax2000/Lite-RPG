@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEngine;
 using FluentAssertions;
 using LiteRPG.PlayerInventory;
 using LiteRPG.PlayerInventory.InvItem;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
-using NSubstitute;
 
 namespace Tests
 {
