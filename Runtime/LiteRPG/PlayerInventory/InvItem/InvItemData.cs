@@ -11,6 +11,8 @@ namespace LiteRPG.PlayerInventory.InvItem
     public class InvItemData : ScriptableIdData
     {
         public string ItemName = "NoName";
+        public string Description = "NoDescription";
+        public Sprite Icon;
         public InvItemType InvItemType;
         public int BasePrice = 0;
         public virtual bool Use(Inventory inventory)
