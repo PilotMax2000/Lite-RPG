@@ -8,8 +8,7 @@ namespace LiteRPG.PlayerInventory.DataBase
   [Serializable]
   public abstract class DataDb<TData> : ScriptableObject where TData : ScriptableIdData
   {
-    [field: SerializeField]
-    public List<TData> DataLinks { get; private set; }
+    public List<TData> DataLinks;
     protected Dictionary<int, TData> _dbCache;
     protected bool _dbWasCached;
     protected bool _dataLinksAreEmpty;

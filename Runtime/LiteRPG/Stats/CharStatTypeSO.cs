@@ -9,5 +9,6 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
   public class CharStatTypeSO : ObjectTypeSO
   {
     public Sprite Icon;
+    public string ShortName;
   }
 }

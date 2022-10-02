@@ -1,10 +1,13 @@
-﻿using LiteRPG.PlayerInventory.InvItem;
+﻿using System;
+using LiteRPG.PlayerInventory.InvItem;
+using UnityEngine;
 
 namespace LiteRPG.PlayerInventory
 {
+  [Serializable]
   public class BackpackSlot
   {
-    public InvItemSlot ItemSlot { get; private set; }
+    [field: SerializeField] public InvItemSlot ItemSlot { get; private set; }
     private bool _empty;
 
     public BackpackSlot() => 

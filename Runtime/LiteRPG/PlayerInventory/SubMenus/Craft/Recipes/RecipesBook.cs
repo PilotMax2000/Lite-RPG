@@ -8,8 +8,10 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft.Recipes
   {
     private RecipesDb _recipesDb;
 
-    public void Construct(RecipesDb recipesDb) => 
+    public void Construct(RecipesDb recipesDb)
+    {
       _recipesDb = recipesDb;
+    }
 
     public bool AddRecipe(int recipeId)
     {

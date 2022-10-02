@@ -66,5 +66,7 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
 
       return EnoughItemsForCrafting(_recipesBook.GetData(recipeId));
     }
+    
+    
   }
 }

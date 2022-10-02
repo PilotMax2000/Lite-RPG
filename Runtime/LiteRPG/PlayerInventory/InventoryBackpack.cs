@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LiteRPG.PlayerInventory.InvItem;
+using UnityEngine;
 
 namespace LiteRPG.PlayerInventory
 {
+  [Serializable]
   public class InventoryBackpack
   {
     public const int DefaultLimit = 10;
     public const int DefaultMinLimit = 1;
-    private List<BackpackSlot> _slots;
+    public List<BackpackSlot> _slots;
     private readonly int _slotLimit;
 
     public InventoryBackpack()
