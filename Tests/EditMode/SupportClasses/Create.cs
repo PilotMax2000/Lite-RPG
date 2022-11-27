@@ -42,9 +42,8 @@ namespace Tests
 
     public static Inventory CreateInventory(IMoneyStats moneyStats, InvItemsDb itemsDb)
     {
-      var gameObject = new GameObject("Inventory");
       InventoryBackpack backpack = new InventoryBackpack();
-      Inventory inventory = gameObject.AddComponent<Inventory>();
+      Inventory inventory = ScriptableObject.CreateInstance<Inventory>();
       inventory.Construct(backpack, moneyStats, itemsDb, Create.LoadRecipesBook());
       return inventory;
     }
@@ -92,6 +91,11 @@ namespace Tests
     public static StatModifierData LoadStatModifier(string modifierName)
     {
       return LoadSOFromResources<StatModifierData>(GetPathFromTestingFolder("CharStats/Modifiers/" + modifierName));
+    }
+    
+    public static LevelingTableData LoadLevelingTable()
+    {
+      return LoadSOFromResources<LevelingTableData>(GetPathFromTestingFolder("CharStats/LevelingTables/BaseLevelingTable"));
     }
 
     public static BattleCharStats CreateBattleCharStats()

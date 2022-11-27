@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace LiteRPG.PlayerInventory
 {
-  public class Inventory : MonoBehaviour
+  public class Inventory : ScriptableObject
   {
     public Crafting Crafting { get; private set; }
     public RecipesBook RecipesBook => _recipesBook;
