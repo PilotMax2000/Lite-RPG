@@ -1,17 +1,19 @@
+using System;
 using UnityEngine;
 
 namespace LiteRPG.Progress
 {
+    [Serializable]
     public class LevelingSystem
     {
+        [field: SerializeField] public int Level { get; private set; }
+        [field: SerializeField] public int CurrentExp { get; set; }
+        [field: SerializeField] public int ExpToNextLevel { get; private set; }
+
+        public event Action OnLevelUp;
+
+        private readonly LevelingTableData _levelingTable;
         private int _totalExp;
-        public int Level { get; private set; }
-        public int CurrentExp { get; set; }
-        public int ExpToNextLevel { get; private set; }
-        
-        public event System.Action OnLevelUp;
-        
-        private LevelingTableData _levelingTable;
 
         public int TotalExp
         {
