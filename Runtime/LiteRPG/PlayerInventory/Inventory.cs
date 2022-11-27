@@ -7,12 +7,12 @@ using UnityEngine;
 
 namespace LiteRPG.PlayerInventory
 {
-  public class Inventory : ScriptableObject
+  public class Inventory : MonoBehaviour
   {
     public Crafting Crafting { get; private set; }
     public RecipesBook RecipesBook => _recipesBook;
     public IMoneyStats MoneyStats => _moneyStats;
-    [field: SerializeField] public InventoryBackpack Backpack => _backpack;
+    public InventoryBackpack Backpack => _backpack;
     private InventoryBackpack _backpack;
     private IMoneyStats _moneyStats;
     private InvItemsDb _invItemsDb;
