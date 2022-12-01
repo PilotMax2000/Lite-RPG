@@ -8,7 +8,7 @@ namespace LiteRPG.Progress
     {
         public ExpToLevel[] ExpToLevels;
 
-        public int GetExpToLevel(int level)
+        public int GetTotalExpToLevel(int level)
         {
             if (level < 0)
             {
@@ -16,6 +16,9 @@ namespace LiteRPG.Progress
                 return 0;
             }
             
+            if (level == 0)
+                return 0;
+
             for (int i = 0; i < ExpToLevels.Length; i++)
             {
                 if(ExpToLevels[i].Level == level)

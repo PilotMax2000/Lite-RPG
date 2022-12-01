@@ -14,7 +14,12 @@ namespace Tests
   {
     public static T LoadSOFromResources<T>(string path) where T : ScriptableObject
     {
-      return Resources.Load(path, typeof(T)) as T;
+      T scriptableObject = Resources.Load(path, typeof(T)) as T;
+      if(scriptableObject == null)
+      {
+        Debug.LogError("Could not load scriptable object from path: " + path);
+      }
+      return scriptableObject;
     }
 
     public static RecipesBook LoadRecipesBook()

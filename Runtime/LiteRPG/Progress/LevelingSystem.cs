@@ -27,7 +27,7 @@ namespace LiteRPG.Progress
             
             Level = 1;
             CurrentExp = 0;
-            ExpToNextLevel = _levelingTable.GetExpToLevel(Level);
+            ExpToNextLevel = GetExpDifferenceToNextLevel();
         }
 
         public void AddExp(int expPoints)
@@ -35,15 +35,18 @@ namespace LiteRPG.Progress
             TotalExp += expPoints;
             
             CalculateLevelUp();
-            ExpToNextLevel = _levelingTable.GetExpToLevel(Level);
             CurrentExp = GetCurrentExp();
         }
 
+        private int GetExpDifferenceToNextLevel() => 
+            _levelingTable.GetTotalExpToLevel(Level) - _levelingTable.GetTotalExpToLevel(Level-1);
+
         private void CalculateLevelUp()
         {
-            if (TotalExp >= _levelingTable.GetExpToLevel(Level))
+            if (TotalExp >= _levelingTable.GetTotalExpToLevel(Level))
             {
                 Level++;
+                ExpToNextLevel = GetExpDifferenceToNextLevel();
                 OnLevelUp?.Invoke();
                 CalculateLevelUp();
             }
@@ -52,7 +55,7 @@ namespace LiteRPG.Progress
         private int GetCurrentExp()
         {
             if(Level > 1)
-                return Mathf.FloorToInt(_totalExp - _levelingTable.GetExpToLevel(Level-1));
+                return Mathf.RoundToInt(_totalExp - _levelingTable.GetTotalExpToLevel(Level-1));
             
             return TotalExp;
         }

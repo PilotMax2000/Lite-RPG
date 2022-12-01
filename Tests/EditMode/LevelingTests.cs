@@ -82,6 +82,19 @@ namespace Tests
         }
         
         [Test]
+        public void WhenLevelingSystemRequiresTotal100ExpTo2ndLevelAnd300To3d_And150ExpPointsWasAddedFrom0_ThenTheRequiredExpOnNewLevelShouldBe200()
+        {
+            // Arrange.
+            var levelingSystem = new LevelingSystem(Create.LoadLevelingTable());
+        
+            // Act.
+            levelingSystem.AddExp(150);
+        
+            // Assert.
+            levelingSystem.ExpToNextLevel.Should().Be(200);
+        }
+
+        [Test]
         public void WhenLevelingSystemIsInitializedWith100ExpToNextLevel_And150ExpPointsWasAdded_ThenCurrentExpShouldBe50()
         {
             // Arrange.
