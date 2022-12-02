@@ -134,6 +134,36 @@ namespace Tests
             // Assert.
             isLevelUpTriggered.Should().BeTrue();
         }
+        
+        [Test]
+        public void WhenLoadingExpIs0_AndDoNothing_ThenLevelShouldBe1WithCurrentExp0()
+        {
+            // Arrange.
+            int totalExpToLoad = 0;
+            var levelingSystem = new LevelingSystem(Create.LoadLevelingTable(), totalExpToLoad);
+        
+            // Act.
+
+            // Assert.
+            levelingSystem.Level.Should().Be(1);
+            levelingSystem.CurrentExp.Should().Be(0);
+        }
+        
+        [Test]
+        public void WhenLoadingExpIs150_AndNeeds100ExpToLevel2_ThenLevelShouldBe2WithCurrentExp50()
+        {
+            // Arrange.
+            const int totalExpToLoad = 150;
+            var levelingSystem = new LevelingSystem(Create.LoadLevelingTable(), totalExpToLoad);
+        
+            // Act.
+
+            // Assert.
+            levelingSystem.Level.Should().Be(2);
+            levelingSystem.CurrentExp.Should().Be(50);
+        }
+
+
 
 
         // [Test]

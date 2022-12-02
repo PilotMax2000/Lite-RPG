@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5675d40aebcf4f0bac369fe11c7435bd, type: 3}
   m_Name: BaseLevelingTable
   m_EditorClassIdentifier: 
-  ExpToLevels: []
+  ExpToLevels:
+  - Level: 1
+    ExpPointsToLevel: 100
+  - Level: 2
+    ExpPointsToLevel: 300
+  - Level: 3
+    ExpPointsToLevel: 700
