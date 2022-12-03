@@ -162,9 +162,60 @@ namespace Tests
             levelingSystem.Level.Should().Be(2);
             levelingSystem.CurrentExp.Should().Be(50);
         }
+        
+        [Test]
+        public void WhenLevelingSystemIsInitWith100Exp300Exp700ExpLevels_ThenMaxLevelShouldBe4()
+        {
+            // Arrange.
+            var levelingSystem = new LevelingSystem(Create.LoadLevelingTable());
+        
+            // Act.
 
+            // Assert.
+            levelingSystem.MaxLevel.Should().Be(4);
+        }
+        
+        [Test]
+        public void WhenLevelingSystemIsInitWith100Exp300Exp700ExpMaxLevel4_AndAdded1000Exp_ThenLevelShouldBe4WithCurrentExpAndExpToNextLevelShouldBe0()
+        {
+            // Arrange.
+            var levelingSystem = new LevelingSystem(Create.LoadLevelingTable());
+        
+            // Act.
+            levelingSystem.AddExp(1000);
+        
+            // Assert.
+            levelingSystem.Level.Should().Be(4);
+            levelingSystem.CurrentExp.Should().Be(0);
+            levelingSystem.ExpToNextLevel.Should().Be(0);
+        }
+        
+        [Test]
+        public void WhenLevelingSystemIsInitWith100Exp300Exp700ExpMaxLevel4_AndAdded1000Exp_ThenTotalExpShouldBe700()
+        {
+            // Arrange.
+            var levelingSystem = new LevelingSystem(Create.LoadLevelingTable());
+        
+            // Act.
+            levelingSystem.AddExp(1000);
+        
+            // Assert.
+            levelingSystem.TotalExp.Should().Be(700);
+        }
+        
+        [Test]
+        public void WhenLoadingExpIs700With700ToMaxLevel4_ThenLevelShouldBe4()
+        {
+            // Arrange.
+            const int totalExpToLoad = 700;
+            var levelingSystem = new LevelingSystem(Create.LoadLevelingTable(), totalExpToLoad);
+        
+            // Act.
 
-
+            // Assert.
+            levelingSystem.Level.Should().Be(4);
+            levelingSystem.ExpToNextLevel.Should().Be(0);
+        }
 
         // [Test]
         // public void When_And_Then()

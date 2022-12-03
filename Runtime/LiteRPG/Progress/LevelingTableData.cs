@@ -8,7 +8,7 @@ namespace LiteRPG.Progress
     {
         public ExpToLevel[] ExpToLevels;
 
-        public int GetTotalExpToLevel(int level)
+        public int GetTotalExpToLevelUpgradeOnLevel(int level)
         {
             if (level < 0)
             {
@@ -17,6 +17,9 @@ namespace LiteRPG.Progress
             }
             
             if (level == 0)
+                return 0;
+
+            if (level == GetMaxLevel())
                 return 0;
 
             for (int i = 0; i < ExpToLevels.Length; i++)
@@ -28,6 +31,9 @@ namespace LiteRPG.Progress
             Debug.LogError($"Level {level} not found");
             return 0;
         }
+        
+        public int GetMaxLevel() => 
+            ExpToLevels.Length + 1;
 
         [Serializable]
         public class ExpToLevel
