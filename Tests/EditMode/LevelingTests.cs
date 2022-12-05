@@ -216,6 +216,19 @@ namespace Tests
             levelingSystem.Level.Should().Be(4);
             levelingSystem.ExpToNextLevel.Should().Be(0);
         }
+        
+        [Test]
+        public void WhenLoadingExpIs700With700ToMaxLevel4_ThenTotalExpShouldBe700()
+        {
+            // Arrange.
+            const int totalExpToLoad = 700;
+            var levelingSystem = new LevelingSystem(Create.LoadLevelingTable(), totalExpToLoad);
+        
+            // Act.
+
+            // Assert.
+            levelingSystem.TotalExp.Should().Be(700);
+        }
 
         // [Test]
         // public void When_And_Then()

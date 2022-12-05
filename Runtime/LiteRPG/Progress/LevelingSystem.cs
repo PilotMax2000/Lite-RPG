@@ -37,6 +37,7 @@ namespace LiteRPG.Progress
             _levelingTable = levelingTable;
 
             Vector2 convertToLevelAndLeftExp = ConvertTotalExpToLevel(totalExpToLoad);
+            TotalExp = totalExpToLoad;
             Level = (int)convertToLevelAndLeftExp.x;
             CurrentExp = (int)convertToLevelAndLeftExp.y;
             ExpToNextLevel = GetExpDifferenceToNextLevel();
