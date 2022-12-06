@@ -19,7 +19,7 @@ namespace LiteRPG.Progress
         public int TotalExp
         {
             get => _totalExp;
-            private set { _totalExp = value < 0 ? 0 : value; }
+            private set => _totalExp = value < 0 ? 0 : value;
         }
 
         public LevelingSystem(LevelingTableData levelingTable)
@@ -46,6 +46,8 @@ namespace LiteRPG.Progress
 
         public void AddExp(int expPoints)
         {
+            if(IsMaxLevelReached()) 
+                return;
             var newTotalExp = TotalExp + expPoints;
             TotalExp = newTotalExp > _levelingTable.GetTotalExpToLevelUpgradeOnLevel(_levelingTable.GetMaxLevel()-1) 
                 ? _levelingTable.GetTotalExpToLevelUpgradeOnLevel(_levelingTable.GetMaxLevel()-1) 
@@ -54,6 +56,9 @@ namespace LiteRPG.Progress
             CalculateLevelUp();
             CurrentExp = GetCurrentExp();
         }
+
+        private bool IsMaxLevelReached() => 
+            Level == MaxLevel;
 
         private int GetExpDifferenceToNextLevel()
         {
