@@ -9,7 +9,7 @@ namespace LiteRPG.PlayerInventory.InvItem
     [Header("Recipe Item")]
     public RecipeData RecipeData;
 
-    public override bool Use(Inventory inventory)
+    public override bool Use(Inventory inventory, IAdditiveHp additiveHp)
     {
       if (CanBeUsed() == false)
         return false;

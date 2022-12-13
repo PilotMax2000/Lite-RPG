@@ -16,12 +16,17 @@ namespace LiteRPG.PlayerInventory.InvItem
         public Sprite Icon;
         public InvItemType InvItemType;
         public int BasePrice = 0;
-        public virtual bool Use(Inventory inventory)
+        public virtual bool Use(Inventory inventory, IAdditiveHp additiveHp)
         {
             return false;
         }
 
         public bool CanBeUsed() => 
             InvItemType.InvItemTypes().IsUsableType(InvItemType);
+    }
+
+    public interface IAdditiveHp
+    {
+        void AddHp(float hpToAdd);
     }
 }

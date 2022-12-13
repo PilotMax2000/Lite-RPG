@@ -133,7 +133,7 @@ namespace Tests
       inventory.AddItem(openedLoot);
       Assert.IsTrue(inventory.HasItemInSlotsOfQuantity(recipeInvItem, 1));
       BackpackSlot slotWithRecipe = inventory.GetSlotWithItem(recipeInvItem);
-      bool recipeWasUsedSuccessfully = slotWithRecipe.ItemSlot.ItemData.Use(inventory);
+      bool recipeWasUsedSuccessfully = slotWithRecipe.ItemSlot.ItemData.Use(inventory, null);
       
       // Assert.
       recipeWasUsedSuccessfully.Should().BeTrue();
