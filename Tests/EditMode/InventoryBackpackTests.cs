@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using LiteRPG.Character;
 using LiteRPG.PlayerInventory;
 using LiteRPG.PlayerInventory.InvItem;
 using NUnit.Framework;
@@ -13,7 +14,9 @@ namespace Tests
         public void InventoryBackpackDefault10LimitOnCreationPasses()
         {
             // Use the Assert class to test conditions
-            InventoryBackpack backpack = new InventoryBackpack();
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(inventory, additiveHp);
             Assert.AreEqual(10, backpack.GetAllSlots().Count);
         }
 
@@ -21,15 +24,18 @@ namespace Tests
         public void InventoryBackpackDefault10EmptySlotOnCreationPasses()
         {
             // Use the Assert class to test conditions
-            InventoryBackpack backpack = new InventoryBackpack();
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(inventory, additiveHp);
             Assert.AreEqual(10, backpack.GetEmptySlots().Count);
         }
 
         [Test]
         public void InventoryBackpack25LimitOnCreationPasses()
         {
-            // Use the Assert class to test conditions
-            InventoryBackpack backpack = new InventoryBackpack(25);
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(25, inventory, additiveHp);
             Assert.AreEqual(25, backpack.GetAllSlots().Count);
         }
 
@@ -37,7 +43,9 @@ namespace Tests
         public void InventoryBackpack25EmptySlotsOnCreationPasses()
         {
             // Use the Assert class to test conditions
-            InventoryBackpack backpack = new InventoryBackpack(25);
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(25, inventory, additiveHp);
             Assert.AreEqual(25, backpack.GetEmptySlots().Count);
         }
 
@@ -45,7 +53,9 @@ namespace Tests
         public void InventoryBackpack1SlotWithSet0OnCreationPasses()
         {
             // Use the Assert class to test conditions
-            InventoryBackpack backpack = new InventoryBackpack(0);
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(0, inventory, additiveHp);
             Assert.AreEqual(1, backpack.GetAllSlots().Count);
         }
 
@@ -53,7 +63,9 @@ namespace Tests
         public void InventoryBackpack1EmptySlotWithSet0OnCreationPasses()
         {
             // Use the Assert class to test conditions
-            InventoryBackpack backpack = new InventoryBackpack(0);
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(0, inventory, additiveHp);
             Assert.AreEqual(1, backpack.GetEmptySlots().Count);
         }
         
@@ -61,7 +73,9 @@ namespace Tests
         public void InventoryBackpackHasEmptySlotWith1LimitSlotPasses()
         {
             // Use the Assert class to test conditions
-            InventoryBackpack backpack = new InventoryBackpack(1);
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(1, inventory, additiveHp);
             Assert.AreEqual(true, backpack.HasEmptySlot());
         }
         
@@ -69,7 +83,9 @@ namespace Tests
         public void InventoryBackpackNoEmptySlotWithLimit1And1Item()
         {
             // Use the Assert class to test conditions
-            InventoryBackpack backpack = new InventoryBackpack(1);
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(1, inventory, additiveHp);
             var invItemData = ScriptableObject.CreateInstance<InvItemData>();
             invItemData.ItemName = "Sword";
             invItemData.Id = 1;
@@ -82,7 +98,9 @@ namespace Tests
         public void InventoryBackpackAddAndRemove1ItemOf2Passes()
         {
             // Use the Assert class to test conditions
-            InventoryBackpack backpack = new InventoryBackpack(1);
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(1, inventory, additiveHp);
             var invItemData = ScriptableObject.CreateInstance<InvItemData>();
             invItemData.ItemName = "Sword";
             invItemData.Id = 1;
@@ -96,7 +114,9 @@ namespace Tests
         public void InventoryBackpackAddAndRemove1ItemOf1Passes()
         {
             // Arrange.
-            InventoryBackpack backpack = new InventoryBackpack(1);
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+            AdditiveHp additiveHp = new AdditiveHp();
+            InventoryBackpack backpack = new InventoryBackpack(25, inventory, additiveHp);
             var invItemData = ScriptableObject.CreateInstance<InvItemData>();
             invItemData.ItemName = "Sword";
             invItemData.Id = 1;

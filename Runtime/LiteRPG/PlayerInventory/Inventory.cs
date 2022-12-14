@@ -39,9 +39,27 @@ namespace LiteRPG.PlayerInventory
     {
       if (_backpack.HasEmptySlot() == false)
         return false;
-      InvItemSlot newSlot = new InvItemSlot(itemData: _invItemsDb.GetData(itemId), quantity: quantity);
-      _backpack.AddInvItem(newSlot);
-      return true;
+      var itemData = _invItemsDb.GetData(itemId);
+      
+      if (itemData.IsStackable)
+      {
+        BackpackSlot slot = _backpack.GetSlotWithItem(itemData);
+        if (slot != null)
+        {
+          slot.AddItemQuantity(quantity);
+          return true;
+        }
+        CreateNewSlotWithItem();
+      }
+      
+      return CreateNewSlotWithItem();
+
+      bool CreateNewSlotWithItem()
+      {
+        InvItemSlot newSlot = new InvItemSlot(itemData: _invItemsDb.GetData(itemId), quantity: quantity);
+        _backpack.AddInvItem(newSlot);
+        return true;
+      }
     }
 
     public bool AddItem(InvItemData invItemData, int quantity = 1) => 

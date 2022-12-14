@@ -140,5 +140,55 @@ namespace Tests
       inventory.RecipesBook.DataExists(hammerRecipeId).Should().BeTrue();
       //new {recipeItemToCraft = resRecipeInBook.ItemToCraft.Id}.Should().Be(new {recipeItemToCraft = 1});
     }
+    
+    [Test]
+    public void WhenHavingOneHealthPotion_AndOneHealthPotionWasUsed_ThenSlotShouldBeEmpty()
+    {
+      // Arrange.
+      Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+      InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
+
+      // Act.
+      inventory.AddItem(healthPotion);
+      Assert.IsTrue(inventory.HasItemInSlotsOfQuantity(healthPotion, 1));
+      inventory.Backpack.GetSlot(0).Use();
+      
+      // Assert.
+      inventory.Backpack.GetSlot(0).IsEmpty().Should().BeTrue();
+    }
+    
+    [Test]
+    public void WhenHaving2HealthPotion_And1HealthPotionWasUsed_ThenShouldHave1Potion()
+    {
+      // Arrange.
+      Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+      InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
+
+      // Act.
+      inventory.AddItem(healthPotion, 2);
+      inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
+      inventory.Backpack.GetSlot(0).Use();
+      
+      // Assert.
+      inventory.Backpack.GetSlot(0).IsEmpty().Should().BeFalse();
+      inventory.Backpack.GetSlot(0).ItemSlot.Quantity.Should().Be(1);
+    }
+    
+    [Test]
+    public void WhenHavingEmptyBackpack_AndAdd2PotionOneAfterAnother_ThenShouldHave2Potion()
+    {
+      // Arrange.
+      Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+      InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
+
+      // Act.
+      inventory.AddItem(healthPotion);
+      inventory.AddItem(healthPotion);
+      inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
+      
+      // Assert.
+      inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
+    }
+
   }
 }

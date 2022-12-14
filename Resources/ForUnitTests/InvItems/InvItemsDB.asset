@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7637c7de02ab4b6eaf74815c9dd6073f, type: 3}
   m_Name: InvItemsDB
   m_EditorClassIdentifier: 
-  <DataLinks>k__BackingField:
+  DataLinks:
   - {fileID: 11400000, guid: aa69fcde966f1dc449db161be5d76840, type: 2}
   - {fileID: 11400000, guid: 1a797885c0b45f8428f06845cd56af0c, type: 2}
   - {fileID: 11400000, guid: 757ce3132c751304388a53bd3740e567, type: 2}
   - {fileID: 11400000, guid: 009b5f7ac4a026d43ab01d15ea52fd4c, type: 2}
+  - {fileID: 11400000, guid: f69d83f3b35e648899a4bdcc8abc5a04, type: 2}

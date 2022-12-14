@@ -12,17 +12,23 @@ namespace LiteRPG.PlayerInventory
     public const int DefaultMinLimit = 1;
     public List<BackpackSlot> _slots;
     private readonly int _slotLimit;
+    private Inventory _inventory;
+    private IAdditiveHp _additiveHp;
 
-    public InventoryBackpack()
+    public InventoryBackpack(Inventory inventory, IAdditiveHp additiveHp)
     {
+      _additiveHp = additiveHp;
+      _inventory = inventory;
       _slots = new List<BackpackSlot>();
       _slotLimit = DefaultLimit;
       CreateSlots(_slotLimit);
     }
 
-    public InventoryBackpack(int slotLimit)
+    public InventoryBackpack(int slotLimit, Inventory inventory, IAdditiveHp additiveHp)
     {
       _slots = new List<BackpackSlot>();
+      _additiveHp = additiveHp;
+      _inventory = inventory;
       _slotLimit = slotLimit > DefaultMinLimit ? slotLimit : DefaultMinLimit;
       CreateSlots(_slotLimit);
     }
@@ -65,7 +71,7 @@ namespace LiteRPG.PlayerInventory
     {
       for (int i = 0; i < maxSlots; i++)
       {
-        _slots.Add(new BackpackSlot());
+        _slots.Add(new BackpackSlot(_inventory, _additiveHp));
       }
     }
 
@@ -113,7 +119,7 @@ namespace LiteRPG.PlayerInventory
       BackpackSlot slot = GetSlotWithItem(itemData);
       if (slot == null)
         return false;
-      return slot.ItemSlot.Quantity == quantity;
+      return slot.ItemSlot.Quantity >= quantity;
     }
 
     public bool HasItemInSlots(InvItemData itemData)

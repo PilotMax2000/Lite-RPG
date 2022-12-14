@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using LiteRPG.Character;
 using LiteRPG.LootBox;
 using LiteRPG.PlayerInventory;
 using LiteRPG.PlayerInventory.InvItem;
@@ -47,8 +48,9 @@ namespace Tests
 
     public static Inventory CreateInventory(IMoneyStats moneyStats, InvItemsDb itemsDb)
     {
-      InventoryBackpack backpack = new InventoryBackpack();
+      AdditiveHp additiveHp = new AdditiveHp();
       Inventory inventory = ScriptableObject.CreateInstance<Inventory>();
+      InventoryBackpack backpack = new InventoryBackpack(inventory, additiveHp);
       inventory.Construct(backpack, moneyStats, itemsDb, Create.LoadRecipesBook());
       return inventory;
     }

@@ -9,12 +9,22 @@ namespace LiteRPG.PlayerInventory
   {
     [field: SerializeField] public InvItemSlot ItemSlot { get; private set; }
     private bool _empty;
+    private Inventory _inventory;
+    private IAdditiveHp _additiveHp;
 
-    public BackpackSlot() => 
+    public BackpackSlot(Inventory inventory, IAdditiveHp additiveHp)
+    {
+      _additiveHp = additiveHp;
+      _inventory = inventory;
       _empty = true;
+    }
 
-    public BackpackSlot(InvItemSlot itemSlot) => 
+    public BackpackSlot(InvItemSlot itemSlot, Inventory inventory, IAdditiveHp additiveHp)
+    {
+      _additiveHp = additiveHp;
+      _inventory = inventory;
       SetInvItemSlot(itemSlot);
+    }
 
 
     public bool IsEmpty() => 
@@ -39,6 +49,18 @@ namespace LiteRPG.PlayerInventory
     {
       ItemSlot = null;
       _empty = true;
+    }
+
+    public void Use()
+    {
+      if(_empty) 
+        return;
+      
+      if(ItemSlot.ItemData.CanBeUsed() == false)
+        return;
+      
+      if(ItemSlot.ItemData.Use(_inventory, _additiveHp))
+        AddItemQuantity(-1);
     }
   }
 }

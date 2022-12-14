@@ -16,9 +16,10 @@ namespace LiteRPG.PlayerInventory.InvItem
         public Sprite Icon;
         public InvItemType InvItemType;
         public int BasePrice = 0;
+        public bool IsStackable = true;
         public virtual bool Use(Inventory inventory, IAdditiveHp additiveHp)
         {
-            return false;
+            return true;
         }
 
         public bool CanBeUsed() => 

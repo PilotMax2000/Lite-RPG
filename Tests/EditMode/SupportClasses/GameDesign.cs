@@ -8,6 +8,7 @@
     {
       public const string Wood = "Wood";
       public const string HammerRecipe = "HammerRecipeItem";
+      public static string HealthPotion = "HealthPotion";
     }
 
     public static class Recipes
