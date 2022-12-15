@@ -56,6 +56,17 @@ namespace LiteRPG.PlayerInventory
       }
       return emptySlots;
     }
+    
+    public List<BackpackSlot> GetNonEmptySlots()
+    {
+      List<BackpackSlot> nonEmptySlots = new List<BackpackSlot>();
+      foreach (var slot in _slots)
+      {
+        if(slot.IsEmpty() == false)
+          nonEmptySlots.Add(slot);
+      }
+      return nonEmptySlots;
+    }
 
     public BackpackSlot GetEmptySlot()
     {

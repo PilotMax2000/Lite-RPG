@@ -66,6 +66,24 @@ namespace LiteRPG.PlayerInventory
     {
       var itemData = _invItemsDb.GetData(itemId);
       
+      if (IsStackableThanTryToAddToSlot(quantity, itemData)) 
+        return true;
+
+      if (_backpack.HasEmptySlot() == false)
+        return false;
+
+      return CreateNewSlotWithItem(itemData, quantity);
+    }
+
+    private bool CreateNewSlotWithItem(InvItemData itemData, int quantity)
+    {
+      InvItemSlot newSlot = new InvItemSlot(itemData: itemData, quantity: quantity);
+      _backpack.AddInvItemInNewSlot(newSlot);
+      return true;
+    }
+
+    private bool IsStackableThanTryToAddToSlot(int quantity, InvItemData itemData)
+    {
       if (itemData.IsStackable)
       {
         BackpackSlot slot = _backpack.GetSlotWithItem(itemData);
@@ -74,19 +92,12 @@ namespace LiteRPG.PlayerInventory
           slot.AddItemQuantity(quantity);
           return true;
         }
-        CreateNewSlotWithItem();
-      }
-      else if (_backpack.HasEmptySlot() == false)
-        return false;
 
-      return CreateNewSlotWithItem();
-
-      bool CreateNewSlotWithItem()
-      {
-        InvItemSlot newSlot = new InvItemSlot(itemData: _invItemsDb.GetData(itemId), quantity: quantity);
-        _backpack.AddInvItemInNewSlot(newSlot);
+        CreateNewSlotWithItem(itemData, quantity);
         return true;
       }
+
+      return false;
     }
   }
 }

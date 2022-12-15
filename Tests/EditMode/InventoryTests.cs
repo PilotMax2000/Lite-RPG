@@ -208,7 +208,22 @@ namespace Tests
       inventory.Backpack.GetSlot(0).IsEmpty().Should().BeTrue();
       //inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
     }
-    
+
+    [Test]
+    public void WhenHavingEmptyBackpack_AndAdd2PotionOneAfterAnother_ThenShouldHaveOnlyOneNonEmptySlot()
+    {
+      // Arrange.
+      Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+      InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
+
+      // Act.
+      inventory.AddItem(healthPotion);
+      inventory.AddItem(healthPotion);
+
+      // Assert.
+      inventory.Backpack.GetNonEmptySlots().Count.Should().Be(1);
+    }
+
     [Test]
     public void WhenHavingEmptyBackpackWith1Slot_AndAdd2PotionOneAfterAnother_ThenShouldHave2PotionInOneSlot()
     {
