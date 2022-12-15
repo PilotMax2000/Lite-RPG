@@ -90,7 +90,7 @@ namespace Tests
             invItemData.ItemName = "Sword";
             invItemData.Id = 1;
             InvItemSlot invItemSlot= new InvItemSlot(invItemData);
-            backpack.AddInvItem(invItemSlot);
+            backpack.AddInvItemInNewSlot(invItemSlot);
             Assert.AreEqual(0, backpack.GetEmptySlots().Count);
         }
         
@@ -105,7 +105,7 @@ namespace Tests
             invItemData.ItemName = "Sword";
             invItemData.Id = 1;
             InvItemSlot invItemSlot= new InvItemSlot(invItemData,2);
-            backpack.AddInvItem(invItemSlot);
+            backpack.AddInvItemInNewSlot(invItemSlot);
             backpack.RemoveInvItem(0,1);
             Assert.AreEqual(1, backpack.GetSlot(0).ItemSlot.Quantity);
         }
@@ -123,7 +123,7 @@ namespace Tests
             InvItemSlot invItemSlot= new InvItemSlot(invItemData,1);
             
             // Act
-            backpack.AddInvItem(invItemSlot);
+            backpack.AddInvItemInNewSlot(invItemSlot);
             backpack.RemoveInvItem(0,1);
             
             // Assert

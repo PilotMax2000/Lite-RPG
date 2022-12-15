@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using FluentAssertions;
+using LiteRPG.Character;
 using LiteRPG.PlayerInventory;
 using LiteRPG.PlayerInventory.InvItem;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
+using LiteRPG.Progress;
+using UnityEngine;
 
 namespace Tests
 {
@@ -184,10 +187,52 @@ namespace Tests
       // Act.
       inventory.AddItem(healthPotion);
       inventory.AddItem(healthPotion);
-      inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
-      
+
       // Assert.
       inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
+    }
+    
+    [Test]
+    public void WhenHavingEmptyBackpack_AndAdded1PotionAfterWhichItWasRemoved_ThenShouldHaveEmptySlot()
+    {
+      // Arrange.
+      Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+      InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
+
+      // Act.
+      bool potionWasSuccessfullyAdded = inventory.AddItem(healthPotion);
+      inventory.RemoveItems(healthPotion, 1);
+
+      // Assert.
+      potionWasSuccessfullyAdded.Should().BeTrue();
+      inventory.Backpack.GetSlot(0).IsEmpty().Should().BeTrue();
+      //inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
+    }
+    
+    [Test]
+    public void WhenHavingEmptyBackpackWith1Slot_AndAdd2PotionOneAfterAnother_ThenShouldHave2PotionInOneSlot()
+    {
+      // Arrange.
+      Inventory inventory = ScriptableObject.CreateInstance<Inventory>();
+      AdditiveHp additiveHp = new AdditiveHp();
+      InventoryBackpack backpack = new InventoryBackpack(1, inventory, additiveHp);
+      IMoneyStats moneyStats = new CharStats();
+      InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
+      inventory.Construct(backpack, moneyStats, itemsDb, Create.LoadRecipesBook());
+
+      //Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+      //InventoryBackpack backpack = new InventoryBackpack(1, inventory, additiveHp);
+      InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
+
+      // Act.
+      bool firstItemWasSuccessfullyAdded = inventory.AddItem(healthPotion);
+      bool secondItemWasSuccessfullyAdded = inventory.AddItem(healthPotion);
+      
+      // Assert.
+      firstItemWasSuccessfullyAdded.Should().BeTrue();
+      secondItemWasSuccessfullyAdded.Should().BeTrue();
+      inventory.GetSlotWithItem(healthPotion).ItemSlot.Quantity.Should().Be(2);
+      inventory.Backpack.GetAllSlots().Count.Should().Be(1);
     }
 
   }

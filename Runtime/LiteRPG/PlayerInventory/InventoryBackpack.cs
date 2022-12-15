@@ -75,7 +75,7 @@ namespace LiteRPG.PlayerInventory
       }
     }
 
-    public void AddInvItem(InvItemSlot invItemSlot)
+    public void AddInvItemInNewSlot(InvItemSlot invItemSlot)
     {
       if(HasEmptySlot())
         GetEmptySlot().SetInvItemSlot(invItemSlot);

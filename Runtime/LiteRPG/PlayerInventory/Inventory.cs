@@ -27,50 +27,16 @@ namespace LiteRPG.PlayerInventory
       Crafting = new Crafting(this, itemsDb, recipesBook);
     }
 
-    public bool AddItem(InvItemSlot invItemSlot)
-    {
-      if (_backpack.HasEmptySlot() == false)
-        return false;
-      _backpack.AddInvItem(invItemSlot);
-      return true;
-    }
-
-    public bool AddItem(int itemId, int quantity = 1)
-    {
-      if (_backpack.HasEmptySlot() == false)
-        return false;
-      var itemData = _invItemsDb.GetData(itemId);
-      
-      if (itemData.IsStackable)
-      {
-        BackpackSlot slot = _backpack.GetSlotWithItem(itemData);
-        if (slot != null)
-        {
-          slot.AddItemQuantity(quantity);
-          return true;
-        }
-        CreateNewSlotWithItem();
-      }
-      
-      return CreateNewSlotWithItem();
-
-      bool CreateNewSlotWithItem()
-      {
-        InvItemSlot newSlot = new InvItemSlot(itemData: _invItemsDb.GetData(itemId), quantity: quantity);
-        _backpack.AddInvItem(newSlot);
-        return true;
-      }
-    }
+    public bool AddItem(InvItemSlot invItemSlot) => 
+      AddItem(invItemSlot.ItemData, invItemSlot.Quantity);
 
     public bool AddItem(InvItemData invItemData, int quantity = 1) => 
-      AddItem(invItemData.Id, quantity);
+       AddItem(invItemData.Id, quantity);
 
     public void AddItem(IEnumerable<InvItemSlot> newItemsSlots)
     {
-      foreach (InvItemSlot newItemSlot in newItemsSlots)
-      {
+      foreach (InvItemSlot newItemSlot in newItemsSlots) 
         AddItem(newItemSlot);
-      }
     }
 
     public bool SellItem(int slotIndex, int quantity, int price)
@@ -95,5 +61,32 @@ namespace LiteRPG.PlayerInventory
 
     public BackpackSlot GetSlotWithItem(InvItemData recipeInvItem) => 
       _backpack.GetSlotWithItem(recipeInvItem);
+
+    private bool AddItem(int itemId, int quantity = 1)
+    {
+      var itemData = _invItemsDb.GetData(itemId);
+      
+      if (itemData.IsStackable)
+      {
+        BackpackSlot slot = _backpack.GetSlotWithItem(itemData);
+        if (slot != null)
+        {
+          slot.AddItemQuantity(quantity);
+          return true;
+        }
+        CreateNewSlotWithItem();
+      }
+      else if (_backpack.HasEmptySlot() == false)
+        return false;
+
+      return CreateNewSlotWithItem();
+
+      bool CreateNewSlotWithItem()
+      {
+        InvItemSlot newSlot = new InvItemSlot(itemData: _invItemsDb.GetData(itemId), quantity: quantity);
+        _backpack.AddInvItemInNewSlot(newSlot);
+        return true;
+      }
+    }
   }
 }
