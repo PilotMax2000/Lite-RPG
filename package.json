@@ -15,5 +15,6 @@
   "dependencies": {
     "net.tnrd.nsubstitute": "4.2.2",
     "com.boundfoxstudios.fluentassertions": "5.10.3-r4"
-  }
+  },
+  "type": "source"
 }
