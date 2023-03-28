@@ -13,25 +13,26 @@ namespace LiteRPG.Progress
 
         public event Action OnLevelUp;
 
+        private const int StartingLevel = 1;
         private readonly LevelingTableData _levelingTable;
         private int _totalExp;
-        
+
+        public LevelingSystem(LevelingTableData levelingTable)
+        {
+            _levelingTable = levelingTable;
+            
+            Level = StartingLevel;
+            CurrentExp = 0;
+            ExpToNextLevel = GetExpDifferenceToNextLevel();
+            MaxLevel = _levelingTable.ExpToLevels.Length + StartingLevel;
+        }
+
         public int TotalExp
         {
             get => _totalExp;
             private set => _totalExp = value < 0 ? 0 : value;
         }
 
-        public LevelingSystem(LevelingTableData levelingTable)
-        {
-            _levelingTable = levelingTable;
-            
-            Level = 1;
-            CurrentExp = 0;
-            ExpToNextLevel = GetExpDifferenceToNextLevel();
-            MaxLevel = _levelingTable.ExpToLevels.Length + 1;
-        }
-        
         public LevelingSystem(LevelingTableData levelingTable, int totalExpToLoad)
         {
             _levelingTable = levelingTable;
@@ -71,7 +72,6 @@ namespace LiteRPG.Progress
         private Vector2 ConvertTotalExpToLevel(int totalExpToLoad)
         {
             int resultLevel = 1;
-            int leftExp = 0;
             while (totalExpToLoad - _levelingTable.GetTotalExpToLevelUpgradeOnLevel(resultLevel) >= 0)
             {
                 resultLevel++;
@@ -84,24 +84,23 @@ namespace LiteRPG.Progress
 
         private void CalculateLevelUp()
         {
-            if (TotalExp >= _levelingTable.GetTotalExpToLevelUpgradeOnLevel(Level))
+            while (true)
             {
-                Level++;
-                ExpToNextLevel = GetExpDifferenceToNextLevel();
-                //TODO: to not call this event if loading exp from save
-                OnLevelUp?.Invoke();
-                
-                if(Level < MaxLevel)
-                    CalculateLevelUp();
+                if (TotalExp >= _levelingTable.GetTotalExpToLevelUpgradeOnLevel(Level))
+                {
+                    Level++;
+                    ExpToNextLevel = GetExpDifferenceToNextLevel();
+                    OnLevelUp?.Invoke();
+
+                    if (Level < MaxLevel) 
+                        continue;
+                }
+
+                break;
             }
         }
 
-        private int GetCurrentExp()
-        {
-            if(Level > 1)
-                return Mathf.RoundToInt(_totalExp - _levelingTable.GetTotalExpToLevelUpgradeOnLevel(Level-1));
-            
-            return TotalExp;
-        }
+        private int GetCurrentExp() => 
+            Level > 1 ? Mathf.RoundToInt(_totalExp - _levelingTable.GetTotalExpToLevelUpgradeOnLevel(Level-1)) : TotalExp;
     }
 }
