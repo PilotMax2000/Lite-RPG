@@ -10,5 +10,6 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
   {
     public Sprite Icon;
     public string ShortName;
+    public bool ShowAsPercent;
   }
 }
