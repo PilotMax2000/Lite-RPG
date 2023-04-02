@@ -99,7 +99,12 @@ namespace Tests
     {
       return LoadSOFromResources<StatModifierData>(GetPathFromTestingFolder("CharStats/Modifiers/" + modifierName));
     }
-    
+
+    public static StatusEffectData LoadStatusEffectData(string statusEffectName)
+    {
+      return LoadSOFromResources<StatusEffectData>(GetPathFromTestingFolder("CharStats/StatusEffects/" + statusEffectName));
+    }
+
     public static LevelingTableData LoadLevelingTable()
     {
       return LoadSOFromResources<LevelingTableData>(GetPathFromTestingFolder("CharStats/LevelingTables/BaseLevelingTable"));
