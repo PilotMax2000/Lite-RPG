@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: T_StatusEffect_1BaseAttackFor1Sec
   m_EditorClassIdentifier: 
   Title: 1 Attack for 1 Second
-  StatModifierData: {fileID: 0}
-  Duration: 0
+  StatModifierData: {fileID: 11400000, guid: 068af3bbe99a54ad5b2f57b8ca505cf7, type: 2}
+  Duration: 1
