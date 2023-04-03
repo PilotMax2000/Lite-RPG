@@ -1,12 +1,15 @@
+using System;
 using System.Collections.Generic;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats;
+using UnityEngine;
 
 namespace LiteRPG.Stats.StatusEffect
 {
+    [Serializable]
     public class StatusEffectHandler
     {
-        private readonly BattleCharStats _battleCharStats;
-        private readonly List<StatusEffect> _activeEffects = new();
+        [SerializeField] private BattleCharStats _battleCharStats;
+        [SerializeField] private List<StatusEffect> _activeEffects = new();
         private event System.Action<StatusEffect> OnStatusEffectEnded;
 
         public StatusEffectHandler(BattleCharStats battleCharStats)

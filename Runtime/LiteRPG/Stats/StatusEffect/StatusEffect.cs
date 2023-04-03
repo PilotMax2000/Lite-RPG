@@ -3,6 +3,7 @@ using LevelGameplay.Generic;
 
 namespace LiteRPG.Stats.StatusEffect
 {
+    [Serializable]
     public class StatusEffect
     {
         public StatusEffectData EffectData => _statusEffectData;
