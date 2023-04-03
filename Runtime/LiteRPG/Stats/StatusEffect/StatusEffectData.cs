@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
 using UnityEngine;
 
-namespace Tests
+namespace LiteRPG.Stats.StatusEffect
 {
     [CreateAssetMenu(fileName = "Status Effect", menuName = "Character/StatusEffectData")]
     public class StatusEffectData : ScriptableObject

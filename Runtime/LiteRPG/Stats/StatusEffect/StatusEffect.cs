@@ -1,7 +1,7 @@
 using System;
 using LevelGameplay.Generic;
 
-namespace Tests
+namespace LiteRPG.Stats.StatusEffect
 {
     public class StatusEffect
     {

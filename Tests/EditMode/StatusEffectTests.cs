@@ -1,4 +1,5 @@
 using FluentAssertions;
+using LiteRPG.Stats.StatusEffect;
 using NUnit.Framework;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats;
 

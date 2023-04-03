@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats;
 
-namespace Tests
+namespace LiteRPG.Stats.StatusEffect
 {
     public class StatusEffectHandler
     {

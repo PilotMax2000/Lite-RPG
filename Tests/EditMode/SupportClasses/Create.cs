@@ -5,6 +5,7 @@ using LiteRPG.PlayerInventory;
 using LiteRPG.PlayerInventory.InvItem;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
 using LiteRPG.Progress;
+using LiteRPG.Stats.StatusEffect;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
 using UnityEngine;
