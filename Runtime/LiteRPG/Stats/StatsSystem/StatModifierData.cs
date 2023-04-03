@@ -15,5 +15,8 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem
 
     public StatModifier Create() => 
       RewriteOrder ? new StatModifier(Value, Type, Order) : new StatModifier(Value, Type);
+    
+    public StatModifier Create(Object source) => 
+      RewriteOrder ? new StatModifier(Value, Type, Order, source) : new StatModifier(Value, Type, source);
   }
 }

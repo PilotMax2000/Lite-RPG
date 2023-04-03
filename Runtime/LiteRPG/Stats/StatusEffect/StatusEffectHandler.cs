@@ -6,7 +6,8 @@ namespace Tests
     public class StatusEffectHandler
     {
         private readonly BattleCharStats _battleCharStats;
-        private readonly List<StatusEffect> _statusEffects = new List<StatusEffect>();
+        private readonly List<StatusEffect> _activeEffects = new();
+        private event System.Action<StatusEffect> OnStatusEffectEnded;
 
         public StatusEffectHandler(BattleCharStats battleCharStats)
         {
@@ -15,11 +16,29 @@ namespace Tests
 
         public void AddStatusEffect(StatusEffectData statusEffectData)
         {
-            //Add Status effect to queue
-            //Add Status effect to the handler
             var statusEffect = new StatusEffect(statusEffectData);
-            _statusEffects.Add(statusEffect);
-            _battleCharStats.AddModifier(statusEffectData.StatModifierData);
+            statusEffect.OnStatusEffectEnded += RemoveStatusEffect;
+            statusEffect.AddReferenceInCharacter(_battleCharStats.AddModifier(statusEffectData.StatModifierData));
+            _activeEffects.Add(statusEffect);
+        }
+
+        public void UpdateByTime(float f)
+        {
+            for (int i = 0; i < _activeEffects.Count; i++)
+            {
+                _activeEffects[i].UpdateByTime(f);
+            }
+        }
+
+        public int GetNumberOfStatusEffects() => 
+            _activeEffects.Count;
+        
+        private void RemoveStatusEffect(StatusEffect statusEffect)
+        {
+            statusEffect.OnStatusEffectEnded -= RemoveStatusEffect;
+
+            _battleCharStats.RemoveModifier(statusEffect.EffectData.StatModifierData, statusEffect.ModifierInstanceInCharacter);
+            _activeEffects.Remove(statusEffect);
         }
     }
 }

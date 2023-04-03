@@ -49,11 +49,13 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
       return null;
     }
 
-    public void AddModifier(StatModifierData modifier)
+    public StatModifier AddModifier(StatModifierData modifier)
     {
-      GetStat(modifier.StatType).AddModifier(modifier.Create());
+      var newModifier = modifier.Create();
+      GetStat(modifier.StatType).AddModifier(newModifier);
+      return newModifier;
     }
-
+    
     public void LogCurrentStats()
     {
       //Improve look with console pro
@@ -64,6 +66,11 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
         resStats += $"<color=green>{statUnit.CharStatType.Name}: {statUnit.CharacterStat.Value}</color>\n";
       }
       Debug.Log(resStats);
+    }
+
+    public void RemoveModifier(StatModifierData modifierData, StatModifier statModifier)
+    {
+      GetStat(modifierData.StatType).RemoveModifier(statModifier);
     }
   }
 }
