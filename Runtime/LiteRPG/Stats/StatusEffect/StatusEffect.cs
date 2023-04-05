@@ -1,5 +1,6 @@
 using System;
 using LevelGameplay.Generic;
+using UnityEngine;
 
 namespace LiteRPG.Stats.StatusEffect
 {
@@ -16,9 +17,9 @@ namespace LiteRPG.Stats.StatusEffect
 
         public event Action<StatusEffect> OnStatusEffectEnded;
 
-        private readonly StatusEffectData _statusEffectData;
-        private CooldownTimer _effectTimer;
-        private StatModifier _modifierInstanceInCharacter;
+        [SerializeField] private StatusEffectData _statusEffectData;
+        [SerializeField] private CooldownTimer _effectTimer;
+        [SerializeField] private StatModifier _modifierInstanceInCharacter;
 
 
         public StatusEffect(StatusEffectData statusEffectData)

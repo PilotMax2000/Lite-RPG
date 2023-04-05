@@ -3,14 +3,15 @@ using UnityEngine;
 
 namespace LevelGameplay.Generic
 {
+    [Serializable]
     public class CooldownTimer
     {
         public float TimeLeft => _timeLeft;
         public bool IsOver { get; private set; }
 
+        [SerializeField] private float _timeLeft;
+        [SerializeField] private bool _timerIsActive;
         private readonly float _cooldownTime;
-        private float _timeLeft;
-        private bool _timerIsActive;
 
         public Action<float> OnTimerValueChanged;
         public Action<bool> OnIsOverChanged;
