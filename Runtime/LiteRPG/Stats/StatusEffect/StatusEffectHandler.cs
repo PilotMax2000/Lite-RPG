@@ -10,7 +10,7 @@ namespace LiteRPG.Stats.StatusEffect
     {
         [SerializeField] private BattleCharStats _battleCharStats;
         [SerializeField] private List<StatusEffect> _activeEffects = new();
-        private event System.Action<StatusEffect> OnStatusEffectEnded;
+        private event Action<StatusEffect> OnStatusEffectEnded;
 
         public StatusEffectHandler(BattleCharStats battleCharStats)
         {
@@ -23,6 +23,7 @@ namespace LiteRPG.Stats.StatusEffect
             statusEffect.OnStatusEffectEnded += RemoveStatusEffect;
             statusEffect.AddReferenceInCharacter(_battleCharStats.AddModifier(statusEffectData.StatModifierData));
             _activeEffects.Add(statusEffect);
+            Debug.Log($"<color=blue>[Status Effect]</color> Added \"{statusEffectData.Title}\" for {statusEffectData.Duration} seconds");
         }
 
         public void UpdateByTime(float f)
@@ -42,6 +43,7 @@ namespace LiteRPG.Stats.StatusEffect
 
             _battleCharStats.RemoveModifier(statusEffect.EffectData.StatModifierData, statusEffect.ModifierInstanceInCharacter);
             _activeEffects.Remove(statusEffect);
+            Debug.Log($"<color=blue>[Status Effect]</color> Removed \"{statusEffect.EffectData.Title}\"");
         }
     }
 }
