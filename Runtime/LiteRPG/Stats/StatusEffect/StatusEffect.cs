@@ -16,6 +16,7 @@ namespace LiteRPG.Stats.StatusEffect
         }
 
         public event Action<StatusEffect> OnStatusEffectEnded;
+        public event Action<float> OnTimerUpdated;
 
         [SerializeField] private StatusEffectData _statusEffectData;
         [SerializeField] private CooldownTimer _effectTimer;
@@ -39,6 +40,7 @@ namespace LiteRPG.Stats.StatusEffect
         public void UpdateByTime(float value)
         {
             _effectTimer.UpdateByTime(value);
+            OnTimerUpdated?.Invoke(_effectTimer.TimeLeft);
         }
 
         public void AddReferenceInCharacter(StatModifier addModifier)

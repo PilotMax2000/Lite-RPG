@@ -6,13 +6,14 @@ using UnityEngine;
 namespace LiteRPG.Stats.StatusEffect
 {
     [Serializable]
-    public class StatusEffectHandler
+    public class StatusEffectsHandler
     {
         [SerializeField] private BattleCharStats _battleCharStats;
         [SerializeField] private List<StatusEffect> _activeEffects = new();
-        private event Action<StatusEffect> OnStatusEffectEnded;
+        public event Action<StatusEffect> OnStatusEffectEnded;
+        public event Action<StatusEffect> OnStatusEffectAdded;
 
-        public StatusEffectHandler(BattleCharStats battleCharStats)
+        public StatusEffectsHandler(BattleCharStats battleCharStats)
         {
             _battleCharStats = battleCharStats;
         }
@@ -24,6 +25,8 @@ namespace LiteRPG.Stats.StatusEffect
             statusEffect.AddReferenceInCharacter(_battleCharStats.AddModifier(statusEffectData.StatModifierData));
             _activeEffects.Add(statusEffect);
             Debug.Log($"<color=blue>[Status Effect]</color> Added \"{statusEffectData.Title}\" for {statusEffectData.Duration} seconds");
+            
+            OnStatusEffectAdded?.Invoke(statusEffect);
         }
 
         public void UpdateByTime(float f)
@@ -39,6 +42,7 @@ namespace LiteRPG.Stats.StatusEffect
         
         private void RemoveStatusEffect(StatusEffect statusEffect)
         {
+            OnStatusEffectEnded?.Invoke(statusEffect);
             statusEffect.OnStatusEffectEnded -= RemoveStatusEffect;
 
             _battleCharStats.RemoveModifier(statusEffect.EffectData.StatModifierData, statusEffect.ModifierInstanceInCharacter);

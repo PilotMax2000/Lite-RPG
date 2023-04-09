@@ -15,11 +15,11 @@ namespace Tests
             BattleCharStats battleCharStats = Create.CreateBattleCharStats();
             CharStatsData charStatsData = Create.LoadCharStatsData("T_PlayerWith1BaseAttack10Hp");
             StatusEffectData statusEffectData = Create.LoadStatusEffectData("T_StatusEffect_1BaseAttackFor1Sec");
-            StatusEffectHandler statusEffectHandler = new StatusEffectHandler(battleCharStats);
+            StatusEffectsHandler statusEffectsHandler = new StatusEffectsHandler(battleCharStats);
 
             // Act.
             battleCharStats.Init(charStatsData);
-            statusEffectHandler.AddStatusEffect(statusEffectData);
+            statusEffectsHandler.AddStatusEffect(statusEffectData);
 
             // Assert.
             battleCharStats.GetStat("Base Attack").Value.Should().Be(2);
@@ -32,13 +32,13 @@ namespace Tests
             BattleCharStats battleCharStats = Create.CreateBattleCharStats();
             CharStatsData charStatsData = Create.LoadCharStatsData("T_PlayerWith1BaseAttack10Hp");
             StatusEffectData statusEffectData = Create.LoadStatusEffectData("T_StatusEffect_1BaseAttackFor1Sec");
-            StatusEffectHandler statusEffectHandler = new StatusEffectHandler(battleCharStats);
+            StatusEffectsHandler statusEffectsHandler = new StatusEffectsHandler(battleCharStats);
 
             // Act.
             battleCharStats.Init(charStatsData);
 
             // Assert.
-            statusEffectHandler.GetNumberOfStatusEffects().Should().Be(0);
+            statusEffectsHandler.GetNumberOfStatusEffects().Should().Be(0);
         }
 
         [Test]
@@ -48,14 +48,14 @@ namespace Tests
             BattleCharStats battleCharStats = Create.CreateBattleCharStats();
             CharStatsData charStatsData = Create.LoadCharStatsData("T_PlayerWith1BaseAttack10Hp");
             StatusEffectData statusEffectData = Create.LoadStatusEffectData("T_StatusEffect_1BaseAttackFor1Sec");
-            StatusEffectHandler statusEffectHandler = new StatusEffectHandler(battleCharStats);
+            StatusEffectsHandler statusEffectsHandler = new StatusEffectsHandler(battleCharStats);
 
             // Act.
             battleCharStats.Init(charStatsData);
-            statusEffectHandler.AddStatusEffect(statusEffectData);
+            statusEffectsHandler.AddStatusEffect(statusEffectData);
 
             // Assert.
-            statusEffectHandler.GetNumberOfStatusEffects().Should().Be(1);
+            statusEffectsHandler.GetNumberOfStatusEffects().Should().Be(1);
         }
 
         [Test]
@@ -65,15 +65,15 @@ namespace Tests
             BattleCharStats battleCharStats = Create.CreateBattleCharStats();
             CharStatsData charStatsData = Create.LoadCharStatsData("T_PlayerWith1BaseAttack10Hp");
             StatusEffectData statusEffectData = Create.LoadStatusEffectData("T_StatusEffect_1BaseAttackFor1Sec");
-            StatusEffectHandler statusEffectHandler = new StatusEffectHandler(battleCharStats);
+            StatusEffectsHandler statusEffectsHandler = new StatusEffectsHandler(battleCharStats);
 
             // Act.
             battleCharStats.Init(charStatsData);
-            statusEffectHandler.AddStatusEffect(statusEffectData);
-            statusEffectHandler.UpdateByTime(1f);
+            statusEffectsHandler.AddStatusEffect(statusEffectData);
+            statusEffectsHandler.UpdateByTime(1f);
 
             // Assert.
-            statusEffectHandler.GetNumberOfStatusEffects().Should().Be(0);
+            statusEffectsHandler.GetNumberOfStatusEffects().Should().Be(0);
         }
         [Test]
         public void WhenCharacterHasStatusEffect1BaseAttackFor1Second_AndHalfSecondPassed_ThenNumberOfEffectsShouldBe1()
@@ -82,15 +82,15 @@ namespace Tests
             BattleCharStats battleCharStats = Create.CreateBattleCharStats();
             CharStatsData charStatsData = Create.LoadCharStatsData("T_PlayerWith1BaseAttack10Hp");
             StatusEffectData statusEffectData = Create.LoadStatusEffectData("T_StatusEffect_1BaseAttackFor1Sec");
-            StatusEffectHandler statusEffectHandler = new StatusEffectHandler(battleCharStats);
+            StatusEffectsHandler statusEffectsHandler = new StatusEffectsHandler(battleCharStats);
 
             // Act.
             battleCharStats.Init(charStatsData);
-            statusEffectHandler.AddStatusEffect(statusEffectData);
-            statusEffectHandler.UpdateByTime(.5f);
+            statusEffectsHandler.AddStatusEffect(statusEffectData);
+            statusEffectsHandler.UpdateByTime(.5f);
 
             // Assert.
-            statusEffectHandler.GetNumberOfStatusEffects().Should().Be(1);
+            statusEffectsHandler.GetNumberOfStatusEffects().Should().Be(1);
         }
         
         [Test]
@@ -100,12 +100,12 @@ namespace Tests
             BattleCharStats battleCharStats = Create.CreateBattleCharStats();
             CharStatsData charStatsData = Create.LoadCharStatsData("T_PlayerWith1BaseAttack10Hp");
             StatusEffectData statusEffectData = Create.LoadStatusEffectData("T_StatusEffect_1BaseAttackFor1Sec");
-            StatusEffectHandler statusEffectHandler = new StatusEffectHandler(battleCharStats);
+            StatusEffectsHandler statusEffectsHandler = new StatusEffectsHandler(battleCharStats);
 
             // Act.
             battleCharStats.Init(charStatsData);
-            statusEffectHandler.AddStatusEffect(statusEffectData);
-            statusEffectHandler.UpdateByTime(1f);
+            statusEffectsHandler.AddStatusEffect(statusEffectData);
+            statusEffectsHandler.UpdateByTime(1f);
 
             // Assert.
             battleCharStats.GetStat("Base Attack").Value.Should().Be(1);
@@ -118,12 +118,12 @@ namespace Tests
             BattleCharStats battleCharStats = Create.CreateBattleCharStats();
             CharStatsData charStatsData = Create.LoadCharStatsData("T_PlayerWith1BaseAttack10Hp");
             StatusEffectData statusEffectData = Create.LoadStatusEffectData("T_StatusEffect_1BaseAttackFor1Sec");
-            StatusEffectHandler statusEffectHandler = new StatusEffectHandler(battleCharStats);
+            StatusEffectsHandler statusEffectsHandler = new StatusEffectsHandler(battleCharStats);
 
             // Act.
             battleCharStats.Init(charStatsData);
-            statusEffectHandler.AddStatusEffect(statusEffectData);
-            statusEffectHandler.UpdateByTime(.5f);
+            statusEffectsHandler.AddStatusEffect(statusEffectData);
+            statusEffectsHandler.UpdateByTime(.5f);
 
             // Assert.
             battleCharStats.GetStat("Base Attack").Value.Should().Be(2);

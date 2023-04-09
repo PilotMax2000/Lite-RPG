@@ -9,5 +9,6 @@ namespace LiteRPG.Stats.StatusEffect
         public string Title;
         public StatModifierData StatModifierData;
         public float Duration;
+        public Sprite Icon;
     }
 }
