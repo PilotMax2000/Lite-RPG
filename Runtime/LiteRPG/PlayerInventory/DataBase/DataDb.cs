@@ -11,15 +11,24 @@ namespace LiteRPG.PlayerInventory.DataBase
     public List<TData> DataLinks;
     protected Dictionary<int, TData> _dbCache;
     protected bool _dbWasCached;
-    protected bool _dataLinksAreEmpty;
 
     public TData GetData(int id)
     {
-      CheckCacheInit();
-      if (_dataLinksAreEmpty)
+      if (DataLinks.Count == 0)
+      {
+        Debug.LogWarning("Database is empty. Please, add data to database.");
         return null;
+      }
       
+      CheckCacheInit();
+
       return _dbCache[id];
+    }
+
+    public void ResetCache()
+    {
+      _dbCache = null;
+      _dbWasCached = false;
     }
 
     protected void CheckCacheInit()
@@ -38,12 +47,8 @@ namespace LiteRPG.PlayerInventory.DataBase
 
     protected void CacheDb()
     {
-      if (DataLinks == null || DataLinks.Count == 0)
-      {
-        _dataLinksAreEmpty = true;
-        _dbWasCached = true;
+      if (_dbCache != null && _dbCache.Count != 0) 
         return;
-      }
       
       _dbCache = new Dictionary<int, TData >();
       foreach (var link in DataLinks)
@@ -52,7 +57,7 @@ namespace LiteRPG.PlayerInventory.DataBase
           continue;
         _dbCache.Add(link.Id, link);
       }
-
+      
       _dbWasCached = true;
     }
   }
