@@ -11,7 +11,7 @@ namespace LevelGameplay.Generic
 
         [SerializeField] private float _timeLeft;
         [SerializeField] private bool _timerIsActive;
-        private readonly float _cooldownTime;
+        private float _cooldownTime;
 
         public Action<float> OnTimerValueChanged;
         public Action<bool> OnIsOverChanged;
@@ -29,6 +29,13 @@ namespace LevelGameplay.Generic
                 _timeLeft = cooldownTime;
                 IsOver = false;
             }
+        }
+
+        public CooldownTimer()
+        {
+            _cooldownTime = 0;
+            _timeLeft = 0;
+            _timerIsActive = false;
         }
 
         public void UpdateByTime(float value)
@@ -56,9 +63,18 @@ namespace LevelGameplay.Generic
         {
             _timerIsActive = isActive;
         }
-        
+
         public void ResetCooldown()
         {
+            _timeLeft = _cooldownTime;
+            IsOver = false;
+            OnIsOverChanged?.Invoke(false);
+            OnTimerValueChanged?.Invoke(_timeLeft);
+        }
+        
+        public void SetNewCooldownTime(float newCooldownTime)
+        {
+            _cooldownTime = newCooldownTime;
             _timeLeft = _cooldownTime;
             IsOver = false;
             OnIsOverChanged?.Invoke(false);
