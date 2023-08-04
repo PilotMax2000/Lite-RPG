@@ -10,9 +10,12 @@ namespace LiteRPG.PlayerInventory
   {
     public const int DefaultLimit = 10;
     public const int DefaultMinLimit = 1;
+    public event Action OnBackpackChanged;
     private List<BackpackSlot> _slots;
     private readonly int _slotLimit;
+
     private Inventory _inventory;
+
     private IAdditiveHp _additiveHp;
 
     public InventoryBackpack(Inventory inventory, IAdditiveHp additiveHp)
@@ -56,7 +59,7 @@ namespace LiteRPG.PlayerInventory
       }
       return emptySlots;
     }
-    
+
     public List<BackpackSlot> GetNonEmptySlots()
     {
       List<BackpackSlot> nonEmptySlots = new List<BackpackSlot>();
@@ -88,8 +91,11 @@ namespace LiteRPG.PlayerInventory
 
     public void AddInvItemInNewSlot(InvItemSlot invItemSlot)
     {
-      if(HasEmptySlot())
+      if (HasEmptySlot())
+      {
         GetEmptySlot().SetInvItemSlot(invItemSlot);
+        OnBackpackChanged?.Invoke();
+      }
     }
 
     public void RemoveInvItem(int slotId, int quantity = -1)
@@ -101,10 +107,14 @@ namespace LiteRPG.PlayerInventory
 
       int resQuantityToRemove = quantity == -1 ? _slots[slotId].ItemSlot.Quantity : quantity;
       RemoveInvItem(_slots[slotId], resQuantityToRemove);
+      OnBackpackChanged?.Invoke();
     }
 
-    public static void RemoveInvItem(BackpackSlot slot, int quantity) => 
+    public void RemoveInvItem(BackpackSlot slot, int quantity)
+    {
       slot.AddItemQuantity(-(quantity));
+      OnBackpackChanged?.Invoke();
+    }
 
     public BackpackSlot GetSlot(int index)
     {
@@ -143,6 +153,11 @@ namespace LiteRPG.PlayerInventory
           return true;
       }
       return false;
+    }
+
+    public void BackpackChanged()
+    {
+      OnBackpackChanged?.Invoke();
     }
   }
 }

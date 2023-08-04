@@ -53,7 +53,7 @@ namespace LiteRPG.PlayerInventory
     public void RemoveItems(InvItemData itemData, int quantity)
     {
       var slot = _backpack.GetSlotWithItem(itemData);
-      InventoryBackpack.RemoveInvItem(slot, quantity);
+      _backpack.RemoveInvItem(slot, quantity);
     }
 
     public bool HasItemInSlotsOfQuantity(InvItemData invItemData, int quantity) => 
@@ -90,6 +90,7 @@ namespace LiteRPG.PlayerInventory
         if (slot != null)
         {
           slot.AddItemQuantity(quantity);
+          _backpack.BackpackChanged();
           return true;
         }
 
