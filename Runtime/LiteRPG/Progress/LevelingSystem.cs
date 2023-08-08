@@ -12,6 +12,7 @@ namespace LiteRPG.Progress
         [field: SerializeField] public int MaxLevel { get; private set; }
 
         public event Action OnLevelUp;
+        public event Action OnExpChanged;
 
         private const int StartingLevel = 1;
         private readonly LevelingTableData _levelingTable;
@@ -56,6 +57,7 @@ namespace LiteRPG.Progress
             
             CalculateLevelUp();
             CurrentExp = GetCurrentExp();
+            OnExpChanged?.Invoke();
         }
 
         private bool IsMaxLevelReached() => 
