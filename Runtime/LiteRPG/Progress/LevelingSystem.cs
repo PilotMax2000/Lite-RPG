@@ -11,7 +11,7 @@ namespace LiteRPG.Progress
         [field: SerializeField] public int ExpToNextLevel { get; private set; }
         [field: SerializeField] public int MaxLevel { get; private set; }
 
-        public event Action OnLevelUp;
+        public event Action<int> OnLevelUp;
         public event Action OnExpChanged;
 
         private const int StartingLevel = 1;
@@ -92,7 +92,7 @@ namespace LiteRPG.Progress
                 {
                     Level++;
                     ExpToNextLevel = GetExpDifferenceToNextLevel();
-                    OnLevelUp?.Invoke();
+                    OnLevelUp?.Invoke(Level);
 
                     if (Level < MaxLevel) 
                         continue;

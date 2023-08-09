@@ -128,7 +128,7 @@ namespace Tests
         
             // Act.
             var isLevelUpTriggered = false;
-            levelingSystem.OnLevelUp += () => isLevelUpTriggered = true;
+            levelingSystem.OnLevelUp += (int x) => isLevelUpTriggered = true;
             levelingSystem.AddExp(150);
         
             // Assert.
