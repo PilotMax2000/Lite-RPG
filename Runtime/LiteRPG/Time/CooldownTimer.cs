@@ -1,11 +1,15 @@
 using System;
 using UnityEngine;
+using Math = System.Math;
 
 namespace LevelGameplay.Generic
 {
     [Serializable]
     public class CooldownTimer
     {
+        public Action<float> OnTimerValueChanged;
+        public Action<bool> OnIsOverChanged;
+        public Action<float> OnTimerTick;
         public float TimeLeft => _timeLeft;
         public bool IsOver { get; private set; }
 
@@ -13,9 +17,6 @@ namespace LevelGameplay.Generic
         [SerializeField] private bool _timerIsActive;
         private float _cooldownTime;
 
-        public Action<float> OnTimerValueChanged;
-        public Action<bool> OnIsOverChanged;
-        
         public CooldownTimer(float cooldownTime, bool isOverAtBeginning = false)
         {
             _cooldownTime = cooldownTime;
@@ -46,17 +47,21 @@ namespace LevelGameplay.Generic
             if(_timeLeft <= 0)
                 return;
 
-            if (Math.Abs(_timeLeft - (_timeLeft - value))> Constants.Epsilon)
-            {
-                _timeLeft = Mathf.Clamp(_timeLeft - value, 0f, _cooldownTime);
-                OnTimerValueChanged?.Invoke(_timeLeft);
+            if (IsTimeChangeSignificant() == false)
+                return;
+
+            _timeLeft = Mathf.Clamp(_timeLeft - value, 0f, _cooldownTime);
+            OnTimerValueChanged?.Invoke(_timeLeft);
+            OnTimerTick?.Invoke(value);
                 
-                if(_timeLeft <= 0)
-                {
-                    IsOver = true;
-                    OnIsOverChanged?.Invoke(true);
-                }
+            if(_timeLeft <= 0)
+            {
+                IsOver = true;
+                OnIsOverChanged?.Invoke(true);
             }
+
+            bool IsTimeChangeSignificant() =>
+                Math.Abs(_timeLeft - (_timeLeft - value))> Constants.Epsilon;
         }
         
         public void SetTimerAsActive(bool isActive)
@@ -72,6 +77,14 @@ namespace LevelGameplay.Generic
             OnTimerValueChanged?.Invoke(_timeLeft);
         }
         
+        public void InstantlySetCooldownAsOver()
+        {
+            _timeLeft = 0;
+            IsOver = true;
+            OnIsOverChanged?.Invoke(true);
+            OnTimerValueChanged?.Invoke(_timeLeft);
+        }
+        
         public void SetNewCooldownTime(float newCooldownTime)
         {
             _cooldownTime = newCooldownTime;
@@ -80,6 +93,19 @@ namespace LevelGameplay.Generic
             OnIsOverChanged?.Invoke(false);
             OnTimerValueChanged?.Invoke(_timeLeft);
         }
+        
+        public float GetTimeLeftPercentage() =>
+            _timeLeft / _cooldownTime;
 
+        public void AddTime(float time)
+        {
+            _timeLeft = Mathf.Clamp(_timeLeft + time, 0f, _timeLeft + time);
+            OnTimerValueChanged?.Invoke(_timeLeft);
+            if(_timeLeft <= 0)
+            {
+                IsOver = true;
+                OnIsOverChanged?.Invoke(true);
+            }
+        }
     }
 }

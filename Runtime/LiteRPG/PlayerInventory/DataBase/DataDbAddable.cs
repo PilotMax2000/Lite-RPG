@@ -7,7 +7,7 @@ namespace LiteRPG.PlayerInventory.DataBase
   {
     protected bool AddData(TData data)
     {
-      DataLinks ??= new List<TData>();
+      DataLinks = DataLinks ?? new List<TData>();
       
       if(_dbCache == null)
         _dbCache = new Dictionary<int, TData >();

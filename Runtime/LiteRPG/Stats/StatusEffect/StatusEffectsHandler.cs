@@ -9,13 +9,14 @@ namespace LiteRPG.Stats.StatusEffect
     public class StatusEffectsHandler
     {
         [SerializeField] private BattleCharStats _battleCharStats;
-        [SerializeField] private List<StatusEffect> _activeEffects = new();
+        [SerializeField] private List<StatusEffect> _activeEffects;
         public event Action<StatusEffect> OnStatusEffectEnded;
         public event Action<StatusEffect> OnStatusEffectAdded;
 
         public StatusEffectsHandler(BattleCharStats battleCharStats)
         {
             _battleCharStats = battleCharStats;
+            _activeEffects = new List<StatusEffect>();
         }
 
         public void AddStatusEffect(StatusEffectData statusEffectData)
