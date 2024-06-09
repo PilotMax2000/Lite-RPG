@@ -11,11 +11,11 @@ namespace LiteRPG.PlayerInventory
     public const int DefaultLimit = 10;
     public const int DefaultMinLimit = 1;
     public event Action OnBackpackChanged;
-    private List<BackpackSlot> _slots;
+    
+    [SerializeField] private List<BackpackSlot> _slots;
+    
     private readonly int _slotLimit;
-
     private Inventory _inventory;
-
     private IAdditiveHp _additiveHp;
 
     public InventoryBackpack(Inventory inventory, IAdditiveHp additiveHp)
@@ -112,6 +112,7 @@ namespace LiteRPG.PlayerInventory
 
     public void RemoveInvItem(BackpackSlot slot, int quantity)
     {
+      //TODO: add test for checking if item could be removed
       slot.AddItemQuantity(-(quantity));
       OnBackpackChanged?.Invoke();
     }

@@ -10,7 +10,7 @@ namespace LiteRPG.PlayerInventory.DataBase
   {
     public List<TData> DataLinks;
     protected Dictionary<int, TData> _dbCache;
-    protected bool _dbWasCached;
+    [SerializeField] protected bool _dbWasCached;
 
     public TData GetData(int id)
     {

@@ -13,10 +13,12 @@ namespace LiteRPG.PlayerInventory
     public RecipesBook RecipesBook => _recipesBook;
     public IMoneyStats MoneyStats => _moneyStats;
     public InventoryBackpack Backpack => _backpack;
-    private InventoryBackpack _backpack;
+    
+    [SerializeField] private InventoryBackpack _backpack;
+    [SerializeField]private InvItemsDb _invItemsDb;
+    [SerializeField]private RecipesBook _recipesBook;
+    
     private IMoneyStats _moneyStats;
-    private InvItemsDb _invItemsDb;
-    private RecipesBook _recipesBook;
 
     public void Construct(InventoryBackpack backpack, IMoneyStats moneyStats, InvItemsDb itemsDb, RecipesBook recipesBook)
     {
