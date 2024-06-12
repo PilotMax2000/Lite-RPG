@@ -122,6 +122,17 @@ namespace LiteRPG.PlayerInventory
       return Helper.Helper.ListIndexExist(_slots, index) ? _slots[index] : null;
     }
 
+    public bool TryGetSlotItemData(int index, out InvItemData itemData)
+    {
+      itemData = null;
+      var slot = GetSlot(index);
+      if (slot == null) 
+        return false;
+      
+      itemData = slot.ItemSlot.ItemData;
+      return true;
+    }
+
     public BackpackSlot GetSlotWithItem(InvItemData itemData)
     {
       foreach (var slot in _slots)
