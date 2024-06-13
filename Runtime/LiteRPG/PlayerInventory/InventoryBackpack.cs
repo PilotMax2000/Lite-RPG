@@ -132,6 +132,17 @@ namespace LiteRPG.PlayerInventory
       itemData = slot.ItemSlot.ItemData;
       return true;
     }
+    
+    public bool TryGetSlotItemData<T>(int index, out T itemData) where T : InvItemData
+    {
+      itemData = null;
+      var slot = GetSlot(index);
+      if (slot == null) 
+        return false;
+      
+      itemData = slot.ItemSlot.ItemData as T;
+      return true;
+    }
 
     public BackpackSlot GetSlotWithItem(InvItemData itemData)
     {
