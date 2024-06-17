@@ -21,5 +21,8 @@ namespace LiteRPG.PlayerInventory.InvItem
       Quantity = quantity;
       ItemData = itemData;
     }
+
+    public bool IsEmpty =>
+      Quantity == 0;
   }
 }
