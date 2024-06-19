@@ -130,29 +130,29 @@ namespace LiteRPG.PlayerInventory
       _equippedSlots = new EquippedSlot[totalNumberOfSlots];
       for (int i = 0; i < _equippedSlots.Length; i++)
       {
-        _equippedSlots[i] = new EquippedSlot((EquipSlot)i + 1);
+        _equippedSlots[i] = new EquippedSlot((EquipSlotType)i + 1);
       }
     }
     
     [Serializable]
     public class EquippedSlot
     {
-      public EquipSlot EquipSlot => _equipSlot;
+      public EquipSlotType EquipSlotType => equipSlotType;
       public bool IsEquipped => _isEquipped;
       public BackpackSlot BackpackSlot  => _backpackSlot;
       
-      [SerializeField] private EquipSlot _equipSlot;
+      [FormerlySerializedAs("_equipSlot")] [SerializeField] private EquipSlotType equipSlotType;
       [SerializeField] private bool _isEquipped;
       [SerializeField] private BackpackSlot _backpackSlot;
 
-      public EquippedSlot(EquipSlot equipSlot) => 
-        _equipSlot = equipSlot;
+      public EquippedSlot(EquipSlotType equipSlotType) => 
+        this.equipSlotType = equipSlotType;
 
       public void Equip(BackpackSlot slotToEquip)
       {
         _isEquipped = true;
         _backpackSlot = slotToEquip;
-        _backpackSlot.Equip(EquipSlot);
+        _backpackSlot.Equip(EquipSlotType);
       }
       
       public void Unequip()

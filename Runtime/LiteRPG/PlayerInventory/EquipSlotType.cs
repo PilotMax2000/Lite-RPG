@@ -1,6 +1,6 @@
 ﻿namespace LiteRPG.PlayerInventory
 {
-    public enum EquipSlot
+    public enum EquipSlotType
     {
         None,
         S0,

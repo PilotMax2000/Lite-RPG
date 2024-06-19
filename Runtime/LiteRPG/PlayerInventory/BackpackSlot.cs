@@ -9,7 +9,7 @@ namespace LiteRPG.PlayerInventory
   {
     [field: SerializeField] public InvItemSlot ItemSlot { get; private set; }
     [field: SerializeField] public bool IsEquipped {get; private set;}
-    [field: SerializeField] public EquipSlot EquipSlot {get; private set;}
+    [field: SerializeField] public EquipSlotType EquipSlotType {get; private set;}
     
     private bool _empty;
     private Inventory _inventory;
@@ -66,19 +66,19 @@ namespace LiteRPG.PlayerInventory
         AddItemQuantity(-1);
     }
 
-    public void Equip(EquipSlot s0)
+    public void Equip(EquipSlotType s0)
     {
-      if (s0 == EquipSlot.None)
+      if (s0 == EquipSlotType.None)
         return;
 
       IsEquipped = true;
-      EquipSlot = s0;
+      EquipSlotType = s0;
     } 
     
     public void Unequip()
     {
       IsEquipped = false;
-      EquipSlot = EquipSlot.None;
+      EquipSlotType = EquipSlotType.None;
     }
   }
 }
