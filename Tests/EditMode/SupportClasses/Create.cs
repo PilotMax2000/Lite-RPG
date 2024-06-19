@@ -55,6 +55,15 @@ namespace Tests
       inventory.Construct(backpack, moneyStats, itemsDb, Create.LoadRecipesBook());
       return inventory;
     }
+    
+    public static Inventory CreateInventory(int maxSlots, IMoneyStats moneyStats, InvItemsDb itemsDb)
+    {
+      AdditiveHp additiveHp = new AdditiveHp();
+      Inventory inventory = ScriptableObject.CreateInstance<Inventory>();
+      InventoryBackpack backpack = new InventoryBackpack(maxSlots, inventory, additiveHp);
+      inventory.Construct(backpack, moneyStats, itemsDb, Create.LoadRecipesBook());
+      return inventory;
+    }
 
     public static InvItemData CreateInvItemData(int id, string name = "NoName", int price = 0)
     {
@@ -83,6 +92,14 @@ namespace Tests
       IMoneyStats moneyStats = new CharStats();
       InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
       Inventory inventory = Create.CreateInventory(moneyStats, itemsDb);
+      return inventory;
+    }
+    
+    public static Inventory InventoryWithCharStatsAndItemsDb(int maxSlots)
+    {
+      IMoneyStats moneyStats = new CharStats();
+      InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
+      Inventory inventory = Create.CreateInventory(maxSlots, moneyStats, itemsDb);
       return inventory;
     }
 

@@ -15,6 +15,7 @@ MonoBehaviour:
   Types:
   - {fileID: 11400000, guid: ae3586be2f031444d970d9bb4e82bdad, type: 2}
   - {fileID: 11400000, guid: 182f3bda52a599544a067e25ba99df3d, type: 2}
+  - {fileID: 11400000, guid: fe00cbfcf9144db43bf2f43b08f9b5a2, type: 2}
   UsableTypes:
   - {fileID: 11400000, guid: 182f3bda52a599544a067e25ba99df3d, type: 2}
   - {fileID: 11400000, guid: 95ee54de4f6824654a1fb88986e9d655, type: 2}

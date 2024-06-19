@@ -118,20 +118,54 @@ namespace LiteRPG.PlayerInventory
   public class EquippedSlots
   {
     [SerializeField] private EquippedSlot[] _equippedSlots;
+    private Dictionary<EquipSlotType, EquippedSlot> _cachedSlots;
 
     public EquippedSlots(int totalNumberOfSlots)
     {
-      if (totalNumberOfSlots < 1)
-      {
-        Debug.LogError("Wrong number of equipable slots in inventory. It should be 1 or more!");
+      if (IsNotEnoughSlotsToInitialize(totalNumberOfSlots))
         return;
-      }
+
+      CreateEquippedSlots(totalNumberOfSlots);
+      CacheSlots();
+    }
+
+    private void CacheSlots()
+    {
+      _cachedSlots = new Dictionary<EquipSlotType, EquippedSlot>();
+      foreach (EquippedSlot slot in _equippedSlots) 
+        _cachedSlots.Add(slot.EquipSlotType, slot);
+    }
+
+    private void CreateEquippedSlots(int totalNumberOfSlots)
+    {
 
       _equippedSlots = new EquippedSlot[totalNumberOfSlots];
       for (int i = 0; i < _equippedSlots.Length; i++)
       {
         _equippedSlots[i] = new EquippedSlot((EquipSlotType)i + 1);
       }
+    }
+
+    private static bool IsNotEnoughSlotsToInitialize(int totalNumberOfSlots)
+    {
+      if (totalNumberOfSlots < 1)
+      {
+        Debug.LogError("Wrong number of equipable slots in inventory. It should be 1 or more!");
+        return true;
+      }
+
+      return false;
+    }
+
+    public bool TryGetSlotByType(EquipSlotType slotType, out EquippedSlot equippedSlot)
+    {
+      equippedSlot = null;
+      bool slotExists = _cachedSlots.TryGetValue(slotType, out var foundSlot);
+      if (slotExists == false)
+        return false;
+      
+      equippedSlot = foundSlot;
+      return true;
     }
     
     [Serializable]
