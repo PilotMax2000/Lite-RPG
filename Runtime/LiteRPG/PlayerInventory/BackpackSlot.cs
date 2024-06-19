@@ -8,6 +8,9 @@ namespace LiteRPG.PlayerInventory
   public class BackpackSlot
   {
     [field: SerializeField] public InvItemSlot ItemSlot { get; private set; }
+    [field: SerializeField] public bool IsEquipped {get; private set;}
+    [field: SerializeField] public SlotNumber EquippedSlot {get; private set;}
+    
     private bool _empty;
     private Inventory _inventory;
     private IAdditiveHp _additiveHp;
@@ -61,6 +64,21 @@ namespace LiteRPG.PlayerInventory
       
       if(ItemSlot.ItemData.Use(_inventory, _additiveHp))
         AddItemQuantity(-1);
+    }
+
+    public void Equip(SlotNumber s0)
+    {
+      if (s0 == SlotNumber.None)
+        return;
+
+      IsEquipped = true;
+      EquippedSlot = s0;
+    } 
+    
+    public void Unequip()
+    {
+      IsEquipped = false;
+      EquippedSlot = SlotNumber.None;
     }
   }
 }
