@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LiteRPG.PlayerInventory.InvItem;
 using LiteRPG.PlayerInventory.SubMenus.Craft;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
 using LiteRPG.Progress;
+using UnityEditor.Graphs;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LiteRPG.PlayerInventory
 {
@@ -13,12 +16,14 @@ namespace LiteRPG.PlayerInventory
     public RecipesBook RecipesBook => _recipesBook;
     public IMoneyStats MoneyStats => _moneyStats;
     public InventoryBackpack Backpack => _backpack;
+    public EquippedSlots EquippedSlots => _equippedSlots;
     
     [SerializeField] private InventoryBackpack _backpack;
-    [SerializeField]private InvItemsDb _invItemsDb;
-    [SerializeField]private RecipesBook _recipesBook;
+    [SerializeField] private InvItemsDb _invItemsDb;
+    [SerializeField] private RecipesBook _recipesBook;
     
     private IMoneyStats _moneyStats;
+    [SerializeField] private EquippedSlots _equippedSlots;
 
     public void Construct(InventoryBackpack backpack, IMoneyStats moneyStats, InvItemsDb itemsDb, RecipesBook recipesBook)
     {
@@ -27,6 +32,11 @@ namespace LiteRPG.PlayerInventory
       _backpack = backpack;
       _invItemsDb = itemsDb;
       Crafting = new Crafting(this, itemsDb, recipesBook);
+    }
+
+    public void SetupEquipSlots(int maxSlotsNumber)
+    {
+      _equippedSlots = new EquippedSlots(maxSlotsNumber);
     }
 
     public bool AddItem(InvItemSlot invItemSlot) => 
@@ -101,6 +111,59 @@ namespace LiteRPG.PlayerInventory
       }
 
       return false;
+    }
+  }
+
+  [Serializable]
+  public class EquippedSlots
+  {
+    [SerializeField] private EquippedSlot[] _equippedSlots;
+
+    public EquippedSlots(int totalNumberOfSlots)
+    {
+      if (totalNumberOfSlots < 1)
+      {
+        Debug.LogError("Wrong number of equipable slots in inventory. It should be 1 or more!");
+        return;
+      }
+
+      _equippedSlots = new EquippedSlot[totalNumberOfSlots];
+      for (int i = 0; i < _equippedSlots.Length; i++)
+      {
+        _equippedSlots[i] = new EquippedSlot((EquipSlot)i + 1);
+      }
+    }
+    
+    [Serializable]
+    public class EquippedSlot
+    {
+      public EquipSlot EquipSlot => _equipSlot;
+      public bool IsEquipped => _isEquipped;
+      public BackpackSlot BackpackSlot  => _backpackSlot;
+      
+      [SerializeField] private EquipSlot _equipSlot;
+      [SerializeField] private bool _isEquipped;
+      [SerializeField] private BackpackSlot _backpackSlot;
+
+      public EquippedSlot(EquipSlot equipSlot) => 
+        _equipSlot = equipSlot;
+
+      public void Equip(BackpackSlot slotToEquip)
+      {
+        _isEquipped = true;
+        _backpackSlot = slotToEquip;
+        _backpackSlot.Equip(EquipSlot);
+      }
+      
+      public void Unequip()
+      {
+        _isEquipped = false;
+        _backpackSlot.Unequip();
+        _backpackSlot = null;
+      } 
+
+      public bool CanEquip() => 
+        _isEquipped == false;
     }
   }
 }
