@@ -90,7 +90,7 @@ namespace Tests.EditMode
             // Act.
             inventory.AddItem(swordItem);
             inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
-            inventory.EquippedSlots.TryUnquipSlot(EquipSlotType.S0);
+            inventory.EquippedSlots.TryUnequipSlot(EquipSlotType.S0);
       
             // Assert.
             //inventory.Backpack.GetSlot(0).IsEquipped.Should().BeTrue();
