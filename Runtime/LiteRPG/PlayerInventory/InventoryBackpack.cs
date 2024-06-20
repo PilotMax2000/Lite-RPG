@@ -36,6 +36,9 @@ namespace LiteRPG.PlayerInventory
       CreateSlots(_slotLimit);
     }
 
+    ~InventoryBackpack() => 
+      UnsubscribeSlots();
+
     public List<BackpackSlot> GetAllSlots() => 
       _slots;
 
@@ -85,8 +88,21 @@ namespace LiteRPG.PlayerInventory
     {
       for (int i = 0; i < maxSlots; i++)
       {
-        _slots.Add(new BackpackSlot(_inventory, _additiveHp));
+        var backpackSlot = new BackpackSlot(_inventory, _additiveHp);
+        _slots.Add(backpackSlot);
+        backpackSlot.OnSlotChanged += OnSlotChanged;
       }
+    }
+
+    private void UnsubscribeSlots()
+    {
+      foreach (var slot in _slots) 
+        slot.OnSlotChanged -= OnSlotChanged;
+    }
+
+    private void OnSlotChanged()
+    {
+      OnBackpackChanged?.Invoke();
     }
 
     public void AddInvItemInNewSlot(InvItemSlot invItemSlot)
@@ -94,7 +110,6 @@ namespace LiteRPG.PlayerInventory
       if (HasEmptySlot())
       {
         GetEmptySlot().AddItemSlot(invItemSlot);
-        OnBackpackChanged?.Invoke();
       }
     }
 
@@ -107,14 +122,12 @@ namespace LiteRPG.PlayerInventory
 
       int resQuantityToRemove = quantity == -1 ? _slots[slotId].ItemSlot.Quantity : quantity;
       RemoveInvItem(_slots[slotId], resQuantityToRemove);
-      OnBackpackChanged?.Invoke();
     }
 
     public void RemoveInvItem(BackpackSlot slot, int quantity)
     {
       //TODO: add test for checking if item could be removed
       slot.AddItemQuantity(-(quantity));
-      OnBackpackChanged?.Invoke();
     }
 
     public BackpackSlot GetSlot(int index)
@@ -176,11 +189,6 @@ namespace LiteRPG.PlayerInventory
           return true;
       }
       return false;
-    }
-
-    public void BackpackChanged()
-    {
-      OnBackpackChanged?.Invoke();
     }
   }
 }

@@ -8,6 +8,7 @@ namespace LiteRPG.PlayerInventory
   public class BackpackSlot
   {
     [field: SerializeField] public InvItemSlot ItemSlot { get; private set; }
+    public event Action OnSlotChanged;
     
     private bool _empty;
     private Inventory _inventory;
@@ -35,6 +36,7 @@ namespace LiteRPG.PlayerInventory
     {
       ItemSlot = itemSlot;
       _empty = itemSlot == null;
+      OnSlotChanged?.Invoke();
     }
 
     //Remake
@@ -45,12 +47,14 @@ namespace LiteRPG.PlayerInventory
       {
         MakeSlotEmpty();
       }
+      OnSlotChanged?.Invoke();
     }
 
     private void MakeSlotEmpty()
     {
       ItemSlot = null;
       _empty = true;
+      OnSlotChanged?.Invoke();
     }
 
     public void Use()
@@ -60,9 +64,22 @@ namespace LiteRPG.PlayerInventory
       
       if(ItemSlot.ItemData.CanBeUsed() == false)
         return;
-      
-      if(ItemSlot.ItemData.Use(_inventory, _additiveHp))
+
+      if (ItemSlot.ItemData.Use(_inventory, _additiveHp))
+      {
         AddItemQuantity(-1);
+        OnSlotChanged?.Invoke();
+      }
+    }
+
+    public void Equip()
+    {
+      OnSlotChanged?.Invoke();
+    }
+    
+    public void Unequip()
+    {
+      OnSlotChanged?.Invoke();
     }
   }
 }

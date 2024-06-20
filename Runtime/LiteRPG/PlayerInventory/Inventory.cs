@@ -102,7 +102,6 @@ namespace LiteRPG.PlayerInventory
         if (slot != null)
         {
           slot.AddItemQuantity(quantity);
-          _backpack.BackpackChanged();
           return true;
         }
 
