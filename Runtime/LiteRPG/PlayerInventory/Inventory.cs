@@ -168,6 +168,48 @@ namespace LiteRPG.PlayerInventory
       return true;
     }
     
+    public bool TryEquipSlot(EquipSlotType slotType, BackpackSlot backpackSlotToEquip)
+    {
+      var slotExists = TryGetSlotByType(slotType, out var equippedSlot);
+      if (slotExists == false)
+        return false;
+      if (backpackSlotToEquip.IsEmpty())
+      {
+        Debug.LogWarning("Can't equip empty slot!");
+        return false;
+      }
+      if (equippedSlot.IsEquipped)
+        return false;
+      
+      equippedSlot.Equip(backpackSlotToEquip);
+      return true;
+    }
+    
+    public bool TryUnquipSlot(EquipSlotType slotType)
+    {
+      var slotExists = TryGetSlotByType(slotType, out var equippedSlot);
+      if (slotExists == false)
+        return false;
+      if (equippedSlot.IsEquipped == false)
+        return false;
+      
+      equippedSlot.Unequip();
+      return true;
+    }
+
+    public bool IsBackpackSlotEquipped(BackpackSlot backpackSlot)
+    {
+      foreach (var equippedSlot in _equippedSlots)
+      {
+        if(equippedSlot.IsEquipped == false)
+          continue;
+        if (equippedSlot.BackpackSlot == backpackSlot)
+          return true;
+      }
+
+      return false;
+    }
+
     [Serializable]
     public class EquippedSlot
     {
@@ -186,13 +228,11 @@ namespace LiteRPG.PlayerInventory
       {
         _isEquipped = true;
         _backpackSlot = slotToEquip;
-        _backpackSlot.Equip(EquipSlotType);
       }
       
       public void Unequip()
       {
         _isEquipped = false;
-        _backpackSlot.Unequip();
         _backpackSlot = null;
       } 
 

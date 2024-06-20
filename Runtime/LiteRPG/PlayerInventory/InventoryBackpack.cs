@@ -93,7 +93,7 @@ namespace LiteRPG.PlayerInventory
     {
       if (HasEmptySlot())
       {
-        GetEmptySlot().SetInvItemSlot(invItemSlot);
+        GetEmptySlot().AddItemSlot(invItemSlot);
         OnBackpackChanged?.Invoke();
       }
     }
