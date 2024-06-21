@@ -23,7 +23,7 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem
   }
 
   [Serializable]
-  public class StatModifierInfo
+  public class StatModifierProperty
   {
     public CharStatTypeSO StatType;
     public float Value;

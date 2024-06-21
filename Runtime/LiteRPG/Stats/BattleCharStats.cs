@@ -56,6 +56,13 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
       return newModifier;
     }
     
+    public StatModifier AddModifier(StatModifierProperty modifier)
+    {
+      var newModifier = modifier.Create();
+      GetStat(modifier.StatType).AddModifier(newModifier);
+      return newModifier;
+    }
+    
     public void LogCurrentStats()
     {
       //Improve look with console pro

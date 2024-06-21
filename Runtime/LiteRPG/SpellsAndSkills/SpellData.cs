@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LiteRPG.SpellsAndSkills
 {
@@ -23,7 +24,7 @@ namespace LiteRPG.SpellsAndSkills
     [Serializable]
     public class StatModifierAndValue
     {
-        public StatModifierInfo ModifierInfo;
+        [FormerlySerializedAs("ModifierInfo")] public StatModifierProperty ModifierProperty;
         public float Value;
     }
 }

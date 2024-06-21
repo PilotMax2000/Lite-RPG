@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
+using UnityEngine;
 
 namespace LiteRPG.PlayerInventory.InvItem
 {
@@ -17,6 +18,8 @@ namespace LiteRPG.PlayerInventory.InvItem
         public InvItemType InvItemType;
         public int BasePrice = 0;
         public bool IsStackable = true;
+        public bool CanEquip = false;
+        public StatModifierProperty[] StatModifiers;
         public virtual bool Use(Inventory inventory, IAdditiveHp additiveHp)
         {
             return true;

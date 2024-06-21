@@ -133,5 +133,13 @@ namespace Tests
       GameObject go = new GameObject();
       return go.AddComponent<BattleCharStats>();
     }
+
+    public static BattleCharStats FullBattleCharStatsWith1AtkAnd10Hp()
+    {
+      BattleCharStats battleCharStats = CreateBattleCharStats();
+      CharStatsData charStatsData = Create.LoadCharStatsData("T_PlayerWith1BaseAttack10Hp");
+      battleCharStats.Init(charStatsData);
+      return battleCharStats;
+    }
   }
 }
