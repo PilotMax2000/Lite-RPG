@@ -19,7 +19,8 @@ namespace Tests.EditMode
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
-            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
             var slotTypeToEquip = EquipSlotType.S0;
 
             // Act.
@@ -35,7 +36,8 @@ namespace Tests.EditMode
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
-            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
             var slotTypeToEquip = EquipSlotType.S0;
 
             // Act.
@@ -49,7 +51,8 @@ namespace Tests.EditMode
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
-            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
             var slotTypeToEquip = EquipSlotType.S0;
 
             // Act.
@@ -67,7 +70,8 @@ namespace Tests.EditMode
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
-            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
             var slotTypeToEquip = EquipSlotType.S0;
             InvItemData swordItem = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
@@ -87,7 +91,8 @@ namespace Tests.EditMode
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
-            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
             var slotTypeToEquip = EquipSlotType.S0;
             InvItemData swordItem = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
@@ -118,15 +123,15 @@ namespace Tests.EditMode
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
-            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
             var slotTypeToEquip = EquipSlotType.S0;
             InvItemData swordItem1Atk = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
-            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
 
             // Act.
             inventory.AddItem(swordItem1Atk);
             inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
-            battleCharStats.AddModifierFromObject(swordItem1Atk.StatModifiers[0], swordItem1Atk);
+           // battleCharStats.AddModifierFromObject(swordItem1Atk.StatModifiers[0], swordItem1Atk);
       
             // Assert.
             battleCharStats.GetStat(ATK_STAT_ID).Value.Should().Be(2);
@@ -137,16 +142,17 @@ namespace Tests.EditMode
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
-            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
             var slotTypeToEquip = EquipSlotType.S0;
             InvItemData swordItem1Atk = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
-            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
 
             // Act.
             inventory.AddItem(swordItem1Atk);
             inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
-            battleCharStats.AddModifierFromObject(swordItem1Atk.StatModifiers[0], swordItem1Atk);
-            battleCharStats.RemoveAllModifiersFromObject(swordItem1Atk);
+            inventory.EquippedSlots.TryUnequipSlot(slotTypeToEquip);
+            //battleCharStats.AddModifierFromObject(swordItem1Atk.StatModifiers[0], swordItem1Atk);
+            //battleCharStats.RemoveAllModifiersFromObject(swordItem1Atk);
       
             // Assert.
             battleCharStats.GetStat(ATK_STAT_ID).Value.Should().Be(1);
@@ -157,15 +163,14 @@ namespace Tests.EditMode
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
-            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
             var slotTypeToEquip = EquipSlotType.S0;
             InvItemData swordItem1Atk1MaxHp = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
-            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
 
             // Act.
             inventory.AddItem(swordItem1Atk1MaxHp);
             inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
-            battleCharStats.AddModifierFromObject(swordItem1Atk1MaxHp.StatModifiers, swordItem1Atk1MaxHp);
       
             // Assert.
             battleCharStats.GetStat(ATK_STAT_ID).Value.Should().Be(2);
@@ -177,16 +182,17 @@ namespace Tests.EditMode
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
-            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
             var slotTypeToEquip = EquipSlotType.S0;
             InvItemData swordItem1Atk1MaxHp = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
-            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
 
             // Act.
             inventory.AddItem(swordItem1Atk1MaxHp);
             inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
-            battleCharStats.AddModifierFromObject(swordItem1Atk1MaxHp.StatModifiers, swordItem1Atk1MaxHp);
-            battleCharStats.RemoveAllModifiersFromObject(swordItem1Atk1MaxHp);
+            inventory.EquippedSlots.TryUnequipSlot(slotTypeToEquip);
+           // battleCharStats.AddModifierFromObject(swordItem1Atk1MaxHp.StatModifiers, swordItem1Atk1MaxHp);
+           // battleCharStats.RemoveAllModifiersFromObject(swordItem1Atk1MaxHp);
       
             // Assert.
             battleCharStats.GetStat(ATK_STAT_ID).Value.Should().Be(1);

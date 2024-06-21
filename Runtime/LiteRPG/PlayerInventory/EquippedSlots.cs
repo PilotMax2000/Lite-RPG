@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using Packages.LiteRPG.Runtime.LiteRPG.Stats;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace LiteRPG.PlayerInventory
 {
     [Serializable]
-    public partial class EquippedSlots
+    public class EquippedSlots
     {
         [SerializeField] private EquippedSlot[] _equippedSlots;
         private Dictionary<EquipSlotType, EquippedSlot> _cachedSlots;
+        private BattleCharStats _battleCharStats;
 
-        public EquippedSlots(int totalNumberOfSlots)
+        public EquippedSlots(int totalNumberOfSlots, BattleCharStats battleCharStats)
         {
+            _battleCharStats = battleCharStats;
             if (IsNotEnoughSlotsToInitialize(totalNumberOfSlots))
                 return;
 
@@ -58,12 +62,12 @@ namespace LiteRPG.PlayerInventory
             return true;
         }
     
-        public bool TryEquipSlot(EquipSlotType slotType, BackpackSlot backpackSlotToEquip)
+        public bool TryEquipSlot(EquipSlotType slotType, BackpackSlot slotToEquip)
         {
             var slotExists = TryGetSlotByType(slotType, out var equippedSlot);
             if (slotExists == false)
                 return false;
-            if (backpackSlotToEquip.IsEmpty())
+            if (slotToEquip.IsEmpty())
             {
                 Debug.LogWarning("Can't equip empty slot!");
                 return false;
@@ -71,18 +75,21 @@ namespace LiteRPG.PlayerInventory
             if (equippedSlot.IsEquipped)
                 return false;
       
-            equippedSlot.Equip(backpackSlotToEquip);
+            equippedSlot.Equip(slotToEquip);
+            var itemData = slotToEquip.ItemSlot.ItemData;
+            _battleCharStats.AddModifierFromObject(itemData.StatModifiers, itemData);
             return true;
         }
     
         public bool TryUnequipSlot(EquipSlotType slotType)
         {
-            var slotExists = TryGetSlotByType(slotType, out var equippedSlot);
+            var slotExists = TryGetSlotByType(slotType, out EquippedSlot equippedSlot);
             if (slotExists == false)
                 return false;
             if (equippedSlot.IsEquipped == false)
                 return false;
       
+            _battleCharStats.RemoveAllModifiersFromObject(equippedSlot.BackpackSlot.ItemSlot.ItemData);
             equippedSlot.Unequip();
             return true;
         }

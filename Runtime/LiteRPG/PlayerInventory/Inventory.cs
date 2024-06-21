@@ -3,6 +3,7 @@ using LiteRPG.PlayerInventory.InvItem;
 using LiteRPG.PlayerInventory.SubMenus.Craft;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
 using LiteRPG.Progress;
+using Packages.LiteRPG.Runtime.LiteRPG.Stats;
 using UnityEditor.Graphs;
 using UnityEngine;
 
@@ -32,9 +33,9 @@ namespace LiteRPG.PlayerInventory
       Crafting = new Crafting(this, itemsDb, recipesBook);
     }
 
-    public void SetupEquipSlots(int maxSlotsNumber)
+    public void SetupEquipSlots(int maxSlotsNumber, BattleCharStats battleCharStats)
     {
-      _equippedSlots = new EquippedSlots(maxSlotsNumber);
+      _equippedSlots = new EquippedSlots(maxSlotsNumber, battleCharStats);
     }
 
     public bool AddItem(InvItemSlot invItemSlot) => 
