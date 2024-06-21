@@ -33,7 +33,7 @@ namespace LiteRPG.PlayerInventory.DataBase
 
     protected void CheckCacheInit()
     {
-      if (_dbWasCached == false)
+      if (_dbWasCached == false || _dbCache == null)
         CacheDb();
     }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
 {
@@ -26,7 +27,6 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
     {
       _charStatsUnits = charStatsUnits;
     }
-    
 
     public CharacterStat GetStat(string statName)
     {
@@ -62,6 +62,17 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
       GetStat(modifier.StatType).AddModifier(newModifier);
       return newModifier;
     }
+    public StatModifier AddModifierFromObject(StatModifierProperty modifier, Object itemObject)
+    {
+      var newModifier = modifier.Create(itemObject);
+      GetStat(modifier.StatType).AddModifier(newModifier);
+      return newModifier;
+    }
+    public void AddModifierFromObject(IEnumerable<StatModifierProperty> modifiers, Object itemObject)
+    {
+      foreach (var modifierProperty in modifiers) 
+        AddModifierFromObject(modifierProperty, itemObject);
+    }
     
     public void LogCurrentStats()
     {
@@ -78,6 +89,14 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats
     public void RemoveModifier(StatModifierData modifierData, StatModifier statModifier)
     {
       GetStat(modifierData.StatType).RemoveModifier(statModifier);
+    }
+
+    public void RemoveAllModifiersFromObject(Object itemObject)
+    {
+      foreach (var charStatsUnit in _charStatsUnits)
+      {
+        charStatsUnit.CharacterStat.RemoveAllModifiersFromSource(itemObject);
+      }
     }
   }
 }
