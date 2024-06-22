@@ -74,10 +74,10 @@ namespace LiteRPG.PlayerInventory
             }
             if (equippedSlot.IsEquipped)
                 return false;
-      
-            equippedSlot.Equip(slotToEquip);
+
             var itemData = slotToEquip.ItemSlot.ItemData;
             _battleCharStats.AddModifierFromObject(itemData.StatModifiers, itemData);
+            equippedSlot.Equip(slotToEquip);
             return true;
         }
     
