@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using LiteRPG.PlayerInventory.InvItem;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats;
+using Sirenix.Utilities;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -72,10 +75,11 @@ namespace LiteRPG.PlayerInventory
                 Debug.LogWarning("Can't equip empty slot!");
                 return false;
             }
-
+            
+            var itemDataItemName = slotToEquip.ItemSlot.ItemData.ItemName;
             if (slotToEquip.ItemSlot.ItemData.CanEquip == false)
             {
-                Debug.LogWarning($"Item {slotToEquip.ItemSlot.ItemData.ItemName} can't be equipped due to its InvItemData!");
+                Debug.LogWarning($"Item {itemDataItemName} can't be equipped due to its InvItemData!");
                 return false;
             }
 
@@ -86,11 +90,24 @@ namespace LiteRPG.PlayerInventory
             }
 
             var itemData = slotToEquip.ItemSlot.ItemData;
+            if (IsSlotAllowed(slotType, itemData) == false)
+            {
+                Debug.LogWarning($"You are trying to put item '{itemDataItemName}' in slot {slotType} which is not allowed for this item");
+                return false;
+            }
+
             _battleCharStats.AddModifierFromObject(itemData.StatModifiers, itemData);
             equippedSlot.Equip(slotToEquip);
             return true;
         }
-    
+
+        private bool IsSlotAllowed(EquipSlotType slotTypeToEquip, InvItemData itemData)
+        {
+            if (itemData.AllowedSlotsToEquip.IsNullOrEmpty())
+                return false;
+            return itemData.AllowedSlotsToEquip.Any(allowedSlotType => slotTypeToEquip == allowedSlotType);
+        }
+
         public bool TryUnequipSlot(EquipSlotType slotType)
         {
             var slotExists = TryGetSlotByType(slotType, out EquippedSlot equippedSlot);

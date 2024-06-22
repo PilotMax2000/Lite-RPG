@@ -20,6 +20,7 @@ namespace LiteRPG.PlayerInventory.InvItem
         public bool IsStackable = true;
         public bool CanEquip = false;
         public StatModifierProperty[] StatModifiers;
+        public EquipSlotType[] AllowedSlotsToEquip;
         public virtual bool Use(Inventory inventory, IAdditiveHp additiveHp)
         {
             return true;

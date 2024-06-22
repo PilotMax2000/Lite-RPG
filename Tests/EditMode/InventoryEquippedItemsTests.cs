@@ -2,7 +2,7 @@
 using LiteRPG.PlayerInventory;
 using LiteRPG.PlayerInventory.InvItem;
 using NUnit.Framework;
-using Packages.LiteRPG.Runtime.LiteRPG.Stats;
+using Packages.LiteRPG.Runtime.LiteRPG.Stats;  
 
 namespace Tests.EditMode
 {
@@ -203,6 +203,27 @@ namespace Tests.EditMode
 
             // Act.
             inventory.AddItem(woodNonWearable);
+            bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+      
+            // Assert.
+            equippedSuccessfully.Should().BeFalse();
+            var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(slotTypeToEquip, out var equippedSlot);
+            slotWasFound.Should().BeTrue();
+            equippedSlot.IsEquipped.Should().BeFalse();
+        }
+        
+        [Test]
+        public void WhenSwordItemForSlotS0WasAdded_AndItWasEquippedOnSlotS1_ThenS1ShouldBeEmpty()
+        {
+            // Arrange.
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
+            var slotTypeToEquip = EquipSlotType.S1;
+            InvItemData sword = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
+
+            // Act.
+            inventory.AddItem(sword);
             bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
       
             // Assert.

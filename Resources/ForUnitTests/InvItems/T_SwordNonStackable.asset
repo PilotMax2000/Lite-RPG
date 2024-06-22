@@ -31,3 +31,4 @@ MonoBehaviour:
     Type: 100
     RewriteOrder: 0
     Order: 0
+  AllowedSlotsToEquip: 01000000
