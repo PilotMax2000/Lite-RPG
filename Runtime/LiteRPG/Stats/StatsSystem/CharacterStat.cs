@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -85,6 +86,11 @@ public class CharacterStat
       ValueWasChanged?.Invoke();
     
     return didRemoved;
+  }
+
+  public bool IsUsingModifiersFromItem()
+  {
+    return _statModifiers.Any(modifier => modifier.Source != null);
   }
 
   protected float CalculateFinalValue()
