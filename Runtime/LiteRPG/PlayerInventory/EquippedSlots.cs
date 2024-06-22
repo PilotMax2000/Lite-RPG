@@ -101,6 +101,9 @@ namespace LiteRPG.PlayerInventory
             return true;
         }
 
+        public bool TryEquipSlot(BackpackSlot slotToEquip) => 
+            _equippedSlots.Any(equippedSlot => TryEquipSlot(equippedSlot.EquipSlotType, slotToEquip));
+
         private bool IsSlotAllowed(EquipSlotType slotTypeToEquip, InvItemData itemData)
         {
             if (itemData.AllowedSlotsToEquip.IsNullOrEmpty())

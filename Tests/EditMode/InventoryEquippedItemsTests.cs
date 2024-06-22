@@ -231,6 +231,26 @@ namespace Tests.EditMode
             var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(slotTypeToEquip, out var equippedSlot);
             slotWasFound.Should().BeTrue();
             equippedSlot.IsEquipped.Should().BeFalse();
+        } 
+        
+        [Test]
+        public void WhenSwordItemForSlotS0WasAdded_AndItWasEquippedOnAnySlot_ThenS0ShouldBeEquipped()
+        {
+            // Arrange.
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
+            InvItemData sword = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
+
+            // Act.
+            inventory.AddItem(sword);
+            bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(inventory.Backpack.GetSlot(0));
+      
+            // Assert.
+            equippedSuccessfully.Should().BeTrue();
+            var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(EquipSlotType.S0, out var equippedSlot);
+            slotWasFound.Should().BeTrue();
+            equippedSlot.IsEquipped.Should().BeTrue();
         }
     }
 }
