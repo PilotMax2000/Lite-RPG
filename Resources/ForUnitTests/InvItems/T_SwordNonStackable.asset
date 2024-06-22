@@ -19,7 +19,7 @@ MonoBehaviour:
   InvItemType: {fileID: 11400000, guid: fe00cbfcf9144db43bf2f43b08f9b5a2, type: 2}
   BasePrice: 0
   IsStackable: 0
-  CanEquip: 0
+  CanEquip: 1
   StatModifiers:
   - StatType: {fileID: 11400000, guid: c11a98e5e32d2477790ce5ce14632413, type: 2}
     Value: 1

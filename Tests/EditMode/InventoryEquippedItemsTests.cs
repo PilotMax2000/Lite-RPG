@@ -3,7 +3,6 @@ using LiteRPG.PlayerInventory;
 using LiteRPG.PlayerInventory.InvItem;
 using NUnit.Framework;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats;
-using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
 
 namespace Tests.EditMode
 {
@@ -80,7 +79,6 @@ namespace Tests.EditMode
             inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
       
             // Assert.
-            //inventory.Backpack.GetSlot(0).IsEquipped.Should().BeTrue();
             var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(slotTypeToEquip, out var equippedSlot);
             slotWasFound.Should().BeTrue();
             equippedSlot.IsEquipped.Should().BeTrue();
@@ -102,7 +100,6 @@ namespace Tests.EditMode
             inventory.EquippedSlots.TryUnequipSlot(EquipSlotType.S0);
       
             // Assert.
-            //inventory.Backpack.GetSlot(0).IsEquipped.Should().BeTrue();
             var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(slotTypeToEquip, out var equippedSlot);
             slotWasFound.Should().BeTrue();
             equippedSlot.IsEquipped.Should().BeFalse();
@@ -131,7 +128,6 @@ namespace Tests.EditMode
             // Act.
             inventory.AddItem(swordItem1Atk);
             inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
-           // battleCharStats.AddModifierFromObject(swordItem1Atk.StatModifiers[0], swordItem1Atk);
       
             // Assert.
             battleCharStats.GetStat(ATK_STAT_ID).Value.Should().Be(2);
@@ -151,8 +147,6 @@ namespace Tests.EditMode
             inventory.AddItem(swordItem1Atk);
             inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
             inventory.EquippedSlots.TryUnequipSlot(slotTypeToEquip);
-            //battleCharStats.AddModifierFromObject(swordItem1Atk.StatModifiers[0], swordItem1Atk);
-            //battleCharStats.RemoveAllModifiersFromObject(swordItem1Atk);
       
             // Assert.
             battleCharStats.GetStat(ATK_STAT_ID).Value.Should().Be(1);
@@ -191,12 +185,31 @@ namespace Tests.EditMode
             inventory.AddItem(swordItem1Atk1MaxHp);
             inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
             inventory.EquippedSlots.TryUnequipSlot(slotTypeToEquip);
-           // battleCharStats.AddModifierFromObject(swordItem1Atk1MaxHp.StatModifiers, swordItem1Atk1MaxHp);
-           // battleCharStats.RemoveAllModifiersFromObject(swordItem1Atk1MaxHp);
       
             // Assert.
             battleCharStats.GetStat(ATK_STAT_ID).Value.Should().Be(1);
             battleCharStats.GetStat(HP_STAT_ID).Value.Should().Be(10);
+        }
+        
+        [Test]
+        public void WhenWoodNonWearableItemWasAdded_AndItWasEquippedOnSlotS0_ThenS0ShouldBeEmpty()
+        {
+            // Arrange.
+            Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
+            BattleCharStats battleCharStats = Create.FullBattleCharStatsWith1AtkAnd10Hp();
+            inventory.SetupEquipSlots(MAX_EQUIP_SLOTS, battleCharStats);
+            var slotTypeToEquip = EquipSlotType.S0;
+            InvItemData woodNonWearable = Create.LoadInvItem(GameDesign.Items.Wood);
+
+            // Act.
+            inventory.AddItem(woodNonWearable);
+            bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+      
+            // Assert.
+            equippedSuccessfully.Should().BeFalse();
+            var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(slotTypeToEquip, out var equippedSlot);
+            slotWasFound.Should().BeTrue();
+            equippedSlot.IsEquipped.Should().BeFalse();
         }
     }
 }

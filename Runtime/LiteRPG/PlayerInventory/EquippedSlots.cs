@@ -72,8 +72,18 @@ namespace LiteRPG.PlayerInventory
                 Debug.LogWarning("Can't equip empty slot!");
                 return false;
             }
-            if (equippedSlot.IsEquipped)
+
+            if (slotToEquip.ItemSlot.ItemData.CanEquip == false)
+            {
+                Debug.LogWarning($"Item {slotToEquip.ItemSlot.ItemData.ItemName} can't be equipped due to its InvItemData!");
                 return false;
+            }
+
+            if (equippedSlot.IsEquipped)
+            {
+                Debug.LogWarning($"Target slot {slotType} is already equipped");
+                return false;
+            }
 
             var itemData = slotToEquip.ItemSlot.ItemData;
             _battleCharStats.AddModifierFromObject(itemData.StatModifiers, itemData);

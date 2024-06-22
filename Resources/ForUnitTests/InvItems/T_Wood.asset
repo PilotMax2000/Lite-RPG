@@ -10,9 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e73e730ca3c3104dacb0d4f64246278, type: 3}
-  m_Name: Wood
+  m_Name: T_Wood
   m_EditorClassIdentifier: 
   Id: 0
   ItemName: Wood
-  InvItemType: {fileID: 0}
+  Description: NoDescription
+  Icon: {fileID: 0}
+  InvItemType: {fileID: 11400000, guid: ae3586be2f031444d970d9bb4e82bdad, type: 2}
   BasePrice: 0
+  IsStackable: 1
+  CanEquip: 0
+  StatModifiers: []
