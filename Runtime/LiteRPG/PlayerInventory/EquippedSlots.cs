@@ -64,7 +64,26 @@ namespace LiteRPG.PlayerInventory
             equippedSlot = foundSlot;
             return true;
         }
-    
+
+        public bool TryGetEquipSlotTypeByBackpackSlot(BackpackSlot backpackSlot, out EquipSlotType equipSlotType)
+        {
+            equipSlotType = EquipSlotType.None;
+            bool res = false;
+            if (backpackSlot == null)
+                return false;
+            
+            foreach (var equippedSlot in _equippedSlots)
+            {
+                if (equippedSlot.BackpackSlot == backpackSlot)
+                {
+                    equipSlotType = equippedSlot.EquipSlotType;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public bool TryEquipSlot(EquipSlotType slotType, BackpackSlot slotToEquip)
         {
             var slotExists = TryGetSlotByType(slotType, out var equippedSlot);

@@ -234,7 +234,7 @@ namespace Tests.EditMode
         } 
         
         [Test]
-        public void WhenSwordItemForSlotS0WasAdded_AndItWasEquippedOnAnySlot_ThenS0ShouldBeEquipped()
+        public void WhenSwordItemForSlotS0WasAdded_AndItWasEquippedOnAnySlotByBackpackSlot_ThenS0ShouldBeEquipped()
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb(MAX_ITEMS_SLOTS);
@@ -244,11 +244,13 @@ namespace Tests.EditMode
 
             // Act.
             inventory.AddItem(sword);
-            bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(inventory.Backpack.GetSlot(0));
+            var swordBackpackSlot = inventory.Backpack.GetSlot(0);
+            bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(swordBackpackSlot);
       
             // Assert.
             equippedSuccessfully.Should().BeTrue();
-            var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(EquipSlotType.S0, out var equippedSlot);
+            inventory.EquippedSlots.TryGetEquipSlotTypeByBackpackSlot(swordBackpackSlot, out var equipSlotType);
+            var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(equipSlotType, out var equippedSlot);
             slotWasFound.Should().BeTrue();
             equippedSlot.IsEquipped.Should().BeTrue();
         }
