@@ -38,5 +38,11 @@ namespace Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem
     
     public StatModifier Create(Object source) => 
       RewriteOrder ? new StatModifier(Value, Type, Order, source) : new StatModifier(Value, Type, source);
+
+    public string GetModifierDescription()
+    {
+      string ValueSymbol = Type == StatModType.Flat ? string.Empty : "%";
+      return $"+ {Value:N0}{ValueSymbol} {StatType.Name}";
+    }
   }
 }

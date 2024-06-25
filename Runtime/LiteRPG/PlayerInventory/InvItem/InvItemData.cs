@@ -1,4 +1,6 @@
-﻿using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
+﻿using System;
+using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace LiteRPG.PlayerInventory.InvItem
@@ -28,6 +30,23 @@ namespace LiteRPG.PlayerInventory.InvItem
 
         public bool CanBeUsed() => 
             InvItemType.InvItemTypes().IsUsableType(InvItemType);
+
+        public string GetStatModifiersDescription()
+        {
+            string res = String.Empty;
+            for (var index = 0; index < StatModifiers.Length; index++)
+            {
+                var modifier = StatModifiers[index];
+                res += modifier.GetModifierDescription();
+                if (index < StatModifiers.Length - 1)
+                    res += "<br>";
+            }
+
+            return res;
+        }
+
+        public bool HaveStatModifiers() =>
+            StatModifiers.IsNullOrEmpty() == false;
     }
 
     public interface IAdditiveHp
