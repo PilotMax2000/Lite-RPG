@@ -1,4 +1,5 @@
 ﻿using System;
+using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats.StatsSystem;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -23,9 +24,19 @@ namespace LiteRPG.PlayerInventory.InvItem
         public bool CanEquip = false;
         public StatModifierProperty[] StatModifiers;
         public EquipSlotType[] AllowedSlotsToEquip;
+        
+        [Header("Recipe Item")]
+        public bool IsRecipy;
+        public RecipeData RecipeData;
+        
         public virtual bool Use(Inventory inventory, IAdditiveHp additiveHp)
         {
-            return true;
+            if (IsRecipy)
+            {
+                inventory.RecipesBook.AddRecipe(RecipeData.Id);
+                return true;
+            }
+            return false;
         }
 
         public bool CanBeUsed() => 
