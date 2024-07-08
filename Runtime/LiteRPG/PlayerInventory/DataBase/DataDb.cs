@@ -34,7 +34,7 @@ namespace LiteRPG.PlayerInventory.DataBase
     protected void CheckCacheInit()
     {
       if (_dbWasCached == false || _dbCache == null)
-        CacheDb();
+        InitDbCache();
     }
 
     public bool DataExists(int id)
@@ -45,11 +45,18 @@ namespace LiteRPG.PlayerInventory.DataBase
       return _dbCache.TryGetValue(id, out TData _);
     }
 
-    protected void CacheDb()
+    protected void InitDbCache()
     {
       if (_dbCache != null && _dbCache.Count != 0) 
         return;
       
+      UpdateDbCache();
+
+      _dbWasCached = true;
+    }
+
+    protected void UpdateDbCache()
+    {
       _dbCache = new Dictionary<int, TData >();
       foreach (var link in DataLinks)
       {
@@ -57,8 +64,6 @@ namespace LiteRPG.PlayerInventory.DataBase
           continue;
         _dbCache.Add(link.Id, link);
       }
-      
-      _dbWasCached = true;
     }
   }
 }

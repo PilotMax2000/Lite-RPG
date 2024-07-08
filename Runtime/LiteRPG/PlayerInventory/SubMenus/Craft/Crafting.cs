@@ -1,5 +1,6 @@
 ﻿using LiteRPG.PlayerInventory.InvItem;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
+using UnityEngine;
 
 namespace LiteRPG.PlayerInventory.SubMenus.Craft
 {
@@ -18,18 +19,30 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
 
     public bool CraftItemFromRecipe(int recipeId)
     {
-      if (CantFindRecipeInBook())
+      if (CanFindRecipeInBook() == false)
+      {
+        Debug.LogWarning($"Failed to found recipe with id {recipeId}");
         return false;
+      }
+      
       RecipeData recipe = _recipesBook.GetData(recipeId);
       if (NotEnoughItemsForCrafting())
+      {
+        Debug.LogWarning("Not enough items for crafting");
         return false;
+      }
+      
       TakeRequiredItemsFromInventory(recipe);
       if (AddCraftedItemInSlot(recipe) == false)
+      {
+        Debug.LogWarning("Failed to add crafted item to inventory slot");
         return false;
-      return false;
+      }
       
-      bool CantFindRecipeInBook() => 
-        _recipesBook.DataExists(recipeId) == false;
+      return true;
+      
+      bool CanFindRecipeInBook() => 
+        _recipesBook.DataExists(recipeId);
       
       bool NotEnoughItemsForCrafting() => 
         EnoughItemsForCrafting(recipe) == false;

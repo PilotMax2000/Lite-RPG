@@ -10,7 +10,7 @@ namespace LiteRPG.PlayerInventory.DataBase
       DataLinks = DataLinks ?? new List<TData>();
       
       if(_dbCache == null)
-        _dbCache = new Dictionary<int, TData >();
+        InitDbCache();
       else
       {
         if(DataExists(data.Id))
@@ -19,7 +19,7 @@ namespace LiteRPG.PlayerInventory.DataBase
 
       
       DataLinks.Add(data);
-      CacheDb();
+      UpdateDbCache();
       return true;
     }
     
