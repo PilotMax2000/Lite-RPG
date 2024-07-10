@@ -6,7 +6,8 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
 {
   public class Crafting
   {
-    private InvItemsDb _itemsDb;
+    public RecipesBook RecipesBook => _recipesBook;
+
     private Inventory _inventory;
     private RecipesBook _recipesBook;
 
@@ -14,7 +15,6 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
     {
       _recipesBook = recipesBook;
       _inventory = inventory;
-      _itemsDb = itemsDb;
     }
 
     public bool CraftItemFromRecipe(int recipeId)
