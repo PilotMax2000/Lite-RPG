@@ -12,7 +12,7 @@ namespace LiteRPG.PlayerInventory
   public class Inventory : ScriptableObject
   {
     public Crafting Crafting { get; private set; }
-    public RecipesBook RecipesBook => _recipesBook;
+    //public RecipesBook RecipesBook => _recipesBook;
     public IMoneyStats MoneyStats => _moneyStats;
     public InventoryBackpack Backpack => _backpack;
     public EquippedSlots EquippedSlots => _equippedSlots;

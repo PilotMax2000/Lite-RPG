@@ -67,7 +67,7 @@ namespace Tests
       // Arrange.
       Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
       RecipeData hammerRecipe = Create.LoadRecipe(GameDesign.Recipes.Hammer);
-      inventory.RecipesBook.AddRecipe(hammerRecipe.Id);
+      inventory.Crafting.TryAddRecipe(hammerRecipe.Id);
       
       // Act.
       inventory.Crafting.CraftItemFromRecipe(hammerRecipe.Id);
@@ -85,7 +85,7 @@ namespace Tests
       // Arrange.
       Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
       RecipeData hammerRecipe = Create.LoadRecipe(GameDesign.Recipes.Hammer);
-      inventory.RecipesBook.AddRecipe(hammerRecipe.Id);
+      inventory.Crafting.TryAddRecipe(hammerRecipe.Id);
       
       // Act.
       inventory.Crafting.CraftItemFromRecipe(hammerRecipe.Id);
@@ -140,7 +140,7 @@ namespace Tests
       
       // Assert.
       recipeWasUsedSuccessfully.Should().BeTrue();
-      inventory.RecipesBook.DataExists(hammerRecipeId).Should().BeTrue();
+      inventory.Crafting.IsRecipeAddedToBook(hammerRecipeId).Should().BeTrue();
       //new {recipeItemToCraft = resRecipeInBook.ItemToCraft.Id}.Should().Be(new {recipeItemToCraft = 1});
     }
     

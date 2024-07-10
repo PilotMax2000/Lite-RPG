@@ -33,7 +33,7 @@ namespace LiteRPG.PlayerInventory.InvItem
         {
             if (IsRecipy)
             {
-                inventory.RecipesBook.AddRecipe(RecipeData.Id);
+                inventory.Crafting.TryAddRecipe(RecipeData.Id);
                 return true;
             }
             return false;

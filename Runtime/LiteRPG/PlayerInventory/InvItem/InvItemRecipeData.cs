@@ -14,7 +14,7 @@ namespace LiteRPG.PlayerInventory.InvItem
       if (CanBeUsed() == false)
         return false;
       
-      inventory.RecipesBook.AddRecipe(RecipeData.Id);
+      inventory.Crafting.TryAddRecipe(RecipeData.Id);
       return true;
     }
   }

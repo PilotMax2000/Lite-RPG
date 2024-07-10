@@ -1,4 +1,5 @@
-﻿using LiteRPG.PlayerInventory.InvItem;
+﻿using System;
+using LiteRPG.PlayerInventory.InvItem;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
   public class Crafting
   {
     public RecipesBook RecipesBook => _recipesBook;
+    public event Action OnRecipesBookChanged;
 
     private Inventory _inventory;
     private RecipesBook _recipesBook;
@@ -15,6 +17,19 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
     {
       _recipesBook = recipesBook;
       _inventory = inventory;
+    }
+
+    public bool TryAddRecipe(RecipeData recipeData)
+    {
+      return _recipesBook.AddRecipe(recipeData.Id);
+    }
+
+    public bool TryAddRecipe(int recipeId)
+    {
+      var tryAddRecipe = _recipesBook.AddRecipe(recipeId);
+      if(tryAddRecipe)
+        OnRecipesBookChanged?.Invoke();
+      return tryAddRecipe;
     }
 
     public bool CraftItemFromRecipe(int recipeId)
@@ -48,6 +63,11 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
         EnoughItemsForCrafting(recipe) == false;
     }
 
+    public bool IsRecipeAddedToBook(int recipeId)
+    {
+      return _recipesBook.DataExists(recipeId);
+    }
+
     private bool AddCraftedItemInSlot(RecipeData recipe) => 
       _inventory.AddItem(recipe.ItemToCraft, recipe.ResultQuantity);
 
@@ -79,7 +99,5 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
 
       return EnoughItemsForCrafting(_recipesBook.GetData(recipeId));
     }
-    
-    
   }
 }

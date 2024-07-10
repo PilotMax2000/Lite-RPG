@@ -17,7 +17,7 @@ namespace Tests
     public static void AddRecipeToBookAndEnoughItemsForCraftingIt(Inventory inventory, RecipeData hammerRecipe)
     {
       Setup.AddToInventoryNeededItemsForCraftingRecipe(hammerRecipe, inventory);
-      inventory.RecipesBook.AddRecipe(hammerRecipe.Id);
+      inventory.Crafting.TryAddRecipe(hammerRecipe.Id);
     }
   }
 }
