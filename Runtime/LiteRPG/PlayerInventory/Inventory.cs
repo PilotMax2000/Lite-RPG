@@ -4,7 +4,6 @@ using LiteRPG.PlayerInventory.SubMenus.Craft;
 using LiteRPG.PlayerInventory.SubMenus.Craft.Recipes;
 using LiteRPG.Progress;
 using Packages.LiteRPG.Runtime.LiteRPG.Stats;
-using UnityEditor.Graphs;
 using UnityEngine;
 
 namespace LiteRPG.PlayerInventory
