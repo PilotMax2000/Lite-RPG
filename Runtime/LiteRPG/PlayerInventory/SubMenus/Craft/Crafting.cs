@@ -8,7 +8,7 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
   public class Crafting
   {
     public RecipesBook RecipesBook => _recipesBook;
-    public event Action OnRecipesBookChanged;
+    public event Action<RecipeData> OnRecipesBookChanged;
 
     private Inventory _inventory;
     private RecipesBook _recipesBook;
@@ -28,7 +28,7 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
     {
       var tryAddRecipe = _recipesBook.AddRecipe(recipeId);
       if(tryAddRecipe)
-        OnRecipesBookChanged?.Invoke();
+        OnRecipesBookChanged?.Invoke(_recipesBook.GetData(recipeId));
       return tryAddRecipe;
     }
 

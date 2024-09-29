@@ -31,9 +31,8 @@ namespace LiteRPG.PlayerInventory.InvItem
         
         public virtual bool Use(Inventory inventory, IAdditiveHp additiveHp)
         {
-            if (IsRecipy)
+            if (IsRecipy && inventory.Crafting.TryAddRecipe(RecipeData.Id))
             {
-                inventory.Crafting.TryAddRecipe(RecipeData.Id);
                 return true;
             }
             return false;
