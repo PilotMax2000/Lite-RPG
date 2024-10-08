@@ -9,6 +9,7 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
   {
     public RecipesBook RecipesBook => _recipesBook;
     public event Action<RecipeData> OnRecipesBookChanged;
+    public event Action<RecipeData> OnTryAddLearnedRecipe;
 
     private Inventory _inventory;
     private RecipesBook _recipesBook;
@@ -26,10 +27,17 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
 
     public bool TryAddRecipe(int recipeId)
     {
-      var tryAddRecipe = _recipesBook.AddRecipe(recipeId);
-      if(tryAddRecipe)
+      if (_recipesBook.DataExists(recipeId))
+      {
+        OnTryAddLearnedRecipe?.Invoke(_recipesBook.GetData(recipeId));
+        Debug.LogWarning($"Failed to add recipe with id {recipeId} because it was already learned");
+        return false;
+      }
+      
+      var recipeAddedSuccessfuly = _recipesBook.AddRecipe(recipeId);
+      if(recipeAddedSuccessfuly)
         OnRecipesBookChanged?.Invoke(_recipesBook.GetData(recipeId));
-      return tryAddRecipe;
+      return recipeAddedSuccessfuly;
     }
 
     public bool CraftItemFromRecipe(int recipeId)
