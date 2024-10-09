@@ -156,7 +156,7 @@ namespace LiteRPG.PlayerInventory
             return false;
         }
         
-        public bool IsEquippedSlotUsed(EquipSlotType slotType) => 
+        public bool IsEquipSlotUsed(EquipSlotType slotType) => 
             _equippedSlots.Any(equippedSlot => equippedSlot.EquipSlotType == slotType && equippedSlot.IsEquipped);
     }
 }
