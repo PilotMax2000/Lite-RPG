@@ -39,7 +39,7 @@ namespace LevelGameplay.Generic
             _timerIsActive = false;
         }
 
-        public void UpdateByTime(float value)
+        public void UpdateTickTime(float value)
         {
             if(_timerIsActive == false)
                 return;

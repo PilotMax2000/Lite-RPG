@@ -33,7 +33,7 @@ namespace AstralRPG
 
             // Act.
             cooldownTimer.SetTimerAsActive(true);
-            cooldownTimer.UpdateByTime(1f);
+            cooldownTimer.UpdateTickTime(1f);
 
             // Assert.
             cooldownTimer.TimeLeft.Should().Be(2);
@@ -47,7 +47,7 @@ namespace AstralRPG
 
             // Act.
             cooldownTimer.SetTimerAsActive(false);
-            cooldownTimer.UpdateByTime(1f);
+            cooldownTimer.UpdateTickTime(1f);
 
             // Assert.
             cooldownTimer.TimeLeft.Should().Be(3);
@@ -62,7 +62,7 @@ namespace AstralRPG
 
             // Act.
             cooldownTimer.SetTimerAsActive(true);
-            cooldownTimer.UpdateByTime(4f);
+            cooldownTimer.UpdateTickTime(4f);
 
             // Assert.
             cooldownTimer.TimeLeft.Should().Be(0);
@@ -77,7 +77,7 @@ namespace AstralRPG
 
             // Act.
             cooldownTimer.SetTimerAsActive(true);
-            cooldownTimer.UpdateByTime(4f);
+            cooldownTimer.UpdateTickTime(4f);
 
             // Assert.
             cooldownTimer.IsOver.Should().Be(true);
@@ -92,7 +92,7 @@ namespace AstralRPG
 
             // Act.
             cooldownTimer.SetTimerAsActive(true);
-            cooldownTimer.UpdateByTime(3f);
+            cooldownTimer.UpdateTickTime(3f);
             cooldownTimer.ResetCooldown();
 
             // Assert.
@@ -111,7 +111,7 @@ namespace AstralRPG
             // Act.
             cooldownTimer.SetTimerAsActive(true);
             cooldownTimer.OnTimerValueChanged += (value) => {onTimerLeftValue = value;};
-            cooldownTimer.UpdateByTime(1f);
+            cooldownTimer.UpdateTickTime(1f);
 
             // Assert.
             onTimerLeftValue.Should().Be(2);
@@ -128,7 +128,7 @@ namespace AstralRPG
             // Act.
             cooldownTimer.SetTimerAsActive(false);
             cooldownTimer.OnTimerValueChanged += (value) => {onTimerLeftValue = value;};
-            cooldownTimer.UpdateByTime(1f);
+            cooldownTimer.UpdateTickTime(1f);
 
             // Assert.
             onTimerLeftValue.Should().Be(-1);

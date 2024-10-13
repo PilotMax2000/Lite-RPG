@@ -39,7 +39,7 @@ namespace LiteRPG.Stats.StatusEffect
 
         public void UpdateByTime(float value)
         {
-            _effectTimer.UpdateByTime(value);
+            _effectTimer.UpdateTickTime(value);
             OnTimerUpdated?.Invoke(_effectTimer.TimeLeft);
         }
 
