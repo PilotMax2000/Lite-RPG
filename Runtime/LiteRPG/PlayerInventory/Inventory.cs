@@ -48,14 +48,6 @@ namespace LiteRPG.PlayerInventory
         AddItem(newItemSlot);
     }
 
-    private void SellItem(int slotIndex, int quantity, int price)
-    {
-      var backpackSlot = _backpack.GetSlot(slotIndex);
-      quantity = quantity == -1 ? backpackSlot.ItemSlot.Quantity : quantity;
-      _backpack.RemoveInvItem(slotIndex, quantity);
-      _moneyStats.AddMoney(price);
-    }
-
     public bool CanSellItem(int slotIndex, int quantity, int price)
     {
       var backpackSlot = _backpack.GetSlot(slotIndex);
@@ -68,6 +60,24 @@ namespace LiteRPG.PlayerInventory
       if (backpackSlot.IsEmpty())
       {
         Debug.LogWarning($"Can't sell item because backpack slot {slotIndex} is empty");
+        return false;
+      }
+      
+      if(quantity <= 0)
+      {
+        Debug.LogWarning($"Can't sell item because backpack slot {slotIndex} required quantity is <= 0");
+        return false;
+      }
+      
+      if(backpackSlot.ItemSlot.Quantity < quantity)
+      {
+        Debug.LogWarning($"Can't sell item because backpack slot {slotIndex} quantity ({backpackSlot.ItemSlot.Quantity}) is less then required ({quantity})");
+        return false;
+      }
+
+      if (price < 0)
+      {
+        Debug.LogWarning($"Can't sell item in backpack slot {slotIndex} because the price is negative ({price})");
         return false;
       }
 
@@ -95,6 +105,12 @@ namespace LiteRPG.PlayerInventory
 
     public BackpackSlot GetSlotWithItem(InvItemData recipeInvItem) => 
       _backpack.GetSlotWithItem(recipeInvItem);
+
+    private void SellItem(int slotIndex, int quantity, int price)
+    {
+      _backpack.RemoveInvItem(slotIndex, quantity);
+      _moneyStats.AddMoney(price);
+    }
 
     private bool AddItem(int itemId, int quantity = 1)
     {
