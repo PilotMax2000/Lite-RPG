@@ -48,15 +48,40 @@ namespace LiteRPG.PlayerInventory
         AddItem(newItemSlot);
     }
 
-    public bool SellItem(int slotIndex, int quantity, int price)
+    private void SellItem(int slotIndex, int quantity, int price)
+    {
+      var backpackSlot = _backpack.GetSlot(slotIndex);
+      quantity = quantity == -1 ? backpackSlot.ItemSlot.Quantity : quantity;
+      _backpack.RemoveInvItem(slotIndex, quantity);
+      _moneyStats.AddMoney(price);
+    }
+
+    public bool CanSellItem(int slotIndex, int quantity, int price)
     {
       var backpackSlot = _backpack.GetSlot(slotIndex);
       if (backpackSlot == null)
+      {
+        Debug.LogWarning($"Can't sell item because backpack slot {slotIndex} is null");
         return false;
-      quantity = quantity == -1 ? backpackSlot.ItemSlot.Quantity : quantity;
-      _backpack.RemoveInvItem(slotIndex, quantity);
-      _moneyStats.AddMoney(quantity);
+      }
+
+      if (backpackSlot.IsEmpty())
+      {
+        Debug.LogWarning($"Can't sell item because backpack slot {slotIndex} is empty");
+        return false;
+      }
+
       return true;
+    }
+
+    public bool TrySellItem(int slotIndex, int quantity, int price)
+    {
+      if (CanSellItem(slotIndex, quantity, price))
+      {
+        SellItem(slotIndex, quantity, price);
+        return true;
+      }
+      return false;
     }
 
     public void RemoveItems(InvItemData itemData, int quantity)

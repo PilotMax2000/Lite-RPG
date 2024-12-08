@@ -21,7 +21,7 @@ namespace Tests
       inventory.AddItem(Create.CreateItemSlot("Sword", 0, priceToSell, 1));
       
       // Act.
-      bool itemWasSoldSuccessfully = inventory.SellItem(0, 1,1);
+      bool itemWasSoldSuccessfully = inventory.TrySellItem(0, 1,1);
 
       // Assert.
       itemWasSoldSuccessfully.Should().BeTrue();
