@@ -11,7 +11,7 @@ namespace LiteRPG.PlayerInventory
   public class Inventory : ScriptableObject
   {
     public Crafting Crafting { get; private set; }
-    public IMoneyStats MoneyStats => _moneyStats;
+    public IMoneyProgress MoneyProgress => moneyProgress;
     public InventoryBackpack Backpack => _backpack;
     public EquippedSlots EquippedSlots => _equippedSlots;
     
@@ -19,13 +19,13 @@ namespace LiteRPG.PlayerInventory
     [SerializeField] private InvItemsDb _invItemsDb;
     [SerializeField] private RecipesBook _recipesBook;
     
-    private IMoneyStats _moneyStats;
+    private IMoneyProgress moneyProgress;
     [SerializeField] private EquippedSlots _equippedSlots;
 
-    public void Construct(InventoryBackpack backpack, IMoneyStats moneyStats, InvItemsDb itemsDb, RecipesBook recipesBook)
+    public void Construct(InventoryBackpack backpack, IMoneyProgress moneyProgress, InvItemsDb itemsDb, RecipesBook recipesBook)
     {
       _recipesBook = recipesBook;
-      _moneyStats = moneyStats;
+      this.moneyProgress = moneyProgress;
       _backpack = backpack;
       _invItemsDb = itemsDb;
       Crafting = new Crafting(this, itemsDb, recipesBook);
@@ -109,7 +109,7 @@ namespace LiteRPG.PlayerInventory
     private void SellItem(int slotIndex, int quantity, int price)
     {
       _backpack.RemoveInvItem(slotIndex, quantity);
-      _moneyStats.AddMoney(price);
+      moneyProgress.AddMoney(price);
     }
 
     private bool AddItem(int itemId, int quantity = 1)

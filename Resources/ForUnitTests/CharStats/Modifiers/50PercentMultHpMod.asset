@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 50PercentMultHpMod
   m_EditorClassIdentifier: 
   StatType: {fileID: 11400000, guid: 60696d6e0c6d26d4484c06c6f3e80572, type: 2}
-  Value: 20
-  Type: 200
+  Value: 50
+  Type: 300
   RewriteOrder: 0
   Order: 0

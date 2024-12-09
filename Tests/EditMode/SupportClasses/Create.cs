@@ -47,21 +47,21 @@ namespace Tests
       return Create.LoadSOFromResources<RecipeData>(GetPathFromTestingFolder("Recipes/" + recipeName));
     }
 
-    public static Inventory CreateInventory(IMoneyStats moneyStats, InvItemsDb itemsDb)
+    public static Inventory CreateInventory(IMoneyProgress moneyProgress, InvItemsDb itemsDb)
     {
       AdditiveHp additiveHp = new AdditiveHp();
       Inventory inventory = ScriptableObject.CreateInstance<Inventory>();
       InventoryBackpack backpack = new InventoryBackpack(inventory, additiveHp);
-      inventory.Construct(backpack, moneyStats, itemsDb, Create.LoadRecipesBook());
+      inventory.Construct(backpack, moneyProgress, itemsDb, Create.LoadRecipesBook());
       return inventory;
     }
     
-    public static Inventory CreateInventory(int maxSlots, IMoneyStats moneyStats, InvItemsDb itemsDb)
+    public static Inventory CreateInventory(int maxSlots, IMoneyProgress moneyProgress, InvItemsDb itemsDb)
     {
       AdditiveHp additiveHp = new AdditiveHp();
       Inventory inventory = ScriptableObject.CreateInstance<Inventory>();
       InventoryBackpack backpack = new InventoryBackpack(maxSlots, inventory, additiveHp);
-      inventory.Construct(backpack, moneyStats, itemsDb, Create.LoadRecipesBook());
+      inventory.Construct(backpack, moneyProgress, itemsDb, Create.LoadRecipesBook());
       return inventory;
     }
 
@@ -89,17 +89,17 @@ namespace Tests
 
     public static Inventory InventoryWithCharStatsAndItemsDb()
     {
-      IMoneyStats moneyStats = new CharStats();
+      IMoneyProgress moneyProgress = new TestGameProgress();
       InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
-      Inventory inventory = Create.CreateInventory(moneyStats, itemsDb);
+      Inventory inventory = Create.CreateInventory(moneyProgress, itemsDb);
       return inventory;
     }
     
     public static Inventory InventoryWithCharStatsAndItemsDb(int maxSlots)
     {
-      IMoneyStats moneyStats = new CharStats();
+      IMoneyProgress moneyProgress = new TestGameProgress();
       InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
-      Inventory inventory = Create.CreateInventory(maxSlots, moneyStats, itemsDb);
+      Inventory inventory = Create.CreateInventory(maxSlots, moneyProgress, itemsDb);
       return inventory;
     }
 

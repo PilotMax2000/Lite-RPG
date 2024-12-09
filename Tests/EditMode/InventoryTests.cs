@@ -25,7 +25,7 @@ namespace Tests
 
       // Assert.
       itemWasSoldSuccessfully.Should().BeTrue();
-      inventory.MoneyStats.Money.Should().Be(1);
+      inventory.MoneyProgress.Money.Should().Be(1);
     }
 
     [Test]
@@ -231,9 +231,9 @@ namespace Tests
       Inventory inventory = ScriptableObject.CreateInstance<Inventory>();
       AdditiveHp additiveHp = new AdditiveHp();
       InventoryBackpack backpack = new InventoryBackpack(1, inventory, additiveHp);
-      IMoneyStats moneyStats = new CharStats();
+      IMoneyProgress moneyProgress = new TestGameProgress();
       InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
-      inventory.Construct(backpack, moneyStats, itemsDb, Create.LoadRecipesBook());
+      inventory.Construct(backpack, moneyProgress, itemsDb, Create.LoadRecipesBook());
 
       //Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
       //InventoryBackpack backpack = new InventoryBackpack(1, inventory, additiveHp);

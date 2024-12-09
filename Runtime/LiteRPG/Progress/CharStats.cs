@@ -1,12 +1,12 @@
 ﻿namespace LiteRPG.Progress
 {
-  public interface IMoneyStats
+  public interface IMoneyProgress
   {
     int Money { get; }
     void AddMoney(int amount);
   }
 
-  public class CharStats : IMoneyStats
+  public class TestGameProgress : IMoneyProgress
   {
     public int Money { get; private set; }
 
