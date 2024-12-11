@@ -26,7 +26,7 @@ namespace Tests
 
     public static RecipesBook LoadRecipesBook()
     {
-      var book =  Resources.Load(GetPathFromTestingFolder("Recipes/RecipesBook")) as RecipesBook;
+      var book = ScriptableObject.CreateInstance<RecipesBook>();
       var recipesDb = Create.LoadSOFromResources<RecipesDb>(GetPathFromTestingFolder("Recipes/RecipesDb"));
       book.Construct(recipesDb);
       return book;

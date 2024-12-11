@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d58f498613e647e6b79a102b3a31d24e, type: 3}
   m_Name: RecipesDb
   m_EditorClassIdentifier: 
-  <DataLinks>k__BackingField:
+  DataLinks:
   - {fileID: 11400000, guid: bf3636c3253a3fc49a8a9c21fde25df3, type: 2}
+  _dbWasCached: 1
