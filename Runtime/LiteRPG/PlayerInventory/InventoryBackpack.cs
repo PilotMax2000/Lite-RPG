@@ -90,7 +90,7 @@ namespace LiteRPG.PlayerInventory
     {
       for (int i = 0; i < maxSlots; i++)
       {
-        var backpackSlot = new BackpackSlot(_inventory, _additiveHp);
+        var backpackSlot = new BackpackSlot(_inventory, _additiveHp, i);
         _slots.Add(backpackSlot);
         backpackSlot.OnSlotChanged += OnSlotChanged;
       }

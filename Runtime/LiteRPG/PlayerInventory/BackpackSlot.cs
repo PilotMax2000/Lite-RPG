@@ -13,22 +13,27 @@ namespace LiteRPG.PlayerInventory
     private bool _empty;
     private Inventory _inventory;
     private IAdditiveHp _additiveHp;
+    private int _slotIndex;
 
-    public BackpackSlot(Inventory inventory, IAdditiveHp additiveHp)
+    public BackpackSlot(Inventory inventory, IAdditiveHp additiveHp, int slotIndex)
     {
+      _slotIndex = slotIndex;
       _additiveHp = additiveHp;
       _inventory = inventory;
       _empty = true;
     }
 
-    public BackpackSlot(InvItemSlot itemSlot, Inventory inventory, IAdditiveHp additiveHp)
+    public BackpackSlot(InvItemSlot itemSlot, Inventory inventory, IAdditiveHp additiveHp, int slotIndex)
     {
       _additiveHp = additiveHp;
+      _slotIndex = slotIndex;
       _inventory = inventory;
       AddItemSlot(itemSlot);
     }
 
-
+    public int GetSlotIndex() =>
+      _slotIndex;
+    
     public bool IsEmpty() => 
       _empty;
 
