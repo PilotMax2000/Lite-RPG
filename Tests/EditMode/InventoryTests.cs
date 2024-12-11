@@ -168,13 +168,13 @@ namespace Tests
 
       // Act.
       inventory.TryAddItem(healthPotion);
-      if (inventory.Backpack.TryGetSlot(0, out var slot) == false) 
+      if (inventory.Backpack.TryGetSlot(0, out var slot)) 
         slot.Use();
       
       
       // Assert.
-      inventory.HasItemInSlotsOfQuantity(healthPotion, 0).Should().BeTrue();
       slot.IsEmpty().Should().BeTrue();
+      inventory.HasItemInSlotsOfQuantity(healthPotion, 0).Should().BeTrue();
     }
     
     [Test]
@@ -187,7 +187,7 @@ namespace Tests
       // Act.
       inventory.TryAddItem(healthPotion, 2);
       inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
-      if (inventory.Backpack.TryGetSlot(0, out var slot) == false) 
+      if (inventory.Backpack.TryGetSlot(0, out var slot)) 
         slot.Use();
       
       // Assert.

@@ -31,11 +31,18 @@ namespace LiteRPG.PlayerInventory.InvItem
         
         public virtual bool Use(Inventory inventory, IAdditiveHp additiveHp)
         {
-            if (IsRecipy && inventory.Crafting.TryAddRecipe(RecipeData.Id))
+            if (CanBeUsed() == false)
+                return false;
+            
+            if (IsRecipy)
             {
-                return true;
+                if (inventory.Crafting.TryAddRecipe(RecipeData.Id) == false)
+                {
+                    Debug.LogError("Failed to use and add recipe!");
+                    return false;
+                }
             }
-            return false;
+            return true;
         }
 
         public bool CanBeUsed() => 
