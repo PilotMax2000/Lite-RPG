@@ -107,11 +107,12 @@ namespace Tests
             InvItemSlot invItemSlot= new InvItemSlot(invItemData,2);
             backpack.AddInvItemInNewSlot(invItemSlot);
             backpack.RemoveInvItem(0,1);
-            Assert.AreEqual(1, backpack.GetSlot(0).ItemSlot.Quantity);
+            bool slotFound = backpack.TryGetSlot(0, out var backpackSlot);
+            Assert.AreEqual(1, backpackSlot.ItemSlot.Quantity);
         }
         
         [Test]
-        public void InventoryBackpackAddAndRemove1ItemOf1Passes()
+        public void WhenSwordItemWasAddedToSlot0_AndWasRemovedFromSlot0_ThenSlot0ShouldBeEmpty()
         {
             // Arrange.
             Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
@@ -125,9 +126,11 @@ namespace Tests
             // Act
             backpack.AddInvItemInNewSlot(invItemSlot);
             backpack.RemoveInvItem(0,1);
-            
+            bool slotFound = backpack.TryGetSlot(0, out var backpackSlot);
+
             // Assert
-            backpack.GetSlot(0).IsEmpty().Should().BeTrue();
+            slotFound.Should().BeTrue();
+            backpackSlot.IsEmpty().Should().BeTrue();
         }
         
         

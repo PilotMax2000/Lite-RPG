@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using LiteRPG.Helper;
 using LiteRPG.PlayerInventory.InvItem;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace LiteRPG.PlayerInventory
@@ -130,16 +132,25 @@ namespace LiteRPG.PlayerInventory
       slot.AddItemQuantity(-(quantity));
     }
 
-    public BackpackSlot GetSlot(int index)
+    // public BackpackSlot GetSlot(int index)
+    // {
+    //   return _slots.IsIndexExist(index) ? _slots[index] : null;
+    // }
+
+    public bool TryGetSlot(int index, out BackpackSlot slot)
     {
-      return Helper.Helper.ListIndexExist(_slots, index) ? _slots[index] : null;
+      slot = null;
+      if(_slots.IsIndexExist(index) == false)
+        return false;
+
+      slot = _slots[index];
+      return true;
     }
 
     public bool TryGetSlotItemData(int index, out InvItemData itemData)
     {
       itemData = null;
-      var slot = GetSlot(index);
-      if (slot == null) 
+      if (TryGetSlot(index, out BackpackSlot slot) == false)
         return false;
       
       itemData = slot.ItemSlot.ItemData;
@@ -149,8 +160,7 @@ namespace LiteRPG.PlayerInventory
     public bool TryGetSlotItemData<T>(int index, out T itemData) where T : InvItemData
     {
       itemData = null;
-      var slot = GetSlot(index);
-      if (slot == null) 
+      if (TryGetSlot(index, out BackpackSlot slot) == false)
         return false;
       
       itemData = slot.ItemSlot.ItemData as T;

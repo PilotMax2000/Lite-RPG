@@ -17,10 +17,10 @@ namespace Tests
     public static T LoadSOFromResources<T>(string path) where T : ScriptableObject
     {
       T scriptableObject = Resources.Load(path, typeof(T)) as T;
-      if(scriptableObject == null)
-      {
+      if (scriptableObject == null)
         Debug.LogError("Could not load scriptable object from path: " + path);
-      }
+      else
+        Debug.Log("Loaded from the pass " + path);
       return scriptableObject;
     }
 
@@ -34,7 +34,9 @@ namespace Tests
 
     public static string GetPathFromTestingFolder(string path)
     {
-      return Path.Combine(GameDesign.TestingFolder, path);
+      var resPath = Path.Combine(GameDesign.TestingFolder, path);
+      Debug.Log($"Trying to load test item using path {resPath}");
+      return resPath;
     }
 
     public static InvItemsDb LoadInvItemsDbFromResources()

@@ -19,7 +19,7 @@ namespace LiteRPG.LootBox
       List<InvItemSlot> loot = new List<InvItemSlot>();
       if(GuaranteedLoot.Length > 0)
         loot.AddRange(GuaranteedLoot);
-      if (RandomLootEntry.Length <= 0) 
+      if (RandomLootEntry.IsNullOrEmpty()) 
         return loot;
       if (CanGetRandomItem(out var resultItemSlot)) 
         loot.Add(resultItemSlot);

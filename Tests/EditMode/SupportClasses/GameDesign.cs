@@ -9,7 +9,7 @@
       public const string Wood = "T_Wood";
       public const string HammerRecipe = "HammerRecipeItem";
       public const string SwordNonStackable = "T_SwordNonStackable";
-      public static string HealthPotion = "HealthPotion";
+      public const string HealthPotion = "HealthPotion";
     }
 
     public static class Recipes

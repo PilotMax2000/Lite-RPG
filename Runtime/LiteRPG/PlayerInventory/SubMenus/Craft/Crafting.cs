@@ -77,7 +77,7 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
     }
 
     private bool AddCraftedItemInSlot(RecipeData recipe) => 
-      _inventory.AddItem(recipe.ItemToCraft, recipe.ResultQuantity);
+      _inventory.TryAddItem(recipe.ItemToCraft, recipe.ResultQuantity);
 
     private void TakeRequiredItemsFromInventory(RecipeData recipe)
     {

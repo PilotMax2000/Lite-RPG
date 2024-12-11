@@ -10,7 +10,7 @@ namespace Tests
     {
       foreach (var requiredItem in hammerRecipe.RequiredItems)
       {
-        inventory.AddItem(requiredItem.InvItemData, requiredItem.Quantity);
+        inventory.TryAddItem(requiredItem.InvItemData, requiredItem.Quantity);
       }
     }
 

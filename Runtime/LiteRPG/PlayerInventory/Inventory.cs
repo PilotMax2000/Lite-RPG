@@ -33,24 +33,30 @@ namespace LiteRPG.PlayerInventory
 
     public void SetupEquipSlots(int maxSlotsNumber, BattleCharStats battleCharStats)
     {
-      _equippedSlots = new EquippedSlots(maxSlotsNumber, battleCharStats);
+      _equippedSlots = new EquippedSlots(maxSlotsNumber, battleCharStats, this.Backpack);
     }
 
-    public bool AddItem(InvItemSlot invItemSlot) => 
-      AddItem(invItemSlot.ItemData, invItemSlot.Quantity);
+    public bool TryAddItem(InvItemSlot invItemSlot) => 
+      TryAddItem(invItemSlot.ItemData, invItemSlot.Quantity);
 
-    public bool AddItem(InvItemData invItemData, int quantity = 1) => 
-       AddItem(invItemData.Id, quantity);
+    public bool TryAddItem(InvItemData invItemData, int quantity = 1) => 
+       TryAddItem(invItemData.Id, quantity);
 
-    public void AddItem(IEnumerable<InvItemSlot> newItemsSlots)
+    //Refactor this (make a separate method for adding many items)
+    public void TryAddItem(IEnumerable<InvItemSlot> newItemsSlots)
     {
       foreach (InvItemSlot newItemSlot in newItemsSlots) 
-        AddItem(newItemSlot);
+        TryAddItem(newItemSlot);
     }
 
     public bool CanSellItem(int slotIndex, int quantity, int price)
     {
-      var backpackSlot = _backpack.GetSlot(slotIndex);
+      if(_backpack.TryGetSlot(slotIndex, out var backpackSlot) == false)
+      {
+        Debug.LogWarning($"Failed to found slot due to slotIndex {slotIndex}, can't sell item in non-existing slot");
+        return false;
+      }
+      
       if (backpackSlot == null)
       {
         Debug.LogWarning($"Can't sell item because backpack slot {slotIndex} is null");
@@ -112,7 +118,7 @@ namespace LiteRPG.PlayerInventory
       moneyProgress.AddMoney(price);
     }
 
-    private bool AddItem(int itemId, int quantity = 1)
+    private bool TryAddItem(int itemId, int quantity = 1)
     {
       var itemData = _invItemsDb.GetData(itemId);
       

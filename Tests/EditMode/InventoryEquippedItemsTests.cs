@@ -42,7 +42,9 @@ namespace Tests.EditMode
             // Act.
       
             // Assert.
-            inventory.EquippedSlots.IsBackpackSlotEquipped(inventory.Backpack.GetSlot(0)).Should().BeFalse();
+            bool slotWasFound = inventory.Backpack.TryGetSlot(0, out var slot);
+            slotWasFound.Should().BeTrue();
+            inventory.EquippedSlots.IsBackpackSlotEquipped(slot).Should().BeFalse();
         }
 
         [Test]
@@ -55,8 +57,8 @@ namespace Tests.EditMode
             var slotTypeToEquip = EquipSlotType.S0;
 
             // Act.
-            var emptyInvSlot = inventory.Backpack.GetSlot(0);
-            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, emptyInvSlot);
+            bool slotFound = inventory.Backpack.TryGetSlot(0, out var backpackSlot);
+            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, backpackSlot);
       
             // Assert.
             var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(slotTypeToEquip, out var equippedSlot);
@@ -75,8 +77,8 @@ namespace Tests.EditMode
             InvItemData swordItem = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
             // Act.
-            inventory.AddItem(swordItem);
-            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+            inventory.TryAddItem(swordItem);
+            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, 0);
       
             // Assert.
             var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(slotTypeToEquip, out var equippedSlot);
@@ -95,8 +97,8 @@ namespace Tests.EditMode
             InvItemData swordItem = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
             // Act.
-            inventory.AddItem(swordItem);
-            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+            inventory.TryAddItem(swordItem);
+            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, 0);
             inventory.EquippedSlots.TryUnequipSlot(EquipSlotType.S0);
       
             // Assert.
@@ -126,8 +128,8 @@ namespace Tests.EditMode
             InvItemData swordItem1Atk = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
             // Act.
-            inventory.AddItem(swordItem1Atk);
-            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+            inventory.TryAddItem(swordItem1Atk);
+            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, 0);
       
             // Assert.
             battleCharStats.GetStat(ATK_STAT_ID).Value.Should().Be(2);
@@ -144,8 +146,8 @@ namespace Tests.EditMode
             InvItemData swordItem1Atk = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
             // Act.
-            inventory.AddItem(swordItem1Atk);
-            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+            inventory.TryAddItem(swordItem1Atk);
+            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, 0);
             inventory.EquippedSlots.TryUnequipSlot(slotTypeToEquip);
       
             // Assert.
@@ -163,8 +165,8 @@ namespace Tests.EditMode
             InvItemData swordItem1Atk1MaxHp = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
             // Act.
-            inventory.AddItem(swordItem1Atk1MaxHp);
-            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+            inventory.TryAddItem(swordItem1Atk1MaxHp);
+            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, 0);
       
             // Assert.
             battleCharStats.GetStat(ATK_STAT_ID).Value.Should().Be(2);
@@ -182,8 +184,8 @@ namespace Tests.EditMode
             InvItemData swordItem1Atk1MaxHp = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
             // Act.
-            inventory.AddItem(swordItem1Atk1MaxHp);
-            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+            inventory.TryAddItem(swordItem1Atk1MaxHp);
+            inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, 0);
             inventory.EquippedSlots.TryUnequipSlot(slotTypeToEquip);
       
             // Assert.
@@ -202,8 +204,8 @@ namespace Tests.EditMode
             InvItemData woodNonWearable = Create.LoadInvItem(GameDesign.Items.Wood);
 
             // Act.
-            inventory.AddItem(woodNonWearable);
-            bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+            inventory.TryAddItem(woodNonWearable);
+            bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, 0);
       
             // Assert.
             equippedSuccessfully.Should().BeFalse();
@@ -223,8 +225,8 @@ namespace Tests.EditMode
             InvItemData sword = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
             // Act.
-            inventory.AddItem(sword);
-            bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, inventory.Backpack.GetSlot(0));
+            inventory.TryAddItem(sword);
+            bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(slotTypeToEquip, 0);
       
             // Assert.
             equippedSuccessfully.Should().BeFalse();
@@ -243,11 +245,12 @@ namespace Tests.EditMode
             InvItemData sword = Create.LoadInvItem(GameDesign.Items.SwordNonStackable);
 
             // Act.
-            inventory.AddItem(sword);
-            var swordBackpackSlot = inventory.Backpack.GetSlot(0);
+            inventory.TryAddItem(sword);
+            bool slot0Found = inventory.Backpack.TryGetSlot(0, out var swordBackpackSlot);
             bool equippedSuccessfully = inventory.EquippedSlots.TryEquipSlot(swordBackpackSlot);
       
             // Assert.
+            slot0Found.Should().BeTrue();
             equippedSuccessfully.Should().BeTrue();
             inventory.EquippedSlots.TryGetEquipSlotTypeByBackpackSlot(swordBackpackSlot, out var equipSlotType);
             var slotWasFound = inventory.EquippedSlots.TryGetSlotByType(equipSlotType, out var equippedSlot);

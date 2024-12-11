@@ -18,7 +18,7 @@ namespace Tests
       // Arrange.
       Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
       int priceToSell = 1;
-      inventory.AddItem(Create.CreateItemSlot("Sword", 0, priceToSell, 1));
+      inventory.TryAddItem(Create.CreateItemSlot("Sword", 0, priceToSell, 1));
       
       // Act.
       bool itemWasSoldSuccessfully = inventory.TrySellItem(0, 1,1);
@@ -89,9 +89,10 @@ namespace Tests
       
       // Act.
       inventory.Crafting.CraftItemFromRecipe(hammerRecipe.Id);
-      inventory.AddItem(Create.LoadInvItem(GameDesign.Items.Wood));
+      bool addedSuccessfully = inventory.TryAddItem(Create.LoadInvItem(GameDesign.Items.Wood));
 
       // Assert.
+      addedSuccessfully.Should().BeTrue();
       hammerRecipe.RequiredItems.Should().NotBeEmpty();
       inventory.Crafting.EnoughItemsForCrafting(hammerRecipe.Id).Should().BeFalse();
       bool oneHammerWasCrafted = inventory.HasItemInSlotsOfQuantity(hammerRecipe.ItemToCraft, 1);
@@ -116,7 +117,7 @@ namespace Tests
       Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
       
       // Act.
-      inventory.AddItem(Create.LoadLootbox(GameDesign.Lootboxes.Wood1LB).GetLoot());
+      inventory.TryAddItem(Create.LoadLootbox(GameDesign.Lootboxes.Wood1LB).GetLoot());
       bool oneWoodWasGetFromLootBox = inventory.HasItemInSlotsOfQuantity(Create.LoadInvItem(GameDesign.Items.Wood), 1);
       
       // Assert.
@@ -133,7 +134,7 @@ namespace Tests
       int hammerRecipeId = Create.LoadRecipe(GameDesign.Recipes.Hammer).Id;
       
       // Act.
-      inventory.AddItem(openedLoot);
+      inventory.TryAddItem(openedLoot);
       Assert.IsTrue(inventory.HasItemInSlotsOfQuantity(recipeInvItem, 1));
       BackpackSlot slotWithRecipe = inventory.GetSlotWithItem(recipeInvItem);
       bool recipeWasUsedSuccessfully = slotWithRecipe.ItemSlot.ItemData.Use(inventory, null);
@@ -145,6 +146,20 @@ namespace Tests
     }
     
     [Test]
+    public void WhenHavingNoneHealthPotion_AndOneHealthPotionWasAdded_ThenShouldBe1Potion()
+    {
+      // Arrange.
+      Inventory inventory = Create.InventoryWithCharStatsAndItemsDb();
+      InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
+
+      // Act.
+      inventory.TryAddItem(healthPotion);
+      
+      // Assert.
+      inventory.HasItemInSlotsOfQuantity(healthPotion, 1).Should().BeTrue();
+    }
+    
+    [Test]
     public void WhenHavingOneHealthPotion_AndOneHealthPotionWasUsed_ThenSlotShouldBeEmpty()
     {
       // Arrange.
@@ -152,12 +167,14 @@ namespace Tests
       InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
 
       // Act.
-      inventory.AddItem(healthPotion);
-      Assert.IsTrue(inventory.HasItemInSlotsOfQuantity(healthPotion, 1));
-      inventory.Backpack.GetSlot(0).Use();
+      inventory.TryAddItem(healthPotion);
+      if (inventory.Backpack.TryGetSlot(0, out var slot) == false) 
+        slot.Use();
+      
       
       // Assert.
-      inventory.Backpack.GetSlot(0).IsEmpty().Should().BeTrue();
+      inventory.HasItemInSlotsOfQuantity(healthPotion, 0).Should().BeTrue();
+      slot.IsEmpty().Should().BeTrue();
     }
     
     [Test]
@@ -168,13 +185,14 @@ namespace Tests
       InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
 
       // Act.
-      inventory.AddItem(healthPotion, 2);
+      inventory.TryAddItem(healthPotion, 2);
       inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
-      inventory.Backpack.GetSlot(0).Use();
+      if (inventory.Backpack.TryGetSlot(0, out var slot) == false) 
+        slot.Use();
       
       // Assert.
-      inventory.Backpack.GetSlot(0).IsEmpty().Should().BeFalse();
-      inventory.Backpack.GetSlot(0).ItemSlot.Quantity.Should().Be(1);
+      slot.IsEmpty().Should().BeFalse();
+      slot.ItemSlot.Quantity.Should().Be(1);
     }
     
     [Test]
@@ -185,8 +203,8 @@ namespace Tests
       InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
 
       // Act.
-      inventory.AddItem(healthPotion);
-      inventory.AddItem(healthPotion);
+      inventory.TryAddItem(healthPotion);
+      inventory.TryAddItem(healthPotion);
 
       // Assert.
       inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
@@ -200,13 +218,14 @@ namespace Tests
       InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
 
       // Act.
-      bool potionWasSuccessfullyAdded = inventory.AddItem(healthPotion);
+      bool potionWasSuccessfullyAdded = inventory.TryAddItem(healthPotion);
       inventory.RemoveItems(healthPotion, 1);
 
       // Assert.
       potionWasSuccessfullyAdded.Should().BeTrue();
-      inventory.Backpack.GetSlot(0).IsEmpty().Should().BeTrue();
-      //inventory.HasItemInSlotsOfQuantity(healthPotion, 2).Should().BeTrue();
+      bool slotWasFound = inventory.Backpack.TryGetSlot(0, out var slot);
+      slotWasFound.Should().BeTrue();
+      slot.IsEmpty().Should().BeTrue();
     }
 
     [Test]
@@ -217,8 +236,8 @@ namespace Tests
       InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
 
       // Act.
-      inventory.AddItem(healthPotion);
-      inventory.AddItem(healthPotion);
+      inventory.TryAddItem(healthPotion);
+      inventory.TryAddItem(healthPotion);
 
       // Assert.
       inventory.Backpack.GetNonEmptySlots().Count.Should().Be(1);
@@ -240,8 +259,8 @@ namespace Tests
       InvItemData healthPotion = Create.LoadInvItem(GameDesign.Items.HealthPotion);
 
       // Act.
-      bool firstItemWasSuccessfullyAdded = inventory.AddItem(healthPotion);
-      bool secondItemWasSuccessfullyAdded = inventory.AddItem(healthPotion);
+      bool firstItemWasSuccessfullyAdded = inventory.TryAddItem(healthPotion);
+      bool secondItemWasSuccessfullyAdded = inventory.TryAddItem(healthPotion);
       
       // Assert.
       firstItemWasSuccessfullyAdded.Should().BeTrue();

@@ -15,9 +15,11 @@ namespace LiteRPG.PlayerInventory
         [SerializeField] private EquippedSlot[] _equippedSlots;
         private Dictionary<EquipSlotType, EquippedSlot> _cachedSlots;
         private BattleCharStats _battleCharStats;
+        private InventoryBackpack _backpack;
 
-        public EquippedSlots(int totalNumberOfSlots, BattleCharStats battleCharStats)
+        public EquippedSlots(int totalNumberOfSlots, BattleCharStats battleCharStats, InventoryBackpack backpack)
         {
+            _backpack = backpack;
             _battleCharStats = battleCharStats;
             if (IsNotEnoughSlotsToInitialize(totalNumberOfSlots))
                 return;
@@ -82,6 +84,13 @@ namespace LiteRPG.PlayerInventory
             }
 
             return false;
+        }
+
+        public bool TryEquipSlot(EquipSlotType slotType, int backpackSlotIndex)
+        {
+            if (_backpack.TryGetSlot(backpackSlotIndex, out var backpackSlot) == false)
+                return false;
+            return TryEquipSlot(slotType, backpackSlot);
         }
 
         public bool TryEquipSlot(EquipSlotType slotType, BackpackSlot slotToEquip)
