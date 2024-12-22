@@ -83,7 +83,7 @@ namespace LiteRPG.PlayerInventory.SubMenus.Craft
     {
       foreach (RequiredItems requiredItem in recipe.RequiredItems)
       {
-        _inventory.RemoveItems(requiredItem.InvItemData, requiredItem.Quantity);
+        _inventory.RemoveItem(requiredItem.InvItemData, requiredItem.Quantity);
       }
     }
 

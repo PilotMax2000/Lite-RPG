@@ -219,7 +219,7 @@ namespace Tests
 
       // Act.
       bool potionWasSuccessfullyAdded = inventory.TryAddItem(healthPotion);
-      inventory.RemoveItems(healthPotion, 1);
+      inventory.RemoveItem(healthPotion, 1);
 
       // Assert.
       potionWasSuccessfullyAdded.Should().BeTrue();
