@@ -150,6 +150,22 @@ namespace LiteRPG.PlayerInventory
       return CreateNewSlotWithItem(itemData, quantity);
     }
 
+    public bool CanAddItem(int itemId, int quantity = 1)
+    {
+      var itemData = _invItemsDb.GetData(itemId);
+      
+      if (CanStackItemToExistingSlot(quantity, itemData)) 
+        return true;
+
+      if (_backpack.HasEmptySlot())
+        return true;
+
+      return false;
+    }
+
+    public bool CanAddItem(InvItemData itemData, int quantity = 1) => 
+      CanAddItem(itemData.Id, quantity);
+
     private bool CreateNewSlotWithItem(InvItemData itemData, int quantity)
     {
       InvItemSlot newSlot = new InvItemSlot(itemData: itemData, quantity: quantity);
@@ -159,13 +175,33 @@ namespace LiteRPG.PlayerInventory
 
     public bool TryBuyAndTransferItem(Inventory sellerInventory, int sellSlotIndex, int quantity, int calculatedItemPrice)
     {
+      if (CanBuyAndTransferItem(sellerInventory, sellSlotIndex, quantity, calculatedItemPrice) == false)
+        return false;
+      
+      int totalPriceForItems = calculatedItemPrice * quantity;
+      
+      //On item transferred successfully 
+      if (sellerInventory.TryRemoveItem(sellSlotIndex, quantity) == false)
+      {
+        Debug.LogWarning($"Failed to remove item from seller slot! (index {sellSlotIndex}");
+        return false;
+      }
+
+      MoneyProgress.AddMoney(-totalPriceForItems);
+      sellerInventory.MoneyProgress.AddMoney(totalPriceForItems);
+      
+      return true;
+    }
+
+    public bool CanBuyAndTransferItem(Inventory sellerInventory, int sellSlotIndex, int quantity, int calculatedItemPrice)
+    {
       int totalPriceForItems = calculatedItemPrice * quantity;
       if (MoneyProgress.Money < totalPriceForItems)
       {
         Debug.LogWarning($"[Market] Can't buy item, not enough money! Required : {totalPriceForItems}, current : {MoneyProgress.Money}");
         return false;
       }
-      
+
       if (sellerInventory.CanSellItem(sellSlotIndex, quantity, 0) == false)
         return false;
 
@@ -175,21 +211,12 @@ namespace LiteRPG.PlayerInventory
         return false;
       }
 
-      if (TryAddItem(itemBackpackSlot.ItemSlot.ItemData, quantity) == false)
+      if (CanAddItem(itemBackpackSlot.ItemSlot.ItemData, quantity) == false)
       {
         Debug.LogWarning($"Failed to add item to the buying inventory");
         return false;
       }
-      
-      //On item transferred successfully 
-      if (sellerInventory.TryRemoveItem(sellSlotIndex, quantity) == false)
-      {
-        Debug.LogWarning($"Failed to remove item from seller slot! (index {sellSlotIndex}");
-        return false;
-      }
-      MoneyProgress.AddMoney(-totalPriceForItems);
-      sellerInventory.MoneyProgress.AddMoney(totalPriceForItems);
-      
+
       return true;
     }
 
@@ -206,6 +233,17 @@ namespace LiteRPG.PlayerInventory
 
         CreateNewSlotWithItem(itemData, quantity);
         return true;
+      }
+
+      return false;
+    }
+    
+    private bool CanStackItemToExistingSlot(int quantity, InvItemData itemData)
+    {
+      if (itemData.IsStackable)
+      {
+        BackpackSlot slot = _backpack.GetSlotWithItem(itemData);
+        return slot != null;
       }
 
       return false;
