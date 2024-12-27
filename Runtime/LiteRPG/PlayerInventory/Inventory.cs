@@ -181,6 +181,18 @@ namespace LiteRPG.PlayerInventory
       int totalPriceForItems = calculatedItemPrice * quantity;
       
       //On item transferred successfully 
+      if (sellerInventory.Backpack.TryGetSlotItemData(sellSlotIndex, out var itemData) == false)
+      {
+        Debug.LogWarning($"Failed to find slot by index! (index: {sellSlotIndex})");
+        return false;
+      }
+      
+      if (TryAddItem(itemData, quantity) == false)
+      {
+        Debug.LogWarning($"Failed to add item! (index: {sellSlotIndex})");
+        return false;
+      }
+      
       if (sellerInventory.TryRemoveItem(sellSlotIndex, quantity) == false)
       {
         Debug.LogWarning($"Failed to remove item from seller slot! (index {sellSlotIndex}");
