@@ -231,6 +231,9 @@ namespace LiteRPG.PlayerInventory
 
       return true;
     }
+    
+    public List<BackpackSlot> GetNonEmptyAndNonEquippedSlots() => 
+      _backpack.GetNonEmptyAndNonEquippedSlots(_equippedSlots);
 
     private bool IsStackableThanTryToAddToSlot(int quantity, InvItemData itemData)
     {

@@ -75,8 +75,19 @@ namespace LiteRPG.PlayerInventory
       }
       return nonEmptySlots;
     }
+    
+    public List<BackpackSlot> GetNonEmptyAndNonEquippedSlots(EquippedSlots equippedSlots)
+    {
+      List<BackpackSlot> nonEmptySlots = new List<BackpackSlot>();
+      foreach (var slot in _slots)
+      {
+        if(slot.IsEmpty() == false && equippedSlots.IsBackpackSlotEquipped(slot) == false)
+          nonEmptySlots.Add(slot);
+      }
+      return nonEmptySlots;
+    }
 
-    public BackpackSlot GetEmptySlot()
+    public BackpackSlot GetOneEmptySlot()
     {
       foreach (var slot in _slots)
       {
@@ -111,7 +122,7 @@ namespace LiteRPG.PlayerInventory
     {
       if (HasEmptySlot())
       {
-        GetEmptySlot().AddItemSlot(invItemSlot);
+        GetOneEmptySlot().AddItemSlot(invItemSlot);
       }
     }
 
