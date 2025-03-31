@@ -190,6 +190,12 @@ namespace LiteRPG.PlayerInventory
       return null;
     }
 
+    public bool TryGetBackpackSlot(InvItemData itemData, out BackpackSlot slot)
+    {
+      slot = GetSlotWithItem(itemData);
+      return slot != null;
+    }
+
     public bool HasItemInSlotsOfQuantity(InvItemData itemData, int quantity)
     {
       if (HasItemInSlots(itemData) == false)
