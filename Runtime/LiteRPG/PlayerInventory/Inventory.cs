@@ -106,6 +106,26 @@ namespace LiteRPG.PlayerInventory
       _backpack.RemoveInvItem(slot, quantity);
     }
 
+    public bool TryRemoveItem(InvItemData itemData, int quantity)
+    {
+      var backpackSlot = _backpack.GetSlotWithItem(itemData);
+      if (backpackSlot == null)
+      {
+        Debug.LogWarning($"Failed to remove item: {itemData.ItemName} not found in inventory");
+        return false;
+      }
+
+      if (backpackSlot.ItemSlot.Quantity < quantity)
+      {
+        Debug.LogWarning(
+          $"Failed to remove item: {itemData.ItemName} because there are not enough items ({backpackSlot.ItemSlot.Quantity} of {quantity})");
+        return false;
+      }
+
+      _backpack.RemoveInvItem(backpackSlot, quantity);
+      return true;
+    }
+
     public bool TryRemoveItem(int slotIndex, int quantity)
     {
       if (_backpack.TryGetSlot(slotIndex, out BackpackSlot backpackSlot) == false)
