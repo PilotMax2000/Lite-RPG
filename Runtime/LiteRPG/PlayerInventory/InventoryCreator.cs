@@ -42,7 +42,7 @@ namespace LiteRPG.PlayerInventory
         
         private static RecipesBook LoadAndInitializeRecipesBook()
         {
-            RecipesBook book =  LoadRecipesBook();
+            RecipesBook book =  CreateRecipesBook();
             RecipesDb recipesDb = LoadRecipesDb();
             book.Construct(recipesDb);
             return book;
@@ -51,11 +51,11 @@ namespace LiteRPG.PlayerInventory
         private static InvItemsDb LoadInvItemsDbFromResources() => 
             SOHelper.LoadAndInstantiateSOFromResources<InvItemsDb>("Inventory/InvItemsDb");
 
-        private static RecipesBook LoadRecipesBook() => 
-            SOHelper.LoadAndInstantiateSOFromResources<RecipesBook>("Inventory/Recipes/RecipesBook");
-
         private static RecipesDb LoadRecipesDb() =>
             SOHelper.LoadAndInstantiateSOFromResources<RecipesDb>("Inventory/Recipes/RecipesDb");
+        
+        private static RecipesBook CreateRecipesBook() => 
+            ScriptableObject.CreateInstance<RecipesBook>();
 
     }
 }
