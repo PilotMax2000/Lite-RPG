@@ -9,8 +9,8 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
                                                                                         where TQuestData : QuestData 
                                                                                         where TInventory : Inventory
     {
-        public abstract string GetQuestTextGoalAndProgress(TQuestData questData);
-        public abstract bool IsQuestCanBeCompleted(TQuestData quest);
+        public abstract string GetQuestTextGoalAndProgress(TQuestData questData, TInventory inventory);
+        public abstract bool IsQuestCanBeCompleted(TQuestData quest, TInventory inventory);
 
         public bool TryRemoveQuestItemsFromPlayer(TQuestData questData, TInventory inventory)
         {
@@ -27,7 +27,7 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
             return true;
         }
 
-        private string GetQuestRequiredItemsProgress(TQuestData questData, TInventory inventory)
+        protected string GetQuestRequiredItemsProgress(TQuestData questData, TInventory inventory)
         {
             StringBuilder result = new StringBuilder();
             foreach (var requiredItem in questData.RequiredItems)
@@ -41,7 +41,7 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
             return result.ToString();
         }
 
-        private bool IsItemBriningQuestCanBeCompleted(TQuestData quest, TInventory inventory)
+        protected bool IsItemBriningQuestCanBeCompleted(TQuestData quest, TInventory inventory)
         {
             if (quest.RequiredItems == null)
             {

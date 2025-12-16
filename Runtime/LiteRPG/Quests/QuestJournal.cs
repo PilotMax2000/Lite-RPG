@@ -9,9 +9,10 @@ using UnityEngine;
 namespace LiteRPG.Runtime.LiteRPG.Quests
 {
     [Serializable]
-    public abstract class QuestJournal<TQuestData, TInvItemData, TInventory> where TQuestData : QuestData
+    public abstract class QuestJournal<TQuestData, TInvItemData, TInventory, TQuestProgressAnalyzer> where TQuestData : QuestData
                                                                     where TInvItemData : InvItemData
                                                                     where TInventory : Inventory
+                                                                    where TQuestProgressAnalyzer : QuestProgressAnalyzer<TQuestData, TInvItemData, TInventory>, new()
     {
         public event Action OnQuestsStateChanged;
         public event Action<TQuestData> OnCurrentActiveQuestChanged;
@@ -30,9 +31,15 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
         private List<TQuestData> InProgressQuests => _inProgressQuests;
         private TInventory _inventory;
 
-        public void SetInventory(TInventory inventory)
+        protected QuestJournal()
+        {
+            CreateInProgressAndFinishQuestLists();
+        }
+
+        public void Initialize(TInventory inventory)
         {
             _inventory = inventory;
+            _questProgressAnalyzer = new TQuestProgressAnalyzer();
         }
 
         public List<TQuestData> GetActiveQuests()
@@ -71,7 +78,7 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
 
         public bool IsQuestReadyToComplete(TQuestData quest)
         {
-            if (_questProgressAnalyzer.IsQuestCanBeCompleted(quest))
+            if (_questProgressAnalyzer.IsQuestCanBeCompleted(quest, _inventory))
             {
                 Debug.Log($"Quest '{quest.Title}' requirements are met. You can complete it now and get your reward!");
                 return true;
@@ -144,7 +151,7 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
         public string GetCurrentQuestTextGoalAndProgress()
         {
             return HasCurrentActiveQuest() 
-                ? _questProgressAnalyzer.GetQuestTextGoalAndProgress(_currentActiveQuest) 
+                ? _questProgressAnalyzer.GetQuestTextGoalAndProgress(_currentActiveQuest, _inventory) 
                 : string.Empty;
         }
 
