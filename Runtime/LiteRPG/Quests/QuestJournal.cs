@@ -22,14 +22,15 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
 
         public bool QuestNotificationsEnabled { get; set; }
         public TQuestData CurrentActiveQuest => _currentActiveQuest;
+        protected TInventory Inventory;
 
         [SerializeField] private List<TQuestData> _inProgressQuests;
         [SerializeField] private List<TQuestData> _finishedQuests;
         [SerializeField] TQuestData _currentActiveQuest;
 
+
         private QuestProgressAnalyzer<TQuestData,TInvItemData, TInventory> _questProgressAnalyzer;
         private List<TQuestData> InProgressQuests => _inProgressQuests;
-        private TInventory _inventory;
 
         protected QuestJournal()
         {
@@ -38,7 +39,7 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
 
         public void Initialize(TInventory inventory)
         {
-            _inventory = inventory;
+            Inventory = inventory;
             _questProgressAnalyzer = new TQuestProgressAnalyzer();
         }
 
@@ -78,7 +79,7 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
 
         public bool IsQuestReadyToComplete(TQuestData quest)
         {
-            if (_questProgressAnalyzer.IsQuestCanBeCompleted(quest, _inventory))
+            if (_questProgressAnalyzer.IsQuestCanBeCompleted(quest, Inventory))
             {
                 Debug.Log($"Quest '{quest.Title}' requirements are met. You can complete it now and get your reward!");
                 return true;
@@ -151,7 +152,7 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
         public string GetCurrentQuestTextGoalAndProgress()
         {
             return HasCurrentActiveQuest() 
-                ? _questProgressAnalyzer.GetQuestTextGoalAndProgress(_currentActiveQuest, _inventory) 
+                ? _questProgressAnalyzer.GetQuestTextGoalAndProgress(_currentActiveQuest, Inventory) 
                 : string.Empty;
         }
 
@@ -170,7 +171,7 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
             _inProgressQuests.Remove(questToComplete);
             _finishedQuests.Add(questToComplete);
 
-            _questProgressAnalyzer.TryRemoveQuestItemsFromPlayer(questToComplete, _inventory);
+            _questProgressAnalyzer.TryRemoveQuestItemsFromPlayer(questToComplete, Inventory);
             
             if (_currentActiveQuest.Id == questToComplete.Id)
                 SetNextActiveQuest();
@@ -210,7 +211,7 @@ namespace LiteRPG.Runtime.LiteRPG.Quests
 
             foreach (var itemSlot in itemsReward)
             {
-                if (_inventory.TryAddItem(itemSlot.ItemData, itemSlot.Quantity))
+                if (Inventory.TryAddItem(itemSlot.ItemData, itemSlot.Quantity))
                 {
                     Debug.Log($"Added {itemSlot.Quantity} of {itemSlot.ItemData.ItemName} to inventory as quest reward");
                     OnNewItemRewardAdded?.Invoke(itemSlot);
