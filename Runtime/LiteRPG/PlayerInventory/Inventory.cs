@@ -11,7 +11,7 @@ namespace LiteRPG.PlayerInventory
   public class Inventory : ScriptableObject
   {
     public Crafting Crafting { get; private set; }
-    public IMoneyProgress MoneyProgress => moneyProgress;
+    public IMoneyProgress MoneyProgress => _moneyProgress;
     public InventoryBackpack Backpack => _backpack;
     public EquippedSlots EquippedSlots => _equippedSlots;
     
@@ -19,13 +19,13 @@ namespace LiteRPG.PlayerInventory
     [SerializeField] private InvItemsDb _invItemsDb;
     [SerializeField] private RecipesBook _recipesBook;
     
-    private IMoneyProgress moneyProgress;
+    private IMoneyProgress _moneyProgress;
     [SerializeField] private EquippedSlots _equippedSlots;
 
     public void Construct(InventoryBackpack backpack, IMoneyProgress moneyProgress, InvItemsDb itemsDb, RecipesBook recipesBook)
     {
       _recipesBook = recipesBook;
-      this.moneyProgress = moneyProgress;
+      _moneyProgress = moneyProgress;
       _backpack = backpack;
       _invItemsDb = itemsDb;
       Crafting = new Crafting(this, itemsDb, recipesBook);
@@ -154,7 +154,7 @@ namespace LiteRPG.PlayerInventory
     private void SellItem(int slotIndex, int quantity, int price)
     {
       _backpack.RemoveInvItem(slotIndex, quantity);
-      moneyProgress.AddMoney(price);
+      _moneyProgress.AddMoney(price);
     }
 
     private bool TryAddItem(int itemId, int quantity = 1)
@@ -201,13 +201,13 @@ namespace LiteRPG.PlayerInventory
       int totalPriceForItems = calculatedItemPrice * quantity;
       
       //On item transferred successfully 
-      if (sellerInventory.Backpack.TryGetSlotItemData(sellSlotIndex, out var itemData) == false)
+      if (sellerInventory.Backpack.TryGetSlotItemData(sellSlotIndex, out var sellerItemData) == false)
       {
         Debug.LogWarning($"Failed to find slot by index! (index: {sellSlotIndex})");
         return false;
       }
       
-      if (TryAddItem(itemData, quantity) == false)
+      if (TryAddItem(sellerItemData, quantity) == false)
       {
         Debug.LogWarning($"Failed to add item! (index: {sellSlotIndex})");
         return false;

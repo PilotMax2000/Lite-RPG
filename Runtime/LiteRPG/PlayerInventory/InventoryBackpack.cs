@@ -217,5 +217,16 @@ namespace LiteRPG.PlayerInventory
       }
       return false;
     }
+    
+    public void ClearAllSlots()
+    {
+      foreach (BackpackSlot slot in _slots)
+      {
+        if (slot.IsEmpty())
+          continue;
+        slot.MakeSlotEmpty();
+      }
+    }
+    
   }
 }

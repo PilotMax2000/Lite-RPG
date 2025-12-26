@@ -250,7 +250,7 @@ namespace Tests
       Inventory inventory = ScriptableObject.CreateInstance<Inventory>();
       AdditiveHp additiveHp = new AdditiveHp();
       InventoryBackpack backpack = new InventoryBackpack(1, inventory, additiveHp);
-      IMoneyProgress moneyProgress = new TestGameProgress();
+      IMoneyProgress moneyProgress = new BaseMoneyProgress();
       InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
       inventory.Construct(backpack, moneyProgress, itemsDb, Create.LoadRecipesBook());
 

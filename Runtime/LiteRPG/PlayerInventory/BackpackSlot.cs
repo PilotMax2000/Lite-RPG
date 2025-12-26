@@ -55,7 +55,7 @@ namespace LiteRPG.PlayerInventory
       OnSlotChanged?.Invoke();
     }
 
-    private void MakeSlotEmpty()
+    public void MakeSlotEmpty()
     {
       ItemSlot = null;
       _empty = true;

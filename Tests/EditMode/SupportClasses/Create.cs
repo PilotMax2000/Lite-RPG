@@ -91,7 +91,7 @@ namespace Tests
 
     public static Inventory InventoryWithCharStatsAndItemsDb()
     {
-      IMoneyProgress moneyProgress = new TestGameProgress();
+      IMoneyProgress moneyProgress = new BaseMoneyProgress();
       InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
       Inventory inventory = Create.CreateInventory(moneyProgress, itemsDb);
       return inventory;
@@ -99,7 +99,7 @@ namespace Tests
     
     public static Inventory InventoryWithCharStatsAndItemsDb(int maxSlots)
     {
-      IMoneyProgress moneyProgress = new TestGameProgress();
+      IMoneyProgress moneyProgress = new BaseMoneyProgress();
       InvItemsDb itemsDb = Create.LoadInvItemsDbFromResources();
       Inventory inventory = Create.CreateInventory(maxSlots, moneyProgress, itemsDb);
       return inventory;
